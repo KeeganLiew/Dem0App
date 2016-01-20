@@ -23,6 +23,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
@@ -42,9 +43,11 @@ public class CodeLabActivity extends AppCompatActivity implements View.OnClickLi
 
     EditText username_EditText;
     EditText password_EditText;
+    TextView nav_username;
+
     Button login_Button;
 
-    public static String username;
+    public static String username = "noName";
     String password;
 
     @Override
@@ -112,7 +115,7 @@ public class CodeLabActivity extends AppCompatActivity implements View.OnClickLi
 
         //Header toolbar
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsingToolbarLayout);
-        collapsingToolbarLayout.setTitle("Hello Sky");
+        collapsingToolbarLayout.setTitle("Hello " + username);
 
         //nav draw
         navigation = (NavigationView) findViewById(R.id.navigation);
@@ -139,6 +142,9 @@ public class CodeLabActivity extends AppCompatActivity implements View.OnClickLi
         //Buttons
         login_Button = (Button) findViewById(R.id.loginButton);
         login_Button.setOnClickListener(this);
+
+        //TextView
+        nav_username = (TextView) navigation.getHeaderView(0).findViewById(R.id.nav_username);
     }
 
     @Override
@@ -198,8 +204,17 @@ public class CodeLabActivity extends AppCompatActivity implements View.OnClickLi
                 password = password_EditText.getText().toString();
                 Log.d(TAG, "Username is: " + username);
                 Log.d(TAG, "Password is: " + password);
+                collapsingToolbarLayout.setTitle("Hello " + username);
+                nav_username.setText(username);
+                Snackbar.make(rootLayout, "Hello " + username, Snackbar.LENGTH_SHORT)
+                        .setAction("Undo", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                            }
+                        })
+                        .show();
                 hideKeyBoard();
-                //password_EditText.setCursorVisible(false);
                 break;
         }
     }
