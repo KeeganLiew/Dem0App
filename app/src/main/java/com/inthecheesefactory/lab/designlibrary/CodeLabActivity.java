@@ -1,5 +1,6 @@
 package com.inthecheesefactory.lab.designlibrary;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -12,24 +13,37 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 
-public class CodeLabActivity extends AppCompatActivity {
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
+public class CodeLabActivity extends AppCompatActivity implements View.OnClickListener {
+
+    final String TAG = getClass().getSimpleName().toString();
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle drawerToggle;
 
-    FloatingActionButton fabBtn;
+    FloatingActionsMenu fabBtn;
+    //FloatingActionButton fabBtn;
     CoordinatorLayout rootLayout;
     Toolbar toolbar;
-    EditText userName;
     TabLayout tabLayout;
     CollapsingToolbarLayout collapsingToolbarLayout;
     NavigationView navigation;
+
+    EditText username_EditText;
+    EditText password_EditText;
+    Button login_Button;
+
+    String username, password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,10 +68,11 @@ public class CodeLabActivity extends AppCompatActivity {
 
         //float button
         rootLayout = (CoordinatorLayout) findViewById(R.id.rootLayout);
-        fabBtn = (FloatingActionButton) findViewById(R.id.fabBtn);
-        fabBtn.setOnClickListener(new View.OnClickListener() {
+        //fabBtn = (FloatingActionButton) findViewById(R.id.fabBtn);
+        /*fabBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(TAG, "fabBtn onClick");
                 Snackbar.make(rootLayout, "Hello. I am Snackbar!!", Snackbar.LENGTH_SHORT)
                         .setAction("Undo", new View.OnClickListener() {
                             @Override
@@ -67,7 +82,20 @@ public class CodeLabActivity extends AppCompatActivity {
                         })
                         .show();
             }
+        });*/
+
+        fabBtn = (FloatingActionsMenu) findViewById(R.id.fabBtn);
+        Log.d(TAG, "fabBtn made");
+        final View actionB = findViewById(R.id.action_b);
+        com.getbase.floatingactionbutton.FloatingActionButton actionC = new com.getbase.floatingactionbutton.FloatingActionButton(getBaseContext());
+        actionC.setTitle("Hide/Show Action above");
+        actionC.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                actionB.setVisibility(actionB.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+            }
         });
+        fabBtn.addButton(actionC);
 
         //tabs
         /*tabLayout = (TabLayout) findViewById(R.id.tabLayout);
@@ -80,7 +108,7 @@ public class CodeLabActivity extends AppCompatActivity {
 
         //Header toolbar
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsingToolbarLayout);
-        collapsingToolbarLayout.setTitle("Hello World");
+        collapsingToolbarLayout.setTitle("Hello Sky");
 
         //nav draw
         navigation = (NavigationView) findViewById(R.id.navigation);
@@ -101,10 +129,21 @@ public class CodeLabActivity extends AppCompatActivity {
         });
 
         //EditText
-        //userName = (EditText)
+        username_EditText = (EditText) findViewById(R.id.usernameEditText);
+        password_EditText = (EditText) findViewById(R.id.passwordEditText);
+
+        //Buttons
+        login_Button = (Button) findViewById(R.id.loginButton);
+        login_Button.setOnClickListener(this);
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+    }
+
+        @Override
     public void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         drawerToggle.syncState();
@@ -127,7 +166,6 @@ public class CodeLabActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (drawerToggle.onOptionsItemSelected(item))
             return true;
-
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -137,7 +175,28 @@ public class CodeLabActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
+    }
+
+    private void hideKeyBoard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.loginButton:
+                username = username_EditText.getText().toString();
+                password = password_EditText.getText().toString();
+                Log.d(TAG, "Username is: " + username);
+                Log.d(TAG, "Password is: " + password);
+                hideKeyBoard();
+                //password_EditText.setCursorVisible(false);
+                break;
+        }
     }
 }
