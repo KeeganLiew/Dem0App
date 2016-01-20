@@ -1,5 +1,6 @@
 package com.inthecheesefactory.lab.designlibrary;
 
+import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -43,7 +44,8 @@ public class CodeLabActivity extends AppCompatActivity implements View.OnClickLi
     EditText password_EditText;
     Button login_Button;
 
-    String username, password;
+    public static String username;
+    String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,8 @@ public class CodeLabActivity extends AppCompatActivity implements View.OnClickLi
 
         initInstances();
     }
+
+
 
     private void initInstances() {
         //toolbar
@@ -143,7 +147,7 @@ public class CodeLabActivity extends AppCompatActivity implements View.OnClickLi
         //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
     }
 
-        @Override
+    @Override
     public void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         drawerToggle.syncState();
