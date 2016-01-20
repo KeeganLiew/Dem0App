@@ -1,0 +1,9 @@
+Features:
+Device info
+SMS service
+Upload picture
+
+Improvement:
+
+Bug:
+Widget only updates latest one

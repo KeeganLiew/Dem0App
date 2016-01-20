@@ -206,7 +206,7 @@ public class CodeLabActivity extends AppCompatActivity implements View.OnClickLi
                 Log.d(TAG, "Password is: " + password);
                 collapsingToolbarLayout.setTitle("Hello " + username);
                 nav_username.setText(username);
-                Snackbar.make(rootLayout, "Hello " + username, Snackbar.LENGTH_SHORT)
+                Snackbar.make(rootLayout, "Hello " + username, Snackbar.LENGTH_INDEFINITE)
                         .setAction("Undo", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
