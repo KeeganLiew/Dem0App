@@ -35,7 +35,7 @@ public class CodeLabActivityTest {
     // The test simply checks that our TextView exists and has the text "Hello world!"
     @Test
     public void validateTextViewContent() {
-        TextView tvHelloWorld = (TextView) activity.findViewById(R.id.EditTextUser);
+        TextView tvHelloWorld = (TextView) activity.findViewById(R.id.usernameEditText);
         assertNotNull("TextView could not be found", tvHelloWorld);
         assertTrue("TextView contains incorrect text",
                 "".equals(tvHelloWorld.getText().toString()));
