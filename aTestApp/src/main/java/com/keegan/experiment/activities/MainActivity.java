@@ -1,19 +1,13 @@
 package com.keegan.experiment.activities;
 
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
-import android.net.Uri;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
@@ -30,8 +24,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,12 +35,7 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.keegan.experiment.R;
 import com.keegan.experiment.utilities.DisplayPictureUtil;
 import com.keegan.experiment.utilities.GalleryUtil;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import com.keegan.experiment.services.SMSReceiver;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -68,21 +59,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView nav_username;
     ImageView nav_display_picture;
     ImageView background_image;
-
+    Switch mySwitch;
     Button login_Button;
 
     public static String username = "noName";
     String password;
+    Activity mActivity;
+    public static Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_main_activity);
 
-        initInstances();
+        initViewObjects();
+        mActivity = this;
+        mContext = getApplicationContext();
+        ComponentName smsReceiverComponent = new ComponentName(mContext, SMSReceiver.class);
+
+        int status = mContext.getPackageManager().getComponentEnabledSetting(smsReceiverComponent);
+        if(status == PackageManager.COMPONENT_ENABLED_STATE_ENABLED) {
+            Log.d(TAG, "receiver is enabled");
+        } else if(status == PackageManager.COMPONENT_ENABLED_STATE_DISABLED) {
+            Log.d(TAG, "receiver is disabled");
+        }
+        //Disable
+        mContext.getPackageManager().setComponentEnabledSetting(smsReceiverComponent, PackageManager.COMPONENT_ENABLED_STATE_DISABLED , PackageManager.DONT_KILL_APP);
+        //Enable
+        mContext.getPackageManager().setComponentEnabledSetting(smsReceiverComponent, PackageManager.COMPONENT_ENABLED_STATE_ENABLED , PackageManager.DONT_KILL_APP);
     }
 
-    private void initInstances() {
+    public static Context getAppContext() {
+        return MainActivity.mContext;
+    }
+
+    private void initViewObjects() {
         //toolbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -170,6 +181,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //ImageView
         nav_display_picture = (ImageView) navigation.getHeaderView(0).findViewById(R.id.nav_display_picture);
         background_image = (ImageView) findViewById(R.id.background_image);
+
+        //Switch
+        mySwitch = (Switch) findViewById(R.id.smsToggleSwitch);
+
+        //set the switch to ON
+        mySwitch.setChecked(true);
+        //attach a listener to check for changes in state
+        mySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,
+                                         boolean isChecked) {
+
+                if(isChecked){
+                    Log.d(TAG, "Switch is currently ON");
+                    //smsToggle = true;
+                }else{
+                    Log.d(TAG, "Switch is currently OFF");
+                    //smsToggle = false;
+                }
+
+            }
+        });
 
         //Listerners
         login_Button.setOnClickListener(this);
