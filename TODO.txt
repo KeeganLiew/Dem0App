@@ -1,7 +1,6 @@
 Features:
 Device info
 SMS service
-Upload picture
 
 Improvement:
 Widget Sizes
