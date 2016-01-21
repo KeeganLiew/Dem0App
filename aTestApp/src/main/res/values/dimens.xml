@@ -19,5 +19,6 @@
     <dimen name="pressedFloatButtonShadow">12dp</dimen>
 
     <dimen name="widget_margin">8dp</dimen>
+    <dimen name="nav_header_display_picture_size">99dp</dimen>
 
 </resources>
