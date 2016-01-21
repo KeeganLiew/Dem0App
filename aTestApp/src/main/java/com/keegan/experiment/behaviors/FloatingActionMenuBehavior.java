@@ -1,4 +1,4 @@
-package com.keegan.experiment.behavior;
+package com.keegan.experiment.behaviors;
 
 import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;
