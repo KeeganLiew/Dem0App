@@ -4,6 +4,8 @@ SMS service
 Upload picture
 
 Improvement:
+Widget Sizes
+Widget Open app on tap, except refresh button
 
 Bug:
 Widget only updates latest one
