@@ -1,7 +1,19 @@
 package com.keegan.experiment.activities;
 
+import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.ContextWrapper;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.net.Uri;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
@@ -19,14 +31,27 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.keegan.experiment.R;
+import com.keegan.experiment.utilities.DisplayPictureUtil;
+import com.keegan.experiment.utilities.GalleryUtil;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    final String TAG = getClass().getSimpleName().toString();
+    private final String TAG = getClass().getSimpleName().toString();
+    private final int GALLERY_ACTIVITY_CODE = 200;
+    private final int RESULT_CROP = 400;
+
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle drawerToggle;
 
@@ -41,6 +66,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     EditText username_EditText;
     EditText password_EditText;
     TextView nav_username;
+    ImageView nav_display_picture;
+    ImageView background_image;
 
     Button login_Button;
 
@@ -54,7 +81,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         initInstances();
     }
-
 
     private void initInstances() {
         //toolbar
@@ -137,16 +163,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //Buttons
         login_Button = (Button) findViewById(R.id.loginButton);
-        login_Button.setOnClickListener(this);
 
         //TextView
         nav_username = (TextView) navigation.getHeaderView(0).findViewById(R.id.nav_username);
+
+        //ImageView
+        nav_display_picture = (ImageView) navigation.getHeaderView(0).findViewById(R.id.nav_display_picture);
+        background_image = (ImageView) findViewById(R.id.background_image);
+
+        //Listerners
+        login_Button.setOnClickListener(this);
+        nav_display_picture.setOnClickListener(this);
+        nav_username.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Log.d(TAG, "Long pressed background_image");
+                //pop up dialog with cancel
+                return true;
+            }
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        DisplayPictureUtil.loadImageFromStorage(nav_display_picture, "/data/data/com.keegan.experiment/app_imageDir");
     }
 
     @Override
@@ -192,6 +234,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    private void updateUsername(String title) {
+        collapsingToolbarLayout.setTitle("Hello " + title);
+        nav_username.setText(title);
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -200,8 +247,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 password = password_EditText.getText().toString();
                 Log.d(TAG, "Username is: " + username);
                 Log.d(TAG, "Password is: " + password);
-                collapsingToolbarLayout.setTitle("Hello " + username);
-                nav_username.setText(username);
+                updateUsername(username);
                 Snackbar.make(rootLayout, "Hello " + username, Snackbar.LENGTH_INDEFINITE)
                         .setAction("Undo", new View.OnClickListener() {
                             @Override
@@ -212,6 +258,51 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .show();
                 hideKeyBoard();
                 break;
+            case R.id.nav_display_picture:
+                imageMethod();
+                break;
         }
     }
+
+    public void imageMethod() {
+        Intent gallery_Intent = new Intent(getApplicationContext(), GalleryUtil.class);
+        startActivityForResult(gallery_Intent, GALLERY_ACTIVITY_CODE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GALLERY_ACTIVITY_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                String picturePath = data.getStringExtra("picturePath");
+                //perform Crop on the Image Selected from Gallery
+                Intent cropIntent = DisplayPictureUtil.performCrop(picturePath);
+
+                if (cropIntent != null) {
+                    startActivityForResult(cropIntent, RESULT_CROP);
+                } else {
+                    String errorMessage = "your device doesn't support the crop action!";
+                    Toast toast = Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+            }
+        }
+
+        if (requestCode == RESULT_CROP) {
+            if (resultCode == Activity.RESULT_OK) {
+                Bundle extras = data.getExtras();
+                Bitmap selectedBitmap = extras.getParcelable("data");
+                // Set The Bitmap Data To ImageView
+
+                selectedBitmap = DisplayPictureUtil.performCircleCrop(selectedBitmap);
+                ContextWrapper cw = new ContextWrapper(getApplicationContext());
+                DisplayPictureUtil.saveToInternalSorage(cw, selectedBitmap);
+                nav_display_picture.setImageBitmap(selectedBitmap);
+                nav_display_picture.setScaleType(ImageView.ScaleType.FIT_XY);
+            }
+        }
+    }
+
 }
+
+

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
@@ -10,21 +10,24 @@
         android:scaleType="centerCrop"
         android:src="@drawable/nav_header_bg" />
 
+
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="36dp"
-        android:src="@drawable/quicklink_receivepayment" />
+        android:id="@+id/nav_display_picture"
+        android:layout_width="@dimen/nav_header_display_picture_size"
+        android:layout_height="@dimen/nav_header_display_picture_size"
+        android:layout_marginLeft="@dimen/nav_header_text_margin_left"
+        android:layout_marginTop="@dimen/nav_header_text_margin_left"
+        android:scaleType="centerCrop"
+        android:src="@drawable/name" />
 
     <TextView
         android:id="@+id/nav_username"
         android:layout_width="match_parent"
+        android:layout_toRightOf="@+id/nav_display_picture"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
         android:layout_margin="@dimen/nav_header_text_margin_left"
-        android:text="Username"
+        android:text="@string/Username"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="18sp" />
 
-</FrameLayout>
+</RelativeLayout>
