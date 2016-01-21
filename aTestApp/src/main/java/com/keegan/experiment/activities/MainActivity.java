@@ -1,10 +1,15 @@
 package com.keegan.experiment.activities;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -13,12 +18,15 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,12 +35,16 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.keegan.experiment.INTENT;
 import com.keegan.experiment.R;
+import com.keegan.experiment.fragments.SmsReceiverFragment;
+import com.keegan.experiment.fragments.UnderConstructionFragment;
 import com.keegan.experiment.utilities.DisplayPictureUtil;
 import com.keegan.experiment.utilities.GalleryUtil;
 import com.keegan.experiment.services.SMSReceiver;
@@ -43,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private final int GALLERY_ACTIVITY_CODE = 200;
     private final int RESULT_CROP = 400;
 
-    DrawerLayout drawerLayout;
+    DrawerLayout mDrawerLayout;
     ActionBarDrawerToggle drawerToggle;
 
     FloatingActionsMenu fabBtn;
@@ -66,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String password;
     Activity mActivity;
     public static Context mContext;
+    Toast exitToast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,20 +86,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.layout_main_activity);
 
         initViewObjects();
+
         mActivity = this;
         mContext = getApplicationContext();
+
         ComponentName smsReceiverComponent = new ComponentName(mContext, SMSReceiver.class);
 
+        exitToast = Toast.makeText(mActivity, "Press again to exit.", Toast.LENGTH_LONG);
+
         int status = mContext.getPackageManager().getComponentEnabledSetting(smsReceiverComponent);
-        if(status == PackageManager.COMPONENT_ENABLED_STATE_ENABLED) {
+        if (status == PackageManager.COMPONENT_ENABLED_STATE_ENABLED) {
             Log.d(TAG, "receiver is enabled");
-        } else if(status == PackageManager.COMPONENT_ENABLED_STATE_DISABLED) {
+        } else if (status == PackageManager.COMPONENT_ENABLED_STATE_DISABLED) {
             Log.d(TAG, "receiver is disabled");
         }
         //Disable
-        mContext.getPackageManager().setComponentEnabledSetting(smsReceiverComponent, PackageManager.COMPONENT_ENABLED_STATE_DISABLED , PackageManager.DONT_KILL_APP);
+        mContext.getPackageManager().setComponentEnabledSetting(smsReceiverComponent, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
         //Enable
-        mContext.getPackageManager().setComponentEnabledSetting(smsReceiverComponent, PackageManager.COMPONENT_ENABLED_STATE_ENABLED , PackageManager.DONT_KILL_APP);
+        mContext.getPackageManager().setComponentEnabledSetting(smsReceiverComponent, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
     }
 
     public static Context getAppContext() {
@@ -94,14 +111,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initViewObjects() {
+        ACTIVITY_FRAGMENTS_LAYOUT = (NestedScrollView) findViewById(R.id.main_activity_fragment_layout);
+        main_activity_home_layout = (NestedScrollView) findViewById(R.id.main_activity_home_layout);
+
         //toolbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //drawers
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        drawerToggle = new ActionBarDrawerToggle(MainActivity.this, drawerLayout, R.string.hello_world, R.string.hello_world);
-        drawerLayout.setDrawerListener(drawerToggle);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        drawerToggle = new ActionBarDrawerToggle(MainActivity.this, mDrawerLayout, R.string.hello_world, R.string.hello_world);
+        mDrawerLayout.setDrawerListener(drawerToggle);
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -156,12 +176,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 int id = menuItem.getItemId();
+                Fragment mFragment;
+
+                closeDrawer();
+                hideKeyboard(mActivity);
+                FragmentManager fragmentManager = mActivity.getFragmentManager();
+                fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
                 switch (id) {
-                    case R.id.navItem1:
+                    case R.id.nav_drawer_home:
+                        closeFragmentLayout();
                         break;
-                    case R.id.navItem2:
+                    case R.id.nav_drawer_sms_service:
+                        mFragment = new SmsReceiverFragment();
+                        startFragment(mFragment);
                         break;
-                    case R.id.navItem3:
+                    case R.id.nav_drawer_development:
+                        mFragment = new UnderConstructionFragment();
+                        startFragment(mFragment);
+                        break;
+                    case R.id.nav_drawer_contact:
+                        mFragment = new UnderConstructionFragment();
+                        startFragment(mFragment);
+                        break;
+                    case R.id.nav_drawer_about:
+                        mFragment = new UnderConstructionFragment();
+                        startFragment(mFragment);
                         break;
                 }
                 return false;
@@ -194,10 +234,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onCheckedChanged(CompoundButton buttonView,
                                          boolean isChecked) {
 
-                if(isChecked){
+                if (isChecked) {
                     Log.d(TAG, "Switch is currently ON");
                     //smsToggle = true;
-                }else{
+                } else {
                     Log.d(TAG, "Switch is currently OFF");
                     //smsToggle = false;
                 }
@@ -218,11 +258,57 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
+    public void closeDrawer() {
+        mDrawerLayout.closeDrawer(Gravity.LEFT);
+    }
+
+    private void startFragment(Fragment mFragment) {
+        if (mFragment != null) {
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.replace(R.id.FragmentContainer, mFragment);
+            ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
+            ft.addToBackStack(null);
+            ft.commit();
+            setFunctionLayout(View.VISIBLE);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver);
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
         //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         DisplayPictureUtil.loadImageFromStorage(nav_display_picture, "/data/data/com.keegan.experiment/app_imageDir");
+
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+                String action = intent.getAction();
+                Log.d(TAG, "received intent: " + intent.getAction());
+
+                if (INTENT.FRAGMENT_ITEM_CANCELLED.equalsName(action)) {
+                    closeFragmentLayout();
+                }
+            }
+        };
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, new IntentFilter(INTENT.FRAGMENT_ITEM_CANCELLED.toString()));
+
+    }
+
+    BroadcastReceiver broadcastReceiver;
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver);
     }
 
     @Override
@@ -335,6 +421,53 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 nav_display_picture.setScaleType(ImageView.ScaleType.FIT_XY);
             }
         }
+    }
+
+    public static void hideKeyboard(Activity activity) {
+        if (activity != null && activity.getCurrentFocus() != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+        }
+    }
+
+    NestedScrollView ACTIVITY_FRAGMENTS_LAYOUT;
+    NestedScrollView main_activity_home_layout;
+
+    @Override
+    public void onBackPressed() {
+        Log.d(TAG, "Frag count: " + getFragmentManager().getBackStackEntryCount());
+        if (mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
+            closeDrawer();
+        } else if (getFragmentManager().getBackStackEntryCount() > 1) {
+            closeCurrentFragment();
+        } else if (getFragmentManager().getBackStackEntryCount() == 1) {
+            closeFragmentLayout();
+        } else {
+            if (exitToast.getView().isShown()) {
+                this.finish();
+            } else {
+                exitToast.show();
+            }
+        }
+    }
+
+    public void closeFragmentLayout() {
+        getFragmentManager().popBackStack();
+        setFunctionLayout(View.GONE);
+    }
+
+    private void setFunctionLayout(int status) {
+        if (status == View.VISIBLE) {
+            ACTIVITY_FRAGMENTS_LAYOUT.setVisibility(View.VISIBLE);
+            main_activity_home_layout.setVisibility(View.GONE);
+        } else {
+            ACTIVITY_FRAGMENTS_LAYOUT.setVisibility(View.GONE);
+            main_activity_home_layout.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void closeCurrentFragment() {
+        getFragmentManager().popBackStack();
     }
 
 }

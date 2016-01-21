@@ -1,10 +1,31 @@
-Features:
-Device info
-SMS service
+ToCreate:
+Login Page
+SMS fragment
+DeviceInfo Fragment
+Change username on long press
+About page
+This page
+Snackbar to undo display picture
+ActionBar for normal pages
+Toggle Action button
 
-Improvement:
+ToImprove:
 Widget Sizes
+Widget Display Picture
 Widget Open app on tap, except refresh button
+Clean up code
 
-Bug:
+ToFix:
 Widget only updates latest one
+
+Done [in order]:
+Toolbar (new Navigation Drawer)
+CollapsingToolbarLayout
+FloatingAction Menu+Button
+CoordinatedLayout
+
+Upload and crop from gallery
+Widget
+
+SMS service
+Double press back to exit

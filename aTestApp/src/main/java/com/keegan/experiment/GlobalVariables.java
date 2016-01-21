@@ -10,4 +10,6 @@ public class GlobalVariables {
     }
     public boolean xzcdasd = false;
 
+
+
 }
