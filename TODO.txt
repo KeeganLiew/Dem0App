@@ -13,7 +13,7 @@ ToImprove:
 Widget Sizes
 Widget Display Picture
 Widget Open app on tap, except refresh button
-Clean up code
+Clean up code - remove relative from editText,
 
 ToFix:
 Widget only updates latest one

@@ -14,13 +14,20 @@
         <activity
             android:name="com.keegan.experiment.activities.MainActivity"
             android:theme="@style/AppTheme">
+            <!--<intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>-->
+        </activity>
+
+        <activity android:name="com.keegan.experiment.utilities.GalleryUtil"></activity>
+
+        <activity android:name="com.keegan.experiment.activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".utilities.GalleryUtil"></activity>
 
         <receiver
             android:name="com.keegan.experiment.utilities.SimpleWidgetProvider"

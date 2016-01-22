@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/custom_numeric_keyboard_grid"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/BLACK"
+    android:divider="@drawable/abc_text_cursor_material"
+    android:orientation="vertical"
+    android:showDividers="middle">
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/BLACK"
+        android:divider="@drawable/abc_text_cursor_material"
+        android:gravity="center"
+        android:showDividers="middle">
+
+        <TextView
+            android:id="@+id/custom_numeric_keyboard_key_1"
+            style="@style/custom_numeric_keys"
+            android:text="@string/number_one"
+            android:textIsSelectable="false" />
+
+        <TextView
+            android:id="@+id/custom_numeric_keyboard_key_2"
+            style="@style/custom_numeric_keys"
+            android:text="@string/number_two"
+            android:textIsSelectable="false" />
+
+        <TextView
+            android:id="@+id/custom_numeric_keyboard_key_3"
+            style="@style/custom_numeric_keys"
+            android:text="@string/number_three"
+            android:textIsSelectable="false" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:divider="@drawable/abc_text_cursor_material"
+        android:gravity="center"
+        android:showDividers="middle">
+
+        <TextView
+            android:id="@+id/custom_numeric_keyboard_key_4"
+            style="@style/custom_numeric_keys"
+            android:text="@string/number_four"
+            android:textIsSelectable="false" />
+
+
+        <TextView
+            android:id="@+id/custom_numeric_keyboard_key_5"
+            style="@style/custom_numeric_keys"
+            android:text="@string/number_five"
+            android:textIsSelectable="false" />
+
+        <TextView
+            android:id="@+id/custom_numeric_keyboard_key_6"
+            style="@style/custom_numeric_keys"
+            android:text="@string/number_six"
+            android:textIsSelectable="false" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:divider="@drawable/abc_text_cursor_material"
+        android:gravity="center"
+        android:showDividers="middle">
+
+        <TextView
+            android:id="@+id/custom_numeric_keyboard_key_7"
+            style="@style/custom_numeric_keys"
+            android:text="@string/number_seven"
+            android:textIsSelectable="false" />
+
+        <TextView
+            android:id="@+id/custom_numeric_keyboard_key_8"
+            style="@style/custom_numeric_keys"
+            android:text="@string/number_eight"
+            android:textIsSelectable="false" />
+
+        <TextView
+            android:id="@+id/custom_numeric_keyboard_key_9"
+            style="@style/custom_numeric_keys"
+            android:text="@string/number_nine"
+            android:textIsSelectable="false" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:divider="@drawable/abc_text_cursor_material"
+        android:gravity="center"
+        android:showDividers="middle">
+
+        <TextView
+            android:id="@+id/custom_numeric_keyboard_key_menu"
+            style="@style/custom_numeric_keys"
+            android:text="Menu"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textIsSelectable="false" />
+
+        <TextView
+            android:id="@+id/custom_numeric_keyboard_key_0"
+            style="@style/custom_numeric_keys"
+            android:text="@string/number_zero"
+            android:textIsSelectable="false" />
+
+        <ImageView
+            android:layout_height="match_parent"
+            android:id="@+id/custom_numeric_keyboard_key_backspace"
+            style="@style/custom_numeric_keys"
+            android:contentDescription="backspace"
+            android:src="@drawable/ic_backspace_white_48dp"
+            android:textIsSelectable="false" />
+    </TableRow>
+
+</TableLayout>

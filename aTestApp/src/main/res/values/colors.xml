@@ -15,6 +15,7 @@
     <color name="blue_semi_transparent_pressed">#80738ffe</color>
 
     <color name="APP_FRAGMENT_BACKGROUND_COLOR">@color/YOUTAP_FF_18B0E6</color>
+    <color name="APP_MAIN_BACKGROUND_COLOR">@color/YOUTAP_FF_18B0E6</color>
     <color name="YOUTAP_FF_18B0E6">#FF18B0E6</color>
 
     <color name="BLACK">#FF000000</color>
@@ -24,6 +25,11 @@
     <color name="registration_register_button_text_color">#ffffff</color>
     <color name="TAB_SEP_TOP">@color/YOUTAP_FF_18B0E6</color>
     <color name="nav_menu_listview_background_color">#888888</color>
+
+    <color name="TRANSPARENT">#00000000</color>
+    <color name="OFF_WHITE">#CCFFFFFF</color>
+
+    <color name="APP_MAIN_TEXT_COLOR">@color/white</color>
 
 
 </resources>
