@@ -43,7 +43,7 @@
                     android:layout_marginRight="30dp"
                     android:layout_marginTop="@dimen/margin_between_elements"
                     android:background="@drawable/background_send_money_linear"
-                    android:hint="@string/Password"
+                    android:hint="@string/Pin"
                     android:inputType="numberPassword"
                     android:paddingLeft="20dp"
                     android:textColorHint="@android:color/darker_gray"

@@ -10,6 +10,7 @@
     <string name="txt_yo_yo">Yo Yo</string>
     <string name="title_activity_code_lab">MyTestApp</string>
     <string name="Password">Password</string>
+    <string name="Pin">Enter Your Pin</string>
     <string name="Login">Login</string>
     <string name="Username">Username</string>
     <string name="SMSSwitch">Toggle SMS receiver</string>

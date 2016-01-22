@@ -183,7 +183,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         b.putString("Pin", finalPin); //Your id
         intent.putExtras(b); //Put your id to your next Intent
         startActivity(intent);
-        finish();
+        //finish();
+        //startActivity(new Intent(CustomerLoginActivity.this, ApplicationActivity.class).putExtra(INTENT.EXTRA_ACCOUNT_BALANCE.toString(), accountBalance));
     }
 
     private View.OnTouchListener otl = new View.OnTouchListener() {
@@ -200,6 +201,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onResume() {
         super.onResume();
+        pin_EditText.setText("");
     }
 
     @Override
