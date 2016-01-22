@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="all">
+        <item
+            android:id="@+id/nav_drawer_home"
+            android:icon="@drawable/ic_action_location_found_dark"
+            android:title="@string/Home" />
+        <item
+            android:id="@+id/nav_drawer_sms_service"
+            android:icon="@drawable/ic_action_location_found_dark"
+            android:title="@string/SmsService" />
+
+        <item
+            android:id="@+id/nav_drawer_development"
+            android:icon="@drawable/ic_action_location_found_dark"
+            android:title="@string/Development" />
+
+        <item
+            android:id="@+id/nav_drawer_contact"
+            android:icon="@drawable/ic_action_location_found_dark"
+            android:title="@string/Contact" />
+
+        <item
+            android:id="@+id/nav_drawer_about"
+            android:icon="@drawable/ic_action_location_found_dark"
+            android:title="@string/About" />
+
+    </group>
+
+</menu>
