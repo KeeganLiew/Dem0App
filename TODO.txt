@@ -1,5 +1,5 @@
 ToCreate:
-Login Page
+Login toolbar
 SMS fragment
 DeviceInfo Fragment
 Change username on long press
@@ -8,6 +8,7 @@ This page
 Snackbar to undo display picture
 ActionBar for normal pages
 Toggle Action button
+Log out
 
 ToImprove:
 Widget Sizes
@@ -29,3 +30,5 @@ Widget
 
 SMS service
 Double press back to exit
+
+Login Page

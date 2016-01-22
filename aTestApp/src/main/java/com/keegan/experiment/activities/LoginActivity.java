@@ -1,13 +1,20 @@
 package com.keegan.experiment.activities;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -20,6 +27,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.keegan.experiment.R;
+import com.keegan.experiment.fragments.SmsReceiverFragment;
+import com.keegan.experiment.fragments.UnderConstructionFragment;
 
 import java.util.Arrays;
 
@@ -29,6 +38,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     EditText username_EditText;
     EditText pin_EditText;
+
+    NavigationView navigation;
 
     TableLayout numericKeypad;
     TextView num1;
@@ -64,7 +75,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void loadSavedPreferences() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        String savedUsername = sharedPreferences.getString("username", "");
+        String savedUsername = sharedPreferences.getString("Username", "");
         if (!savedUsername.equalsIgnoreCase("")) {
             username_EditText.setText(savedUsername);
             pin_EditText.requestFocus();
@@ -119,6 +130,46 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         });
         //pin_EditText.setOnTouchListener(otl);
         pin_EditText.setShowSoftInputOnFocus(false);
+
+
+        //nav draw
+        navigation = (NavigationView) findViewById(R.id.navigation);
+        navigation.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                int id = menuItem.getItemId();
+                Fragment mFragment;
+
+                /*closeDrawer();
+                hideKeyboard(mActivity);
+                FragmentManager fragmentManager = mActivity.getFragmentManager();
+                fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+                switch (id) {
+                    case R.id.nav_drawer_home:
+                        closeFragmentLayout();
+                        break;
+                    case R.id.nav_drawer_sms_service:
+                        mFragment = new SmsReceiverFragment();
+                        startFragment(mFragment);
+                        break;
+                    case R.id.nav_drawer_development:
+                        mFragment = new UnderConstructionFragment();
+                        startFragment(mFragment);
+                        break;
+                    case R.id.nav_drawer_contact:
+                        mFragment = new UnderConstructionFragment();
+                        startFragment(mFragment);
+                        break;
+                    case R.id.nav_drawer_about:
+                        mFragment = new UnderConstructionFragment();
+                        startFragment(mFragment);
+                        break;
+                }*/
+                return false;
+            }
+        });
+
     }
 
     private View.OnClickListener numpad = new View.OnClickListener() {
@@ -175,7 +226,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void startLoginProcess() {
 
         //if correct credentials
-        savePreferences("username", finalUsername);
+        savePreferences("Username", finalUsername);
         //start main activity with extra info
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         Bundle b = new Bundle();

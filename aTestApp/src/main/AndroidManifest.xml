@@ -22,7 +22,9 @@
 
         <activity android:name="com.keegan.experiment.utilities.GalleryUtil"></activity>
 
-        <activity android:name="com.keegan.experiment.activities.LoginActivity">
+        <activity
+            android:name="com.keegan.experiment.activities.LoginActivity"
+            android:theme="@style/MyTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
