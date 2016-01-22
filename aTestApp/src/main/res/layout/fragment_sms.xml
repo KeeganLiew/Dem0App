@@ -70,26 +70,19 @@
                     android:visibility="visible" />
             </RelativeLayout>
 
-            <RelativeLayout
+            <EditText
+                android:id="@+id/Fragment_Payment_BumpToPay_EditText_Name"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
                 android:layout_marginTop="@dimen/margin_between_elements"
                 android:background="@drawable/background_send_money_linear"
-                android:orientation="vertical">
-
-                <EditText
-                    android:id="@+id/Fragment_Payment_BumpToPay_EditText_Name"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:background="@android:color/transparent"
-                    android:hint="@string/NAME"
-                    android:inputType="textPersonName"
-                    android:paddingLeft="20dp"
-                    android:textColorHint="@android:color/darker_gray"
-                    android:textSize="15sp" />
-            </RelativeLayout>
+                android:hint="@string/NAME"
+                android:inputType="textPersonName"
+                android:paddingLeft="20dp"
+                android:textColorHint="@android:color/darker_gray"
+                android:textSize="15sp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -106,8 +99,8 @@
                     android:layout_height="40dp"
                     android:background="@android:color/transparent"
                     android:digits="0123456789."
-                    android:imeOptions="actionNext"
                     android:hint="@string/AMOUNT"
+                    android:imeOptions="actionNext"
                     android:inputType="numberDecimal"
                     android:paddingLeft="20dp"
                     android:paddingRight="10dp"

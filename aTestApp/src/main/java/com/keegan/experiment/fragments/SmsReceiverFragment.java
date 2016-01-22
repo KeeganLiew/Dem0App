@@ -129,7 +129,7 @@ public class SmsReceiverFragment extends Fragment implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.Fragment_Banks_Button_Pay:
-
+                break;
             case R.id.Fragment_Banks_Button_Cancel:
                 Intent intent = new Intent(INTENT.FRAGMENT_ITEM_CANCELLED.toString());
                 LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);

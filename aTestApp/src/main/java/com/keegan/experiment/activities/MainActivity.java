@@ -10,9 +10,11 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.preference.PreferenceManager;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
@@ -94,6 +96,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         exitToast = Toast.makeText(mActivity, "Press again to exit.", Toast.LENGTH_LONG);
 
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        updateUsername(sharedPreferences.getString("Username", ""));
+
+        //sms stuff
         int status = mContext.getPackageManager().getComponentEnabledSetting(smsReceiverComponent);
         if (status == PackageManager.COMPONENT_ENABLED_STATE_ENABLED) {
             Log.d(TAG, "receiver is enabled");
@@ -104,6 +111,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mContext.getPackageManager().setComponentEnabledSetting(smsReceiverComponent, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
         //Enable
         mContext.getPackageManager().setComponentEnabledSetting(smsReceiverComponent, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+    }
+
+    //TODO TO USE
+    public void Logout() {
+        clear_pref();
+        //otherstuff
+    }
+
+    public void clear_pref() {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.commit();
     }
 
     public static Context getAppContext() {

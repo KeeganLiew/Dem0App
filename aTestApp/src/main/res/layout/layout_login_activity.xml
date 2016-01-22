@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/APP_MAIN_BACKGROUND_COLOR"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/Fragment_Payment_BumpToPay_EditText_Name"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginTop="@dimen/margin_between_elements"
+                    android:background="@drawable/background_send_money_linear"
+                    android:hint="@string/NAME"
+                    android:inputType="textPersonName"
+                    android:paddingLeft="20dp"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textSize="15sp" />
+
+                <EditText
+                    android:id="@+id/Fragment_Payment_BumpToPay_EditText_Pin"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginTop="@dimen/margin_between_elements"
+                    android:background="@drawable/background_send_money_linear"
+                    android:hint="@string/Password"
+                    android:inputType="numberPassword"
+                    android:paddingLeft="20dp"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textSize="15sp" />
+
+                <include
+                    android:id="@+id/CL_ProgressBar_layout"
+                    layout="@layout/main_progressbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+
+        </RelativeLayout>
+    </ScrollView>
+
+    <include
+        android:id="@+id/keypad"
+        layout="@layout/numeric_keypad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:gravity="center_horizontal|bottom"
+        android:visibility="gone" />
+</LinearLayout>
