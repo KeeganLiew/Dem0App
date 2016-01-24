@@ -120,10 +120,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    Toast.makeText(getApplicationContext(), "got the focus", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(), "got the focus", Toast.LENGTH_LONG).show();
+                    Log.d(TAG, "pin_EditText got focus");
                     toggleKeyboard();
                 } else {
-                    Toast.makeText(getApplicationContext(), "lost the focus", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(), "lost the focus", Toast.LENGTH_LONG).show();
+                    Log.d(TAG, "pin_EditText lost focus");
                     toggleKeyboard();
                 }
             }
@@ -133,14 +135,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
         //nav draw
-        navigation = (NavigationView) findViewById(R.id.navigation);
-        navigation.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+        //navigation = (NavigationView) findViewById(R.id.navigation);
+        /*navigation.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 int id = menuItem.getItemId();
                 Fragment mFragment;
 
-                /*closeDrawer();
+                closeDrawer();
                 hideKeyboard(mActivity);
                 FragmentManager fragmentManager = mActivity.getFragmentManager();
                 fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
@@ -165,10 +167,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         mFragment = new UnderConstructionFragment();
                         startFragment(mFragment);
                         break;
-                }*/
+                }
                 return false;
             }
-        });
+        });*/
 
     }
 
@@ -184,7 +186,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     R.id.custom_numeric_keyboard_key_menu, R.id.custom_numeric_keyboard_key_backspace
             };
 
-            Log.d(TAG, "v.getId(): " + v.getId());
+            //Log.d(TAG, "v.getId(): " + v.getId());
             Integer pinClicked = Arrays.asList(data).indexOf(v.getId());
             Log.d(TAG, "pinClicked: " + pinClicked);
 
@@ -225,17 +227,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void startLoginProcess() {
 
-        //if correct credentials
-        savePreferences("Username", finalUsername);
-        //start main activity with extra info
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        Bundle b = new Bundle();
-        b.putString("Username", finalUsername); //Your id
-        b.putString("Pin", finalPin); //Your id
-        intent.putExtras(b); //Put your id to your next Intent
-        startActivity(intent);
-        //finish();
-        //startActivity(new Intent(CustomerLoginActivity.this, ApplicationActivity.class).putExtra(INTENT.EXTRA_ACCOUNT_BALANCE.toString(), accountBalance));
+        if (finalPin.equalsIgnoreCase("9090")) {
+            //if correct credentials
+            savePreferences("Username", finalUsername);
+            //start main activity with extra info
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            Bundle b = new Bundle();
+            b.putString("Username", finalUsername); //Your id
+            b.putString("Pin", finalPin); //Your id
+            intent.putExtras(b); //Put your id to your next Intent
+            startActivity(intent);
+            //finish();
+            //startActivity(new Intent(CustomerLoginActivity.this, ApplicationActivity.class).putExtra(INTENT.EXTRA_ACCOUNT_BALANCE.toString(), accountBalance));
+        }
     }
 
     private View.OnTouchListener otl = new View.OnTouchListener() {

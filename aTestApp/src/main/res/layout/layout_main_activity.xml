@@ -114,14 +114,6 @@
                     android:layout_height="wrap_content"
                     android:text="@string/Login" />
 
-                <Switch
-                    android:id="@+id/smsToggleSwitch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_marginTop="50dp"
-                    android:text="@string/SMSSwitch" />
-
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="1000dp"

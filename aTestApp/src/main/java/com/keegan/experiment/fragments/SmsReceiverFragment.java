@@ -2,9 +2,11 @@ package com.keegan.experiment.fragments;
 
 import android.app.Fragment;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -15,13 +17,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.keegan.experiment.INTENT;
 import com.keegan.experiment.R;
+import com.keegan.experiment.services.SMSReceiver;
 import com.keegan.experiment.utilities.BankTypeOnItemSelectedListener;
 
 import java.util.ArrayList;
@@ -42,10 +47,15 @@ public class SmsReceiverFragment extends Fragment implements View.OnClickListene
     ProgressBar progressBar;
     BroadcastReceiver broadcastReceiver;
     Spinner bankTypeSpinner;
+    Switch mySwitch;
+
+    Context mContext;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_sms, container, false);
+
+        mContext = getActivity();
 
         amountET = (EditText) rootView.findViewById(R.id.Fragment_Banks_EditText_Amount);
         bankAccountET = (EditText) rootView.findViewById(R.id.Fragment_Banks_EditText_BankAccount);
@@ -75,7 +85,41 @@ public class SmsReceiverFragment extends Fragment implements View.OnClickListene
         payButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
 
+        //Switch
+        mySwitch = (Switch) rootView.findViewById(R.id.smsToggleSwitch);
+        mySwitch.setChecked(true); //set the switch to ON
+        //attach a listener to check for changes in state
+        mySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                //sms stuff
+                ComponentName smsReceiverComponent = new ComponentName(mContext, SMSReceiver.class);
+                componentChecker(smsReceiverComponent);
+                if (isChecked) {
+                    //Log.d(TAG, "Switch is currently ON"); //Enable
+                    mContext.getPackageManager().setComponentEnabledSetting(smsReceiverComponent, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+                    componentChecker(smsReceiverComponent);
+                } else {
+                    //Log.d(TAG, "Switch is currently OFF"); //Disable
+                    mContext.getPackageManager().setComponentEnabledSetting(smsReceiverComponent, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+                    componentChecker(smsReceiverComponent);
+                }
+
+            }
+        });
+
         return rootView;
+    }
+
+    public void componentChecker(ComponentName componentToCheck) {
+        int status = mContext.getPackageManager().getComponentEnabledSetting(componentToCheck);
+        if (status == PackageManager.COMPONENT_ENABLED_STATE_ENABLED) {
+            Log.d(TAG, componentToCheck.getShortClassName() + " is enabled");
+        } else if (status == PackageManager.COMPONENT_ENABLED_STATE_DISABLED) {
+            Log.d(TAG, componentToCheck.getShortClassName() + " is disabled");
+        }
     }
 
     @Override
