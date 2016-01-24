@@ -83,21 +83,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_login_activity);
         initViewObjects();
-
-        loadSavedPreferences();
-
-        mActivity = this;
-        mContext = getApplicationContext();
     }
 
     private void loadSavedPreferences() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         String savedUsername = sharedPreferences.getString("Username", "");
+        username_EditText.setText(savedUsername);
+        pin_EditText.setText("");
         if (!savedUsername.equalsIgnoreCase("")) {
-            username_EditText.setText(savedUsername);
             pin_EditText.requestFocus();
             this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        }else{
+            username_EditText.requestFocus();
+            showKeyboard(mActivity, username_EditText);
         }
     }
 
@@ -308,7 +307,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onResume() {
         super.onResume();
-        pin_EditText.setText("");
+        mActivity = this;
+        mContext = getApplicationContext();
+        loadSavedPreferences();
     }
 
     @Override

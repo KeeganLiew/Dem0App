@@ -1,12 +1,10 @@
 ToCreate:
-Login toolbar
 SMS fragment
 DeviceInfo Fragment
 Change username on long press
 About page
 This page
 Snackbar to undo display picture
-ActionBar for normal pages
 Toggle Action button
 Log out
 
@@ -18,7 +16,6 @@ Clean up code - remove relative from editText,
 
 ToFix:
 Widget only updates latest one
-Home page white text
 
 Done [in order]:
 Toolbar (new Navigation Drawer)
@@ -33,3 +30,4 @@ SMS service
 Double press back to exit
 
 Login Page
+Login Navigation Drawer
