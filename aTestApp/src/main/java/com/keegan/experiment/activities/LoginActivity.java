@@ -1,33 +1,35 @@
 package com.keegan.experiment.activities;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.keegan.experiment.GlobalVariables;
 import com.keegan.experiment.R;
-import com.keegan.experiment.fragments.SmsReceiverFragment;
 import com.keegan.experiment.fragments.UnderConstructionFragment;
 
 import java.util.Arrays;
@@ -40,6 +42,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     EditText pin_EditText;
 
     NavigationView navigation;
+    DrawerLayout mDrawerLayout;
 
     TableLayout numericKeypad;
     TextView num1;
@@ -54,6 +57,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     TextView numMenu;
     TextView num0;
     ImageView numBackspace;
+
+    LinearLayout login_new_user;
+    LinearLayout login_forgot_pin;
+    LinearLayout login_help;
+    LinearLayout login_contact;
+
+    TextView login_new_user_text;
+    ImageView login_new_user_image;
+    TextView login_forgot_pin_text;
+    ImageView login_forgot_pin_image;
+    TextView login_help_text;
+    ImageView login_help_image;
+    TextView login_contact_text;
+    ImageView login_contact_image;
+
 
     Activity mActivity;
     public static Context mContext;
@@ -83,6 +101,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void initViewObjects() {
         numericKeypad = (TableLayout) findViewById(R.id.keypad);
 
@@ -120,65 +139,98 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    //Toast.makeText(getApplicationContext(), "got the focus", Toast.LENGTH_LONG).show();
                     Log.d(TAG, "pin_EditText got focus");
-                    toggleKeyboard();
+                    toggleKeyboard(true);
                 } else {
-                    //Toast.makeText(getApplicationContext(), "lost the focus", Toast.LENGTH_LONG).show();
                     Log.d(TAG, "pin_EditText lost focus");
-                    toggleKeyboard();
+                    toggleKeyboard(false);
                 }
             }
         });
         //pin_EditText.setOnTouchListener(otl);
-        pin_EditText.setShowSoftInputOnFocus(false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            pin_EditText.setShowSoftInputOnFocus(false);
+        }
 
+        username_EditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    Log.d(TAG, "username_EditText got focus");
+                    toggleKeyboard(false);
+                }
+            }
+        });
 
         //nav draw
-        //navigation = (NavigationView) findViewById(R.id.navigation);
-        /*navigation.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerLayout.setDrawerListener(new DrawerLayout.DrawerListener() {
+            View lastFocused;
+
             @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
-                int id = menuItem.getItemId();
-                Fragment mFragment;
-
-                closeDrawer();
-                hideKeyboard(mActivity);
-                FragmentManager fragmentManager = mActivity.getFragmentManager();
-                fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-
-                switch (id) {
-                    case R.id.nav_drawer_home:
-                        closeFragmentLayout();
-                        break;
-                    case R.id.nav_drawer_sms_service:
-                        mFragment = new SmsReceiverFragment();
-                        startFragment(mFragment);
-                        break;
-                    case R.id.nav_drawer_development:
-                        mFragment = new UnderConstructionFragment();
-                        startFragment(mFragment);
-                        break;
-                    case R.id.nav_drawer_contact:
-                        mFragment = new UnderConstructionFragment();
-                        startFragment(mFragment);
-                        break;
-                    case R.id.nav_drawer_about:
-                        mFragment = new UnderConstructionFragment();
-                        startFragment(mFragment);
-                        break;
+            public void onDrawerSlide(View view, float v) {
+                if (v * 100 > GlobalVariables.hide_keyboard_login_drawer_percentage) {
+                    if (pin_EditText.hasFocus()) {
+                        lastFocused = pin_EditText;
+                    } else if (username_EditText.hasFocus()) {
+                        hideKeyboard(mActivity);
+                        lastFocused = username_EditText;
+                    }
                 }
-                return false;
             }
-        });*/
+
+            @Override
+            public void onDrawerOpened(View view) {
+            }
+
+            @Override
+            public void onDrawerClosed(View view) {
+                if (lastFocused != null) {
+                    Log.d(TAG, lastFocused.toString());
+                    lastFocused.requestFocus();
+                }
+            }
+
+            @Override
+            public void onDrawerStateChanged(int i) {
+            }
+        });
+        navigation = (NavigationView) findViewById(R.id.navigation);
+
+        login_new_user = (LinearLayout) findViewById(R.id.login_new_user);
+        login_new_user_image = (ImageView) login_new_user.findViewById(R.id.login_navigation_icon);
+        login_new_user_text = (TextView) login_new_user.findViewById(R.id.login_navigation_text);
+        login_new_user_image.setBackgroundResource(R.drawable.name);
+        login_new_user_text.setText("New User");
+
+        login_forgot_pin = (LinearLayout) findViewById(R.id.login_forgot_pin);
+        login_forgot_pin_image = (ImageView) login_forgot_pin.findViewById(R.id.login_navigation_icon);
+        login_forgot_pin_text = (TextView) login_forgot_pin.findViewById(R.id.login_navigation_text);
+        login_forgot_pin_image.setBackgroundResource(R.drawable.backspace);
+        login_forgot_pin_text.setText("Forgot Pin");
+
+        login_help = (LinearLayout) findViewById(R.id.login_help);
+        login_help_image = (ImageView) login_help.findViewById(R.id.login_navigation_icon);
+        login_help_text = (TextView) login_help.findViewById(R.id.login_navigation_text);
+        login_help_image.setBackgroundResource(R.drawable.nav_header_bg);
+        login_help_text.setText("Help");
+
+        login_contact = (LinearLayout) findViewById(R.id.login_contact);
+        login_contact_text = (TextView) login_contact.findViewById(R.id.login_navigation_text);
+        login_contact_image = (ImageView) login_contact.findViewById(R.id.login_navigation_icon);
+        login_contact_image.setBackgroundResource(R.drawable.header);
+        login_contact_text.setText("Contact");
+
+        login_new_user.setOnClickListener(this);
+        login_forgot_pin.setOnClickListener(this);
+        login_help.setOnClickListener(this);
+        login_contact.setOnClickListener(this);
 
     }
 
     private View.OnClickListener numpad = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            //String pinClicked = "";;
-
             Integer[] data = {R.id.custom_numeric_keyboard_key_0,
                     R.id.custom_numeric_keyboard_key_1, R.id.custom_numeric_keyboard_key_2, R.id.custom_numeric_keyboard_key_3,
                     R.id.custom_numeric_keyboard_key_4, R.id.custom_numeric_keyboard_key_5, R.id.custom_numeric_keyboard_key_6,
@@ -186,19 +238,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     R.id.custom_numeric_keyboard_key_menu, R.id.custom_numeric_keyboard_key_backspace
             };
 
-            //Log.d(TAG, "v.getId(): " + v.getId());
             Integer pinClicked = Arrays.asList(data).indexOf(v.getId());
-            Log.d(TAG, "pinClicked: " + pinClicked);
-
             if (pinClicked >= 0 && pinClicked <= 9) {
                 pin_EditText.append(pinClicked.toString());
             } else if (pinClicked == 10) {
-
+                openDrawer();
             } else if (pinClicked == 11 && pin_EditText.getText().length() > 0) {
-                Integer length = pin_EditText.getText().length();
-                pin_EditText.getText().delete(length - 1, length);
+                int cursorPosition = pin_EditText.getSelectionStart();
+                //Log.d(TAG, "Pin Cursor: " + cursorPosition);
+                if (cursorPosition > 0) {
+                    pin_EditText.getText().delete(cursorPosition - 1, cursorPosition);
+                }
             } else {
-
+                Log.d(TAG, "Somehow pressed a non-numpad key");
             }
             Log.d(TAG, pin_EditText.getText().toString());
             pinLoginChecker(pin_EditText);
@@ -264,32 +316,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onDestroy();
     }
 
-    private void toggleKeyboard() {
-        if (numericKeypad.getVisibility() == View.VISIBLE) {
-            numericKeypad.setVisibility(View.GONE);
-        } else {
-            //hideKeyboard(mActivity);
-            hideKeyBoard();
+    private void toggleKeyboard(boolean numpad) {
+        int visibility = numericKeypad.getVisibility();
+        if (numpad && visibility == View.GONE) {
+            hideKeyboard(mActivity);
             numericKeypad.setVisibility(View.VISIBLE);
-
-        }
-    }
-
-    private void hideKeyBoard() {
-        View view = this.getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.loginButton:
-                break;
-            case R.id.nav_display_picture:
-                break;
+        } else if (!numpad) {
+            showKeyboard(mActivity, username_EditText);
+            if (visibility == View.VISIBLE) {
+                numericKeypad.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -300,11 +336,55 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    public static void showKeyboard(Activity activity, EditText editText) {
+        if (activity != null) {
+            InputMethodManager imm = (InputMethodManager) activity.getSystemService(INPUT_METHOD_SERVICE);
+            imm.showSoftInput(editText, InputMethodManager.SHOW_FORCED);
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.login_new_user:
+                closeDrawer();
+                break;
+            case R.id.login_contact:
+                closeDrawer();
+                break;
+            case R.id.login_forgot_pin:
+                closeDrawer();
+                break;
+            case R.id.login_help:
+                closeDrawer();
+                break;
+        }
+    }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
     }
 
+    public void closeDrawer() {
+        mDrawerLayout.closeDrawer(Gravity.LEFT);
+    }
+
+    public void openDrawer() {
+        mDrawerLayout.openDrawer(GravityCompat.START);
+    }
+
+    private void startFragment(Fragment mFragment) {
+        if (mFragment == null) {
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.replace(R.id.FragmentContainer, mFragment);
+            ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
+            ft.addToBackStack(null);
+            ft.commit();
+            //setFunctionLayout(View.VISIBLE);
+        }
+    }
 }
 
 
