@@ -294,6 +294,16 @@
 
             </LinearLayout>
 
+            <Switch
+                android:id="@+id/smsToggleSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginLeft="30dp"
+                android:text="@string/SMSSwitch" />
+
             <ProgressBar
                 android:id="@+id/Fragment_Banks_Progressbar"
                 android:layout_width="@dimen/progressbar_width"

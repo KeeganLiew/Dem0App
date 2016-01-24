@@ -18,6 +18,7 @@ Clean up code - remove relative from editText,
 
 ToFix:
 Widget only updates latest one
+Home page white text
 
 Done [in order]:
 Toolbar (new Navigation Drawer)

@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView nav_username;
     ImageView nav_display_picture;
     ImageView background_image;
-    Switch mySwitch;
+    //Switch mySwitch;
     Button login_Button;
 
     public static String username = "noName";
@@ -92,8 +92,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mActivity = this;
         mContext = getApplicationContext();
 
-        ComponentName smsReceiverComponent = new ComponentName(mContext, SMSReceiver.class);
-
         exitToast = Toast.makeText(mActivity, "Press again to exit.", Toast.LENGTH_LONG);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -101,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         updateUsername(sharedPreferences.getString("Username", ""));
 
         //sms stuff
+        ComponentName smsReceiverComponent = new ComponentName(mContext, SMSReceiver.class);
         int status = mContext.getPackageManager().getComponentEnabledSetting(smsReceiverComponent);
         if (status == PackageManager.COMPONENT_ENABLED_STATE_ENABLED) {
             Log.d(TAG, "receiver is enabled");
@@ -243,7 +242,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         nav_display_picture = (ImageView) navigation.getHeaderView(0).findViewById(R.id.nav_display_picture);
         background_image = (ImageView) findViewById(R.id.background_image);
 
-        //Switch
+        /*//Switch
         mySwitch = (Switch) findViewById(R.id.smsToggleSwitch);
 
         //set the switch to ON
@@ -264,7 +263,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
             }
-        });
+        });*/
 
         //Listerners
         login_Button.setOnClickListener(this);
