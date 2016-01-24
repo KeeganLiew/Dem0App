@@ -366,14 +366,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return super.onOptionsItemSelected(item);
     }
 
-    private void hideKeyBoard() {
-        View view = this.getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
-    }
-
     private void updateUsername(String title) {
         collapsingToolbarLayout.setTitle("Hello " + title);
         nav_username.setText(title);
@@ -396,7 +388,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             }
                         })
                         .show();
-                hideKeyBoard();
+                MainActivity.hideKeyboard(mActivity);
                 break;
             case R.id.nav_display_picture:
                 imageMethod();
@@ -447,6 +439,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (activity != null && activity.getCurrentFocus() != null) {
             InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+        }
+    }
+
+    public static void showKeyboard(Activity activity, EditText editText) {
+        if (activity != null) {
+            InputMethodManager imm = (InputMethodManager) activity.getSystemService(INPUT_METHOD_SERVICE);
+            imm.showSoftInput(editText, InputMethodManager.SHOW_FORCED);
         }
     }
 

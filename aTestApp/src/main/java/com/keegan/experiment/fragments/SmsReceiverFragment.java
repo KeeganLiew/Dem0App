@@ -87,7 +87,6 @@ public class SmsReceiverFragment extends Fragment implements View.OnClickListene
 
         //Switch
         mySwitch = (Switch) rootView.findViewById(R.id.smsToggleSwitch);
-        mySwitch.setChecked(true); //set the switch to ON
         //attach a listener to check for changes in state
         mySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
@@ -96,7 +95,6 @@ public class SmsReceiverFragment extends Fragment implements View.OnClickListene
 
                 //sms stuff
                 ComponentName smsReceiverComponent = new ComponentName(mContext, SMSReceiver.class);
-                componentChecker(smsReceiverComponent);
                 if (isChecked) {
                     //Log.d(TAG, "Switch is currently ON"); //Enable
                     mContext.getPackageManager().setComponentEnabledSetting(smsReceiverComponent, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
@@ -109,6 +107,7 @@ public class SmsReceiverFragment extends Fragment implements View.OnClickListene
 
             }
         });
+        mySwitch.setChecked(true); //set the switch to ON
 
         return rootView;
     }

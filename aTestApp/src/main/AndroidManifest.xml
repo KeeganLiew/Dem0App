@@ -24,7 +24,7 @@
 
         <activity
             android:name="com.keegan.experiment.activities.LoginActivity"
-            android:theme="@style/MyTheme">
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

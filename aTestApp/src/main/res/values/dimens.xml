@@ -34,6 +34,7 @@
     <dimen name="server_response_text_size">22sp</dimen>
     <dimen name="margin_before_result">@dimen/PADDING_MARGIN_WIDTH_HEIGHT_60</dimen>
     <dimen name="login_naigation_drawer_width">100dp</dimen>
+    <dimen name="bottom_padding_between_login_nav_drawer_items">15dp</dimen>
 
 
 </resources>
