@@ -43,6 +43,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.keegan.experiment.GlobalVariables;
 import com.keegan.experiment.INTENT;
 import com.keegan.experiment.R;
 import com.keegan.experiment.fragments.SmsReceiverFragment;
@@ -115,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //TODO TO USE
     public void Logout() {
         clear_pref();
+        this.finish();
         //otherstuff
     }
 
@@ -142,27 +144,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         drawerToggle = new ActionBarDrawerToggle(MainActivity.this, mDrawerLayout, R.string.hello_world, R.string.hello_world);
         mDrawerLayout.setDrawerListener(drawerToggle);
+        mDrawerLayout.setDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(View view, float v) {
+                if (v * 100 > GlobalVariables.hide_keyboard_login_drawer_percentage) {
+                    hideKeyboard(mActivity);
+                }
+            }
+
+            @Override
+            public void onDrawerOpened(View view) {
+            }
+
+            @Override
+            public void onDrawerClosed(View view) {
+            }
+
+            @Override
+            public void onDrawerStateChanged(int i) {
+            }
+        });
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //float button
         rootLayout = (CoordinatorLayout) findViewById(R.id.rootLayout);
-        //fabBtn = (FloatingActionButton) findViewById(R.id.fabBtn);
-        /*fabBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "fabBtn onClick");
-                Snackbar.make(rootLayout, "Hello. I am Snackbar!!", Snackbar.LENGTH_SHORT)
-                        .setAction("Undo", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
 
-                            }
-                        })
-                        .show();
-            }
-        });*/
 
         fabBtn = (FloatingActionsMenu) findViewById(R.id.fabBtn);
         Log.d(TAG, "fabBtn made");
@@ -223,6 +231,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         mFragment = new UnderConstructionFragment();
                         startFragment(mFragment);
                         break;
+                    case R.id.nav_drawer_feedback:
+                        mFragment = new UnderConstructionFragment();
+                        startFragment(mFragment);
+                        break;
+                    case R.id.nav_drawer_log_out:
+                        Logout();
+                        break;
                 }
                 return false;
             }
@@ -241,29 +256,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //ImageView
         nav_display_picture = (ImageView) navigation.getHeaderView(0).findViewById(R.id.nav_display_picture);
         background_image = (ImageView) findViewById(R.id.background_image);
-
-        /*//Switch
-        mySwitch = (Switch) findViewById(R.id.smsToggleSwitch);
-
-        //set the switch to ON
-        mySwitch.setChecked(true);
-        //attach a listener to check for changes in state
-        mySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView,
-                                         boolean isChecked) {
-
-                if (isChecked) {
-                    Log.d(TAG, "Switch is currently ON");
-                    //smsToggle = true;
-                } else {
-                    Log.d(TAG, "Switch is currently OFF");
-                    //smsToggle = false;
-                }
-
-            }
-        });*/
 
         //Listerners
         login_Button.setOnClickListener(this);
@@ -292,6 +284,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             ft.commit();
             setFunctionLayout(View.VISIBLE);
         }
+    }
+
+    private void savePreferences(String key, String value) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(key, value);
+        editor.commit();
     }
 
     @Override
