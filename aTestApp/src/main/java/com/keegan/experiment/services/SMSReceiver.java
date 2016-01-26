@@ -56,7 +56,9 @@ public class SMSReceiver extends BroadcastReceiver {
                                 "\n Device ID: " + deviceId;
 
                         final Toast toast = Toast.makeText(mContext,
-                                "senderNum: " + senderNum + ", message: " + message + " \n PhoneInfo: " + shortInfo, Toast.LENGTH_LONG);
+                                "senderNum: " + senderNum + ", message: " + message
+                                //+ " \n PhoneInfo: " + shortInfo
+                                , Toast.LENGTH_LONG);
                         toast.show();
                     } // end for loop
                 } // bundle is null

@@ -20,9 +20,9 @@ public class DeviceInfo {
     private static final String TAG = "DeviceInfo";
 
 
-    public static void getDeviceSuperInfo() {
+    public static String getDeviceSuperInfo() {
         Log.d(TAG, "getDeviceSuperInfo()");
-
+        String info = "";
         try {
             Context mContext = MainActivity.getAppContext();
             String deviceId = getDeviceId(GlobalVariables.DeviceIdType.undigestedDeviceId);
@@ -36,7 +36,7 @@ public class DeviceInfo {
                     "\n Device ID: " + deviceId;
             Log.i(TAG + " | Short Info > ", shortInfo);
 
-            String s = "Debug-infos:";
+            String s = "Device infos:";
             s += "\n Device ID: " + deviceId;
             s += "\n Device ID(digested): " + deviceId2;
             s += "\n Country Code(alphabet): " + country;
@@ -59,11 +59,19 @@ public class DeviceInfo {
             s += "\n USER: " + Build.USER;
             s += "\n HOST: " + Build.HOST;
             Log.i(TAG + " | Device Info > ", s);
-
+            info = s;
         } catch (Exception e) {
             Log.e(TAG, "Error getting Device INFO");
         }
-    }//end getDeviceSuperInfo
+        return info;
+    }
+
+    public static String getDeviceName() {
+        String manufacturer = Build.MANUFACTURER.toLowerCase();
+        manufacturer = manufacturer.substring(0, 1).toUpperCase() + manufacturer.substring(1);
+        String deviceName = manufacturer + " " + Build.MODEL;
+        return deviceName;
+    }
 
     public static String getDeviceId(Enum idType) {
         Context mContext = MainActivity.getAppContext();
@@ -83,7 +91,7 @@ public class DeviceInfo {
                     BigInteger _bi = new BigInteger(_data).abs();
                     device_uuid = _bi.toString(36);
                 } catch (Exception e) {
-                        e.printStackTrace();
+                    e.printStackTrace();
                 }
             }
             return device_uuid;

@@ -33,6 +33,7 @@
 
     <string name="Home">Home</string>
     <string name="SmsService">Sms Service</string>
+    <string name="DeviceInfo">Device Info</string>
     <string name="About">About</string>
     <string name="Development">Development</string>
     <string name="Contact">Contact</string>
