@@ -2,6 +2,7 @@ package com.keegan.experiment.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,9 +28,8 @@ public class DeviceInfoFragment extends Fragment implements View.OnClickListener
         phoneNameTV = (TextView) rootView.findViewById(R.id.Fragment_DeviceInfo_TextView_PhoneName);
         phoneInfoTV = (TextView) rootView.findViewById(R.id.Fragment_DeviceInfo_TextView_PhoneInfo);
 
-        String xx = DeviceInfo.getDeviceSuperInfo();
         phoneNameTV.setText(DeviceInfo.getDeviceName());
-        phoneInfoTV.setText(DeviceInfo.getDeviceSuperInfo());
+        phoneInfoTV.setText(Html.fromHtml(DeviceInfo.getHTMLFormatDeviceInfo()));
         return rootView;
     }
 
