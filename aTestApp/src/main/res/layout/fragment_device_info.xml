@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/APP_FRAGMENT_BACKGROUND_COLOR"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/fragment_element_left_right_margins"
+            android:layout_marginRight="@dimen/fragment_element_left_right_margins"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/Fragment_DeviceInfo_TextView_PhoneName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/margin_between_elements"
+                android:background="@color/white"
+                android:gravity="center"
+                android:maxLines="10"
+                android:textColor="@color/APP_WHITE_BACKGROUND_TEXT_COLOR"
+                android:textSize="@dimen/fragment_title_text_size" />
+
+            <TextView
+                android:id="@+id/Fragment_DeviceInfo_TextView_PhoneInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/margin_between_elements"
+                android:gravity="center"
+                android:textColor="@color/APP_MAIN_TEXT_COLOR"
+                android:textSize="@dimen/fragment_standard_text_size" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

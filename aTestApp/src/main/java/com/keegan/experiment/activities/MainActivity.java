@@ -46,11 +46,14 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.keegan.experiment.GlobalVariables;
 import com.keegan.experiment.INTENT;
 import com.keegan.experiment.R;
+import com.keegan.experiment.fragments.DeviceInfoFragment;
 import com.keegan.experiment.fragments.SmsReceiverFragment;
 import com.keegan.experiment.fragments.UnderConstructionFragment;
 import com.keegan.experiment.utilities.DisplayPictureUtil;
 import com.keegan.experiment.utilities.GalleryUtil;
 import com.keegan.experiment.services.SMSReceiver;
+
+import roboguice.inject.ContentView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -217,6 +220,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         break;
                     case R.id.nav_drawer_sms_service:
                         mFragment = new SmsReceiverFragment();
+                        startFragment(mFragment);
+                        break;
+                    case R.id.nav_drawer_device_info:
+                        mFragment = new DeviceInfoFragment();
                         startFragment(mFragment);
                         break;
                     case R.id.nav_drawer_development:

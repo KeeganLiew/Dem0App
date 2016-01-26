@@ -35,6 +35,9 @@
     <dimen name="margin_before_result">@dimen/PADDING_MARGIN_WIDTH_HEIGHT_60</dimen>
     <dimen name="login_naigation_drawer_width">100dp</dimen>
     <dimen name="bottom_padding_between_login_nav_drawer_items">15dp</dimen>
+    <dimen name="fragment_element_left_right_margins">30dp</dimen>
+    <dimen name="fragment_title_text_size">35sp</dimen>
+    <dimen name="fragment_standard_text_size">16sp</dimen>
 
 
 </resources>

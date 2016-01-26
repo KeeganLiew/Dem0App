@@ -30,6 +30,7 @@
     <color name="OFF_WHITE">#CCFFFFFF</color>
 
     <color name="APP_MAIN_TEXT_COLOR">@color/white</color>
+    <color name="APP_WHITE_BACKGROUND_TEXT_COLOR">@color/APP_MAIN_BACKGROUND_COLOR</color>
 
 
 </resources>
