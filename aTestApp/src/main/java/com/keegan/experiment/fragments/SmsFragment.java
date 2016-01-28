@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -26,8 +28,11 @@ import android.widget.TextView;
 
 import com.keegan.experiment.INTENT;
 import com.keegan.experiment.R;
-import com.keegan.experiment.services.SMSReceiver;
-import com.keegan.experiment.utilities.BankTypeOnItemSelectedListener;
+import com.keegan.experiment.activities.MainActivity;
+import com.keegan.experiment.services.SmsReceiver;
+import com.keegan.experiment.listener.BankTypeOnItemSelectedListener;
+import com.keegan.experiment.utilities.ContactUtil;
+import com.keegan.experiment.utilities.SmsSender;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,19 +40,21 @@ import java.util.List;
 /**
  * Created by keegan on 22/01/16.
  */
-public class SmsReceiverFragment extends Fragment implements View.OnClickListener {
+public class SmsFragment extends Fragment implements View.OnClickListener {
 
-    private final String TAG = SmsReceiverFragment.class.getSimpleName();
+    private final String TAG = SmsFragment.class.getSimpleName();
     TextView selectBankTypeTV;
     TextView resultTV;
-    EditText amountET;
-    EditText bankAccountET;
+    EditText phoneNumberET;
     Button payButton;
     Button cancelButton;
     ProgressBar progressBar;
     BroadcastReceiver broadcastReceiver;
     Spinner bankTypeSpinner;
     Switch mySwitch;
+    TextInputLayout messageTIL;
+    EditText messageET;
+    ImageView contactsIV;
 
     Context mContext;
 
@@ -57,14 +64,17 @@ public class SmsReceiverFragment extends Fragment implements View.OnClickListene
 
         mContext = getActivity();
 
-        amountET = (EditText) rootView.findViewById(R.id.Fragment_Banks_EditText_Amount);
-        bankAccountET = (EditText) rootView.findViewById(R.id.Fragment_Banks_EditText_BankAccount);
         selectBankTypeTV = (TextView) rootView.findViewById(R.id.Fragment_Banks_Type_TextView_AccountId);
         resultTV = (TextView) rootView.findViewById(R.id.Fragment_Banks_TextView_Result);
         payButton = (Button) rootView.findViewById(R.id.Fragment_Banks_Button_Pay);
         cancelButton = (Button) rootView.findViewById(R.id.Fragment_Banks_Button_Cancel);
         progressBar = (ProgressBar) rootView.findViewById(R.id.Fragment_Banks_Progressbar);
         bankTypeSpinner = (Spinner) rootView.findViewById(R.id.Fragment_Bank_Type_Spinner);
+        phoneNumberET = (EditText) rootView.findViewById(R.id.Fragment_Sms_EditText_PhoneNumber);
+        messageTIL = (TextInputLayout) rootView.findViewById(R.id.Fragment_Sms_TextInputLayout_Message);
+        messageET = (EditText) rootView.findViewById(R.id.Fragment_Sms_EditText_Message);
+        contactsIV = (ImageView) rootView.findViewById(R.id.Fragment_Sms_ImageView_Contacts);
+
 
         List<String> spinnerList = new ArrayList<String>();
         spinnerList = new ArrayList<String>();
@@ -84,6 +94,7 @@ public class SmsReceiverFragment extends Fragment implements View.OnClickListene
 
         payButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
+        contactsIV.setOnClickListener(this);
 
         //Switch
         mySwitch = (Switch) rootView.findViewById(R.id.smsToggleSwitch);
@@ -94,7 +105,7 @@ public class SmsReceiverFragment extends Fragment implements View.OnClickListene
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                 //sms stuff
-                ComponentName smsReceiverComponent = new ComponentName(mContext, SMSReceiver.class);
+                ComponentName smsReceiverComponent = new ComponentName(mContext, SmsReceiver.class);
                 if (isChecked) {
                     //Log.d(TAG, "Switch is currently ON"); //Enable
                     mContext.getPackageManager().setComponentEnabledSetting(smsReceiverComponent, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
@@ -109,8 +120,10 @@ public class SmsReceiverFragment extends Fragment implements View.OnClickListene
         });
         mySwitch.setChecked(true); //set the switch to ON
 
+
         return rootView;
     }
+
 
     public void componentChecker(ComponentName componentToCheck) {
         int status = mContext.getPackageManager().getComponentEnabledSetting(componentToCheck);
@@ -128,14 +141,17 @@ public class SmsReceiverFragment extends Fragment implements View.OnClickListene
             @Override
             public void onReceive(Context context, Intent intent) {
                 String action = intent.getAction();
-                if (action.equalsIgnoreCase(INTENT.BANK.toString())) {
-                } else if (intent.getAction().equalsIgnoreCase("EXCHANGE_QUOTATION")) {
-
+                Log.d(TAG, "Received intent: " + action);
+                if (action.equalsIgnoreCase(INTENT.PICKED_CONTACT_INFO.toString())) {
+                    String name = intent.getStringExtra(INTENT.PICKED_CONTACT_INFO_EXTRA_NAME.toString());
+                    String phoneNumber = intent.getStringExtra(INTENT.PICKED_CONTACT_INFO_EXTRA_PHONE_NUMBER.toString());
+                    Log.d(TAG, "Received name & phoneNumber: " + name + " & " + phoneNumber);
+                    phoneNumberET.setText(phoneNumber);
+                    messageTIL.setHint(getResources().getString(R.string.Message_to) + name);
                 }
             }
         };
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastReceiver, new IntentFilter(INTENT.BANK.toString()));
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastReceiver, new IntentFilter(INTENT.EXCHANGE_QUOTATION.toString()));
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastReceiver, new IntentFilter(INTENT.PICKED_CONTACT_INFO.toString()));
     }
 
 
@@ -172,26 +188,30 @@ public class SmsReceiverFragment extends Fragment implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.Fragment_Banks_Button_Pay:
+                SmsSender.sendSms(phoneNumberET.getText().toString(), messageET.getText().toString());
                 break;
             case R.id.Fragment_Banks_Button_Cancel:
                 Intent intent = new Intent(INTENT.FRAGMENT_ITEM_CANCELLED.toString());
                 LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
                 Log.d(TAG, "SENDING INTENT: " + intent.getAction());
                 break;
+            case R.id.Fragment_Sms_ImageView_Contacts:
+                Intent contactPickerIntent = new Intent(INTENT.PICK_CONTACT.toString());
+                LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(contactPickerIntent);
+                Log.d(TAG, "SENDING INTENT: " + contactPickerIntent.getAction());
+                break;
         }
     }
 
     private void showProgressBar() {
-        amountET.setEnabled(false);
-        bankAccountET.setEnabled(false);
+        //amountET.setEnabled(false);
         payButton.setEnabled(false);
         progressBar.setVisibility(View.VISIBLE);
         resultTV.setVisibility(View.GONE);
     }
 
     private void hideProgressBar(String response) {
-        amountET.setEnabled(true);
-        bankAccountET.setEnabled(true);
+        //amountET.setEnabled(true);
         payButton.setEnabled(true);
         progressBar.setVisibility(View.GONE);
         resultTV.setText(response);

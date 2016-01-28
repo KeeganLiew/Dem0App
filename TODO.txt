@@ -1,27 +1,31 @@
 ToCreate:
-SMS fragment
-Change username on long press
-About page
 This page
-Snackbar to undo display picture
+About page
 Actionbar titles
+Change username on long press
+Snackbar to undo display picture
+TestCases
+GitHub
+HTTP requests
 
 ToImprove:
 Widget Sizes
 Widget Display Picture
 Widget Open app on tap, except refresh button
 Clean up code - remove relative from editText
+Put received SMS in a list (instead of toast)
 
 ToFix:
 Widget only updates latest one
 Keyboard to show after logout
+Hide float button in fragment
 
 Done [in order]:
 Toolbar (new Navigation Drawer)
 CollapsingToolbarLayout
 FloatingAction Menu + Button
 CoordinatedLayout
-Upload and crop from gallery
+Upload and crop from Gallery
 Widget
 SMS service
 Double press back to exit
@@ -29,3 +33,5 @@ Log out
 Login Page
 Login Navigation Drawer
 DeviceInfo Page
+Get Name and Ph.Number from Contacts
+SMS fragment

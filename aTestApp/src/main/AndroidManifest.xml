@@ -2,8 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.keegan.experiment">
 
+    <!--For Saving Display Pictures-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
         android:allowBackup="true"
@@ -12,7 +15,7 @@
         android:theme="@style/AppTheme.WithoutActionBar">
 
         <activity
-            android:name="com.keegan.experiment.activities.MainActivity"
+            android:name=".activities.MainActivity"
             android:theme="@style/AppTheme">
             <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,10 +23,10 @@
             </intent-filter>-->
         </activity>
 
-        <activity android:name="com.keegan.experiment.utilities.GalleryUtil"></activity>
+        <activity android:name=".utilities.GalleryUtil"></activity>
 
         <activity
-            android:name="com.keegan.experiment.activities.LoginActivity"
+            android:name=".activities.LoginActivity"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,7 +35,7 @@
         </activity>
 
         <receiver
-            android:name="com.keegan.experiment.utilities.SimpleWidgetProvider"
+            android:name=".utilities.SimpleWidgetProvider"
             android:label="aTestWeidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -42,7 +45,7 @@
                 android:resource="@xml/simple_widget_info" />
         </receiver>
 
-        <receiver android:name=".services.SMSReceiver">
+        <receiver android:name=".services.SmsReceiver">
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>

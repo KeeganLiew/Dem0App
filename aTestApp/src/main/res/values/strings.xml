@@ -16,7 +16,6 @@
     <string name="SMSSwitch">Toggle SMS receiver</string>
 
     <string name="NAME">Username</string>
-    <string name="AMOUNT">Username</string>
     <string name="SELECT_BANK_ACCOUNT_TYPE">Username</string>
     <string name="BANK_ACCOUNT">Username</string>
     <string name="REFERENCE">Username</string>
@@ -25,8 +24,15 @@
     <string name="SELECT_CURRENCY">Username</string>
     <string name="IBAN_FIELD">Username</string>
 
+    <string name="Phone_number_or_Contact"><i>Phone Number or Contact</i></string>
+    <string name="Message">Message</string>
+    <string name="Message_to">"Message to "</string>
+    <string name="Select_Message_Type">Select Message Type</string>
+
+
     <string name="button_cancel">Cancel</string>
-    <string name="button_submit">Positive</string>
+    <string name="button_submit">Sumbit</string>
+    <string name="button_send">Send</string>
 
     <string name="DOMESTIC"><i>Domestic</i></string>
     <string name="INTERNATIONAL"><i>International</i></string>
