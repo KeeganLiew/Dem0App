@@ -39,3 +39,4 @@ Login Navigation Drawer
 DeviceInfo Page
 Get Name and Ph.Number from Contacts
 SMS fragment
+ActionBar(Toolbar) only scrolls on HomePage

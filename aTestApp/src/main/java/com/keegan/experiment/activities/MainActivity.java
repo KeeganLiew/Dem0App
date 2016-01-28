@@ -14,7 +14,6 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
-import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -51,6 +50,7 @@ import com.keegan.experiment.fragments.UnderConstructionFragment;
 import com.keegan.experiment.utilities.ContactUtil;
 import com.keegan.experiment.utilities.DisplayPictureUtil;
 import com.keegan.experiment.utilities.GalleryUtil;
+import com.keegan.experiment.utilities.MyCoordinatorLayout;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -61,7 +61,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     FloatingActionsMenu fabBtn;
     //FloatingActionButton fabBtn;
-    CoordinatorLayout rootLayout;
+    //CoordinatorLayout rootLayout;
+    MyCoordinatorLayout rootLayout;
     Toolbar toolbar;
     TabLayout tabLayout;
     CollapsingToolbarLayout collapsingToolbarLayout;
@@ -159,8 +160,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //float button
-        rootLayout = (CoordinatorLayout) findViewById(R.id.rootLayout);
-
+        //rootLayout = (CoordinatorLayout) findViewById(R.id.rootLayout);
+        rootLayout = (MyCoordinatorLayout) findViewById(R.id.rootLayout);
+        rootLayout.setAllowForScroll(true);
 
         fabBtn = (FloatingActionsMenu) findViewById(R.id.fabBtn);
         Log.d(TAG, "fabBtn made");
@@ -500,20 +502,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getFragmentManager().popBackStack();
     }
 
-    public void collapseToolbar(){
+    public void collapseToolbar() {
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();
         behavior = (AppBarLayout.Behavior) params.getBehavior();
-        if(behavior!=null) {
+        if (behavior != null) {
             behavior.onNestedFling(rootLayout, appBarLayout, null, 0, 10000, true);
         }
+        rootLayout.setAllowForScroll(false);
+
     }
-    public void expandToolbar(){
+
+    public void expandToolbar() {
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();
         behavior = (AppBarLayout.Behavior) params.getBehavior();
-        if(behavior!=null) {
+        if (behavior != null) {
             behavior.setTopAndBottomOffset(0);
             behavior.onNestedPreScroll(rootLayout, appBarLayout, null, 0, 1, new int[2]);
         }
+        rootLayout.setAllowForScroll(true);
     }
 
 }
