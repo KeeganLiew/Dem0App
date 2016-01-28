@@ -12,7 +12,8 @@ ToImprove:
 Widget Sizes
 Widget Display Picture
 Widget Open app on tap, except refresh button
-Clean up code - remove relative from editText
+Clean up XML-Layouts, colors, strings etc
+Clean up Java
 Put received SMS in a list (instead of toast)
 
 ToFix:
@@ -20,7 +21,8 @@ Widget only updates latest one
 Keyboard to show after logout
 Hide float button in fragment
 
-Done [in order]:
+Done:
+Week 1
 Toolbar (new Navigation Drawer)
 CollapsingToolbarLayout
 FloatingAction Menu + Button
@@ -28,6 +30,8 @@ CoordinatedLayout
 Upload and crop from Gallery
 Widget
 SMS service
+
+Week 2
 Double press back to exit
 Log out
 Login Page
