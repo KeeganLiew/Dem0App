@@ -22,7 +22,7 @@ import java.security.MessageDigest;
 /**
  * Created by keegan on 24/12/15.
  */
-public class SMSReceiver extends BroadcastReceiver {
+public class SmsReceiver extends BroadcastReceiver {
 
     // Get the object of SmsManager
     //final SmsManager sms = SmsManager.getDefault();

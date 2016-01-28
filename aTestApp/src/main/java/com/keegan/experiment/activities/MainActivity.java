@@ -5,16 +5,16 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.provider.ContactsContract;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
@@ -27,6 +27,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -34,11 +35,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,19 +45,15 @@ import com.keegan.experiment.GlobalVariables;
 import com.keegan.experiment.INTENT;
 import com.keegan.experiment.R;
 import com.keegan.experiment.fragments.DeviceInfoFragment;
-import com.keegan.experiment.fragments.SmsReceiverFragment;
+import com.keegan.experiment.fragments.SmsFragment;
 import com.keegan.experiment.fragments.UnderConstructionFragment;
+import com.keegan.experiment.utilities.ContactUtil;
 import com.keegan.experiment.utilities.DisplayPictureUtil;
 import com.keegan.experiment.utilities.GalleryUtil;
-import com.keegan.experiment.services.SMSReceiver;
-
-import roboguice.inject.ContentView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private final String TAG = getClass().getSimpleName().toString();
-    private final int GALLERY_ACTIVITY_CODE = 200;
-    private final int RESULT_CROP = 400;
 
     DrawerLayout mDrawerLayout;
     ActionBarDrawerToggle drawerToggle;
@@ -85,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Activity mActivity;
     public static Context mContext;
     Toast exitToast;
+    BroadcastReceiver broadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,21 +94,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         exitToast = Toast.makeText(mActivity, "Press again to exit.", Toast.LENGTH_LONG);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-
         updateUsername(sharedPreferences.getString("Username", ""));
 
-        //sms stuff
-        ComponentName smsReceiverComponent = new ComponentName(mContext, SMSReceiver.class);
-        int status = mContext.getPackageManager().getComponentEnabledSetting(smsReceiverComponent);
-        if (status == PackageManager.COMPONENT_ENABLED_STATE_ENABLED) {
-            Log.d(TAG, "receiver is enabled");
-        } else if (status == PackageManager.COMPONENT_ENABLED_STATE_DISABLED) {
-            Log.d(TAG, "receiver is disabled");
-        }
-        //Disable
-        mContext.getPackageManager().setComponentEnabledSetting(smsReceiverComponent, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
-        //Enable
-        mContext.getPackageManager().setComponentEnabledSetting(smsReceiverComponent, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
     }
 
     //TODO TO USE
@@ -128,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
-        editor.commit();
+        editor.apply();
     }
 
     public static Context getAppContext() {
@@ -219,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         closeFragmentLayout();
                         break;
                     case R.id.nav_drawer_sms_service:
-                        mFragment = new SmsReceiverFragment();
+                        mFragment = new SmsFragment();
                         startFragment(mFragment);
                         break;
                     case R.id.nav_drawer_device_info:
@@ -318,18 +300,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 String action = intent.getAction();
                 Log.d(TAG, "received intent: " + intent.getAction());
-
                 if (INTENT.FRAGMENT_ITEM_CANCELLED.equalsName(action)) {
                     closeFragmentLayout();
+                } else if (INTENT.PICK_CONTACT.equalsName(action)) {
+                    doLaunchContactPicker();
                 }
             }
         };
 
         LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, new IntentFilter(INTENT.FRAGMENT_ITEM_CANCELLED.toString()));
-
+        LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, new IntentFilter(INTENT.PICK_CONTACT.toString()));
     }
-
-    BroadcastReceiver broadcastReceiver;
 
     @Override
     protected void onDestroy() {
@@ -404,40 +385,50 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void imageMethod() {
         Intent gallery_Intent = new Intent(getApplicationContext(), GalleryUtil.class);
-        startActivityForResult(gallery_Intent, GALLERY_ACTIVITY_CODE);
+        startActivityForResult(gallery_Intent, GlobalVariables.GALLERY_ACTIVITY_CODE);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == GALLERY_ACTIVITY_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                String picturePath = data.getStringExtra("picturePath");
-                //perform Crop on the Image Selected from Gallery
-                Intent cropIntent = DisplayPictureUtil.performCrop(picturePath);
+        switch (resultCode) {
+            case (RESULT_OK):
+                Toast.makeText(getBaseContext(), "SMS sent ", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "requestCode: " + requestCode);
+                switch (requestCode) {
+                    case GlobalVariables.CONTACT_PICKER_RESULT:
+                        String[] nameAndPhoneNumber = ContactUtil.searchForContactNumber(data, mContext);
+                        Intent intent = new Intent(INTENT.PICKED_CONTACT_INFO.toString());
+                        intent.putExtra(INTENT.PICKED_CONTACT_INFO_EXTRA_NAME.toString(), nameAndPhoneNumber[0]);
+                        intent.putExtra(INTENT.PICKED_CONTACT_INFO_EXTRA_PHONE_NUMBER.toString(), nameAndPhoneNumber[1]);
+                        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+                        Log.d(TAG, "SENDING INTENT: " + intent.getAction() + " with extra: " + intent.getStringExtra(INTENT.PICKED_CONTACT_INFO_EXTRA_PHONE_NUMBER.toString()));
+                        break;
+                    case GlobalVariables.GALLERY_ACTIVITY_CODE:
+                        String picturePath = data.getStringExtra("picturePath");
+                        //perform Crop on the Image Selected from Gallery
+                        Intent cropIntent = DisplayPictureUtil.performCrop(picturePath);
 
-                if (cropIntent != null) {
-                    startActivityForResult(cropIntent, RESULT_CROP);
-                } else {
-                    String errorMessage = "your device doesn't support the crop action!";
-                    Toast toast = Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT);
-                    toast.show();
+                        if (cropIntent != null) {
+                            startActivityForResult(cropIntent, GlobalVariables.RESULT_CROP);
+                        } else {
+                            String errorMessage = "your device doesn't support the crop action!";
+                            Toast toast = Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
+                        break;
+                    case GlobalVariables.RESULT_CROP:
+                        Bundle extras = data.getExtras();
+                        Bitmap selectedBitmap = extras.getParcelable("data");
+                        // Set The Bitmap Data To ImageView
+                        selectedBitmap = DisplayPictureUtil.performCircleCrop(selectedBitmap);
+                        ContextWrapper cw = new ContextWrapper(getApplicationContext());
+                        DisplayPictureUtil.saveToInternalSorage(cw, selectedBitmap);
+                        nav_display_picture.setImageBitmap(selectedBitmap);
+                        nav_display_picture.setScaleType(ImageView.ScaleType.FIT_XY);
+                        break;
                 }
-            }
-        }
-
-        if (requestCode == RESULT_CROP) {
-            if (resultCode == Activity.RESULT_OK) {
-                Bundle extras = data.getExtras();
-                Bitmap selectedBitmap = extras.getParcelable("data");
-                // Set The Bitmap Data To ImageView
-
-                selectedBitmap = DisplayPictureUtil.performCircleCrop(selectedBitmap);
-                ContextWrapper cw = new ContextWrapper(getApplicationContext());
-                DisplayPictureUtil.saveToInternalSorage(cw, selectedBitmap);
-                nav_display_picture.setImageBitmap(selectedBitmap);
-                nav_display_picture.setScaleType(ImageView.ScaleType.FIT_XY);
-            }
+                break;
         }
     }
 
@@ -469,11 +460,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             closeFragmentLayout();
         } else {
             if (exitToast.getView().isShown()) {
+                exitToast.cancel();
                 this.finish();
             } else {
                 exitToast.show();
             }
         }
+    }
+
+    public void doLaunchContactPicker() {
+        Intent contactPickerIntent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+        Log.d(TAG, "SENDING INTENT: " + contactPickerIntent.getAction());
+        startActivityForResult(contactPickerIntent, GlobalVariables.CONTACT_PICKER_RESULT);
     }
 
     public void closeFragmentLayout() {
