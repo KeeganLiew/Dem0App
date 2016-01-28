@@ -32,6 +32,8 @@
     <color name="APP_MAIN_TEXT_COLOR">@color/white</color>
     <color name="APP_WHITE_BACKGROUND_TEXT_COLOR">@color/APP_MAIN_BACKGROUND_COLOR</color>
     <color name="EDIT_TEXT_HINT_TEXT_COLOUR">@android:color/darker_gray</color>
+    <color name="THIRTY_BLACK">#4C000000</color>
+    <color name="TRANSPARENT_PROGRESS">#22000000</color>
 
 
 </resources>

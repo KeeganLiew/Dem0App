@@ -12,9 +12,10 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
@@ -27,7 +28,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -44,6 +44,7 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.keegan.experiment.GlobalVariables;
 import com.keegan.experiment.INTENT;
 import com.keegan.experiment.R;
+import com.keegan.experiment.fragments.Development;
 import com.keegan.experiment.fragments.DeviceInfoFragment;
 import com.keegan.experiment.fragments.SmsFragment;
 import com.keegan.experiment.fragments.UnderConstructionFragment;
@@ -65,6 +66,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TabLayout tabLayout;
     CollapsingToolbarLayout collapsingToolbarLayout;
     NavigationView navigation;
+    AppBarLayout appBarLayout;
+    AppBarLayout.Behavior behavior;
 
     EditText username_EditText;
     EditText password_EditText;
@@ -124,6 +127,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //toolbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        appBarLayout = (AppBarLayout) findViewById(R.id.appBarLayout);
 
         //drawers
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -209,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         startFragment(mFragment);
                         break;
                     case R.id.nav_drawer_development:
-                        mFragment = new UnderConstructionFragment();
+                        mFragment = new Development();
                         startFragment(mFragment);
                         break;
                     case R.id.nav_drawer_contact:
@@ -483,14 +488,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (status == View.VISIBLE) {
             ACTIVITY_FRAGMENTS_LAYOUT.setVisibility(View.VISIBLE);
             main_activity_home_layout.setVisibility(View.GONE);
+            collapseToolbar();
         } else {
             ACTIVITY_FRAGMENTS_LAYOUT.setVisibility(View.GONE);
             main_activity_home_layout.setVisibility(View.VISIBLE);
+            expandToolbar();
         }
     }
 
     public void closeCurrentFragment() {
         getFragmentManager().popBackStack();
+    }
+
+    public void collapseToolbar(){
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();
+        behavior = (AppBarLayout.Behavior) params.getBehavior();
+        if(behavior!=null) {
+            behavior.onNestedFling(rootLayout, appBarLayout, null, 0, 10000, true);
+        }
+    }
+    public void expandToolbar(){
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();
+        behavior = (AppBarLayout.Behavior) params.getBehavior();
+        if(behavior!=null) {
+            behavior.setTopAndBottomOffset(0);
+            behavior.onNestedPreScroll(rootLayout, appBarLayout, null, 0, 1, new int[2]);
+        }
     }
 
 }
