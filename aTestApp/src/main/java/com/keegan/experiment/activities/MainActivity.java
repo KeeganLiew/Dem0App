@@ -50,7 +50,7 @@ import com.keegan.experiment.fragments.UnderConstructionFragment;
 import com.keegan.experiment.utilities.ContactUtil;
 import com.keegan.experiment.utilities.DisplayPictureUtil;
 import com.keegan.experiment.utilities.GalleryUtil;
-import com.keegan.experiment.utilities.MyCoordinatorLayout;
+import com.keegan.experiment.customs.CustomCoordinatorLayout;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     FloatingActionsMenu fabBtn;
     //FloatingActionButton fabBtn;
     //CoordinatorLayout rootLayout;
-    MyCoordinatorLayout rootLayout;
+    public static CustomCoordinatorLayout rootLayout;
     Toolbar toolbar;
     TabLayout tabLayout;
     CollapsingToolbarLayout collapsingToolbarLayout;
@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //float button
         //rootLayout = (CoordinatorLayout) findViewById(R.id.rootLayout);
-        rootLayout = (MyCoordinatorLayout) findViewById(R.id.rootLayout);
+        rootLayout = (CustomCoordinatorLayout) findViewById(R.id.rootLayout);
         rootLayout.setAllowForScroll(true);
 
         fabBtn = (FloatingActionsMenu) findViewById(R.id.fabBtn);

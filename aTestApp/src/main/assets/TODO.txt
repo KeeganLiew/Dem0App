@@ -1,4 +1,4 @@
-ToCreate:
+[ToCreate]
 This page
 About page
 Actionbar titles
@@ -7,22 +7,22 @@ Snackbar to undo display picture
 TestCases
 GitHub
 HTTP requests
-
-ToImprove:
+API Limitation List (Scrolling, FloatingButton < 21)
+[ToImprove]
 Widget Sizes
 Widget Display Picture
 Widget Open app on tap, except refresh button
 Clean up XML-Layouts, colors, strings etc
 Clean up Java
 Put received SMS in a list (instead of toast)
-
-ToFix:
+From Log to Page with Feature
+Merge Weeks to Months
+[ToFix]
 Widget only updates latest one
 Keyboard to show after logout
 Hide float button in fragment
-
-Done:
-Week 1
+[Done]
+<Week 1>
 Toolbar (new Navigation Drawer)
 CollapsingToolbarLayout
 FloatingAction Menu + Button
@@ -30,8 +30,7 @@ CoordinatedLayout
 Upload and crop from Gallery
 Widget
 SMS service
-
-Week 2
+<Week 2>
 Double press back to exit
 Log out
 Login Page
@@ -40,3 +39,4 @@ DeviceInfo Page
 Get Name and Ph.Number from Contacts
 SMS fragment
 ActionBar(Toolbar) only scrolls on HomePage
+TODO.TXT parser
