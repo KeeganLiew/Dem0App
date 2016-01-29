@@ -1,4 +1,4 @@
-package com.keegan.experiment.utilities;
+package com.keegan.experiment.customs;
 
 import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;
@@ -8,27 +8,27 @@ import android.view.View;
 /**
  * Created by keegan on 29/01/16.
  */
-public class MyCoordinatorLayout extends CoordinatorLayout {
+public class CustomCoordinatorLayout extends CoordinatorLayout {
 
-    private boolean allowForScrool = false;
+    private boolean allowForScroll = false;
 
-    public MyCoordinatorLayout(Context context) {
+    public CustomCoordinatorLayout(Context context) {
         super(context);
     }
 
-    public MyCoordinatorLayout(Context context, AttributeSet attrs) {
+    public CustomCoordinatorLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
     @Override public boolean onStartNestedScroll(View child, View target, int nestedScrollAxes) {
-        return allowForScrool && super.onStartNestedScroll(child, target, nestedScrollAxes);
+        return allowForScroll && super.onStartNestedScroll(child, target, nestedScrollAxes);
     }
 
     public boolean isAllowForScroll() {
-        return allowForScrool;
+        return allowForScroll;
     }
 
     public void setAllowForScroll(boolean allowForScrool) {
-        this.allowForScrool = allowForScrool;
+        this.allowForScroll = allowForScrool;
     }
 }
