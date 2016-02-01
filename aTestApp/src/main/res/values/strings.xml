@@ -15,7 +15,7 @@
     <string name="Username">Username</string>
     <string name="SMSSwitch">Toggle SMS receiver</string>
 
-    <string name="NAME">Username</string>
+    <string name="NAME">Username</string>info_strings.xml
     <string name="SELECT_BANK_ACCOUNT_TYPE">Username</string>
     <string name="BANK_ACCOUNT">Username</string>
     <string name="REFERENCE">Username</string>
@@ -57,4 +57,7 @@
     <string name="number_eight">8</string>
     <string name="number_nine">9</string>
     <string name="number_zero">0</string>
+    <string name="about_description_app">"This is a small sample which can be set in the about my app description file."</string>
+    <string name="about_description_extra_info">"You can style this with html markup :D"</string>
+
 </resources>

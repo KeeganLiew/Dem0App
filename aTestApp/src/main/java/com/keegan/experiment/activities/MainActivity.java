@@ -51,6 +51,8 @@ import com.keegan.experiment.utilities.ContactUtil;
 import com.keegan.experiment.utilities.DisplayPictureUtil;
 import com.keegan.experiment.utilities.GalleryUtil;
 import com.keegan.experiment.customs.CustomCoordinatorLayout;
+import com.mikepenz.aboutlibraries.LibsBuilder;
+import com.mikepenz.aboutlibraries.ui.LibsFragment;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -224,8 +226,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         startFragment(mFragment);
                         break;
                     case R.id.nav_drawer_about:
-                        mFragment = new UnderConstructionFragment();
-                        startFragment(mFragment);
+                        String description = getString(R.string.about_description_app);
+                        String extra= getString(R.string.about_description_extra_info);
+                        LibsFragment aboutPageFragment = new LibsBuilder()
+                                //get the fragment
+                                .withAboutIconShown(true)
+                                .withAboutVersionShown(true)
+                                //.withAboutDescription("This is a small sample which can be set in the about my app description file.<br /><b>You can style this with html markup :D</b>")
+                                .withAboutDescription(description)
+                                .fragment();
+                        startFragment(aboutPageFragment);
                         break;
                     case R.id.nav_drawer_feedback:
                         mFragment = new UnderConstructionFragment();

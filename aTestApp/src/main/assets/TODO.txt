@@ -1,6 +1,4 @@
 [ToCreate]
-This page
-About page
 Actionbar titles
 Change username on long press
 Snackbar to undo display picture
@@ -17,6 +15,7 @@ Clean up Java
 Put received SMS in a list (instead of toast)
 From Log to Page with Feature
 Merge Weeks to Months
+About Page Info
 [ToFix]
 Widget only updates latest one
 Keyboard to show after logout
@@ -40,3 +39,6 @@ Get Name and Ph.Number from Contacts
 SMS fragment
 ActionBar(Toolbar) only scrolls on HomePage
 TODO.TXT parser
+This page
+<Week 3>
+About page
