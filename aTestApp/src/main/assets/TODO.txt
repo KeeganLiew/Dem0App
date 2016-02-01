@@ -1,5 +1,4 @@
 [ToCreate]
-Actionbar titles
 Change username on long press
 Snackbar to undo display picture
 TestCases
@@ -42,3 +41,4 @@ TODO.TXT parser
 This page
 <Week 3>
 About page
+Actionbar(Toolbar) titles
