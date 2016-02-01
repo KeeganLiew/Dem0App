@@ -100,7 +100,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         exitToast = Toast.makeText(mActivity, "Press again to exit.", Toast.LENGTH_LONG);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        updateUsername(sharedPreferences.getString("Username", ""));
+        username = sharedPreferences.getString("Username", "noName");
+        updateUsername(username);
 
     }
 
@@ -190,7 +191,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //Header toolbar
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsingToolbarLayout);
-        collapsingToolbarLayout.setTitle("Hello " + username);
+        setTitle("Hello " + username);
 
         //nav draw
         navigation = (NavigationView) findViewById(R.id.navigation);
@@ -208,22 +209,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 switch (id) {
                     case R.id.nav_drawer_home:
                         closeFragmentLayout();
+                        updateUsername(username);
                         break;
                     case R.id.nav_drawer_sms_service:
                         mFragment = new SmsFragment();
-                        startFragment(mFragment);
+                        startFragment(mFragment, getString(R.string.SmsService));
                         break;
                     case R.id.nav_drawer_device_info:
                         mFragment = new DeviceInfoFragment();
-                        startFragment(mFragment);
+                        startFragment(mFragment, getString(R.string.DeviceInfo));
                         break;
                     case R.id.nav_drawer_development:
                         mFragment = new Development();
-                        startFragment(mFragment);
+                        startFragment(mFragment, getString(R.string.Development));
                         break;
                     case R.id.nav_drawer_contact:
                         mFragment = new UnderConstructionFragment();
-                        startFragment(mFragment);
+                        startFragment(mFragment, getString(R.string.Contact));
                         break;
                     case R.id.nav_drawer_about:
                         String description = getString(R.string.about_description_app);
@@ -235,11 +237,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 //.withAboutDescription("This is a small sample which can be set in the about my app description file.<br /><b>You can style this with html markup :D</b>")
                                 .withAboutDescription(description)
                                 .fragment();
-                        startFragment(aboutPageFragment);
+                        startFragment(aboutPageFragment, getString(R.string.About));
                         break;
                     case R.id.nav_drawer_feedback:
                         mFragment = new UnderConstructionFragment();
-                        startFragment(mFragment);
+                        startFragment(mFragment, getString(R.string.Feedback));
                         break;
                     case R.id.nav_drawer_log_out:
                         Logout();
@@ -280,7 +282,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mDrawerLayout.closeDrawer(Gravity.LEFT);
     }
 
-    private void startFragment(Fragment mFragment) {
+    private void startFragment(Fragment mFragment, String title) {
         if (mFragment != null) {
             FragmentManager fm = getFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
@@ -289,6 +291,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             ft.addToBackStack(null);
             ft.commit();
             setFunctionLayout(View.VISIBLE);
+            updateTitle(title);
         }
     }
 
@@ -296,7 +299,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(key, value);
-        editor.commit();
+        editor.apply();
     }
 
     @Override
@@ -370,9 +373,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return super.onOptionsItemSelected(item);
     }
 
-    private void updateUsername(String title) {
-        collapsingToolbarLayout.setTitle("Hello " + title);
-        nav_username.setText(title);
+    private void updateUsername(String name) {
+        updateTitle("Hello " + name);
+        nav_username.setText(name);
+    }
+
+    private void updateTitle(String title){
+        collapsingToolbarLayout.setTitle(title);
     }
 
     @Override

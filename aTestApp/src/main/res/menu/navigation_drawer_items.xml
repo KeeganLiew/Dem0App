@@ -39,10 +39,10 @@
         <item
             android:id="@+id/nav_drawer_feedback"
             android:icon="@drawable/ic_backspace_white_48dp"
-            android:title="@string/feedback" />
+            android:title="@string/Feedback" />
         <item
             android:id="@+id/nav_drawer_log_out"
             android:icon="@drawable/ic_action_location_found_dark"
-            android:title="@string/log_out" />
+            android:title="@string/Log_out" />
     </group>
 </menu>

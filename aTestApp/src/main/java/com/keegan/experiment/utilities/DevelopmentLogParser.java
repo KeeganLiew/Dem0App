@@ -18,6 +18,10 @@ public class DevelopmentLogParser {
     public static void getMultiCurrencyList() {
         BufferedReader reader = null;
         try {
+            if(GlobalVariables.toDoList.size() > 0){
+                Log.d(TAG, "Already loaded");
+                return;
+            }
             reader = new BufferedReader(new InputStreamReader(MainActivity.mContext.getAssets().open("TODO.txt"), "UTF-8"));
 
             String mLine = reader.readLine();
