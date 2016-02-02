@@ -13,6 +13,7 @@ import com.keegan.experiment.activities.MainActivity;
 import java.util.Random;
 
 public class SimpleWidgetProvider extends AppWidgetProvider {
+    private static final String TAG = SimpleWidgetProvider.class.getSimpleName();
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -23,7 +24,7 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
             String number = String.format("%03d", (new Random().nextInt(900) + 100));
 
             //username
-            number = "Hello " + MainActivity.username;
+            number = "Hello " + MainActivity.getUsername();
 
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(),
                     R.layout.widget_display_refresh);

@@ -20,7 +20,8 @@ public class CustomCoordinatorLayout extends CoordinatorLayout {
         super(context, attrs);
     }
 
-    @Override public boolean onStartNestedScroll(View child, View target, int nestedScrollAxes) {
+    @Override
+    public boolean onStartNestedScroll(View child, View target, int nestedScrollAxes) {
         return allowForScroll && super.onStartNestedScroll(child, target, nestedScrollAxes);
     }
 

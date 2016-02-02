@@ -3,23 +3,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent"
     android:orientation="vertical">
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/APP_FRAGMENT_BACKGROUND_COLOR"
+        android:background="@color/app_fragment_background_color"
         android:orientation="vertical">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/Fragment_Payment_Bill_TextView_Result"
+                android:id="@+id/Fragment_UnderConstruction_TextView_Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -28,7 +26,6 @@
                 android:layout_marginTop="@dimen/margin_between_elements"
                 android:gravity="center"
                 android:maxLines="10"
-                android:textColor="@color/white"
                 android:text="Under Construction!"
                 android:textSize="40sp"
                 android:visibility="visible" />

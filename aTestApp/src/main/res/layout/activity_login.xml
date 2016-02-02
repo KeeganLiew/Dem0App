@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/Activity_Login_DrawerLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.LoginActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/app_main_background_color"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/element_left_right_margins"
+                android:layout_marginRight="@dimen/element_left_right_margins"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/Activity_Login_EditText_Name"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edit_text_height"
+                    android:layout_marginTop="@dimen/margin_between_elements"
+                    android:background="@drawable/background_send_money_linear"
+                    android:hint="@string/username"
+                    android:inputType="textPersonName"
+                    android:paddingLeft="@dimen/edit_text_padding_left_right"
+                    android:paddingRight="@dimen/edit_text_padding_left_right"
+                    android:textColorHint="@color/edit_text_hint_text_color"
+                    android:textSize="@dimen/edit_text_size" />
+
+                <EditText
+                    android:id="@+id/Activity_Login_EditText_Pin"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edit_text_height"
+                    android:layout_marginTop="@dimen/margin_between_elements"
+                    android:background="@drawable/background_send_money_linear"
+                    android:hint="@string/pin"
+                    android:inputType="numberPassword"
+                    android:longClickable="false"
+                    android:paddingLeft="@dimen/edit_text_padding_left_right"
+                    android:paddingRight="@dimen/edit_text_padding_left_right"
+                    android:textColorHint="@color/edit_text_hint_text_color"
+                    android:textSize="@dimen/edit_text_size" />
+
+                <include
+                    android:id="@+id/Activity_Login_ProgressBar"
+                    layout="@layout/main_progressbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </ScrollView>
+
+        <include
+            android:id="@+id/Activity_Login_NumericKeypad"
+            layout="@layout/numeric_keypad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:gravity="center_horizontal|bottom"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/Activity_Login_NavigationView_Navigation"
+        android:layout_width="@dimen/login_navigation_drawer_width"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/login_navigation_background_color"
+        app:itemIconTint="#333"
+        app:itemTextColor="#333">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/Activity_Login_TextView_EmptySpacer"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:clickable="false"
+                android:text="empty spacer up top"
+                android:visibility="invisible" />
+
+            <include
+                android:id="@+id/Activity_Login_NewUser"
+                layout="@layout/login_navigation_drawer_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/padding_between_login_nav_drawer_items" />
+
+            <include
+                android:id="@+id/Activity_Login_ForgotPin"
+                layout="@layout/login_navigation_drawer_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/padding_between_login_nav_drawer_items" />
+
+            <include
+                android:id="@+id/Activity_Login_Help"
+                layout="@layout/login_navigation_drawer_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/padding_between_login_nav_drawer_items" />
+
+            <include
+                android:id="@+id/Activity_Login_Contact"
+                layout="@layout/login_navigation_drawer_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp" />
+        </LinearLayout>
+    </android.support.design.widget.NavigationView>
+</android.support.v4.widget.DrawerLayout>

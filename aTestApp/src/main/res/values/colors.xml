@@ -1,39 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="pure_white">#ffffff</color>
+    <color name="pure_black">#000000</color>
+    <color name="clean_blue">#FF18B0E6</color>
+    <color name="black_semi_transparent">#B2000000</color>
+    <color name="grey">#FF666666</color>
+    <color name="twenty_percent_white">#ccffffff</color>
+    <color name="thirty_percent_black">#4C000000</color>
+    <color name="ninety_percent_black">#22000000</color>
+    <color name="pink">#e91e63</color>
+
+    <color name="fab_white_normal">#fafafa</color>
+    <color name="fab_white_pressed">#f1f1f1</color>
+    <color name="fab_pink_normal">@color/pink</color>
+    <color name="fab_pink_pressed">#ec407a</color>
+    <color name="fab_blue_semi_transparent_normal">#805677fc</color>
+    <color name="fab_blue_semi_transparent_pressed">#80738ffe</color>
+    <color name="fab_label_background">@color/black_semi_transparent</color>
+
+    <color name="app_fragment_background_color">@color/clean_blue</color>
+    <color name="app_main_background_color">@color/clean_blue</color>
+    <color name="app_main_theme_color">@color/clean_blue</color>
+    <color name="button_pressed_color">@color/grey</color>
+    <color name="progress_bar_tail_colour">@color/twenty_percent_white</color>
+    <color name="spinner_background_color">#888888</color>
+    <color name="login_navigation_background_color">@color/pure_black</color>
+    <color name="expandablelistview_group_title_text_color">@color/pure_black</color>
+    <color name="custom_numpad_color">@color/pure_black</color>
+    <color name="widget_background_color">#55000000</color>
+
+    <color name="app_main_text_color">@color/pure_white</color>
+    <color name="app_text_color_for_white_background">@color/app_main_background_color</color>
+    <color name="edit_text_hint_text_color">@android:color/darker_gray</color>
+    <color name="error_text_color">@color/pink</color>
+
+    <!--Unused-->
     <color name="nav_item_icon_tint_color">#333</color>
     <color name="nav_item_text_color">#333</color>
     <color name="floatButtonColor">#f4ff</color>
-
-    <color name="black_semi_transparent">#B2000000</color>
     <color name="background">#e5e5e5</color>
     <color name="half_black">#808080</color>
-    <color name="white">#fafafa</color>
-    <color name="white_pressed">#f1f1f1</color>
-    <color name="pink">#e91e63</color>
-    <color name="pink_pressed">#ec407a</color>
-    <color name="blue_semi_transparent">#805677fc</color>
-    <color name="blue_semi_transparent_pressed">#80738ffe</color>
+    <color name="transparent">#00000000</color>
 
-    <color name="APP_FRAGMENT_BACKGROUND_COLOR">@color/YOUTAP_FF_18B0E6</color>
-    <color name="APP_MAIN_BACKGROUND_COLOR">@color/YOUTAP_FF_18B0E6</color>
-    <color name="YOUTAP_FF_18B0E6">#FF18B0E6</color>
-
-    <color name="BLACK">#FF000000</color>
-    <color name="TEXT_RESULT_COLOR">@color/white</color>
-    <color name="APP_MAIN_COLOR">@color/YOUTAP_FF_18B0E6</color>
-    <color name="YOUTAP_FF_666666">#FF666666</color>
-    <color name="registration_register_button_text_color">#ffffff</color>
-    <color name="TAB_SEP_TOP">@color/YOUTAP_FF_18B0E6</color>
-    <color name="nav_menu_listview_background_color">#888888</color>
-
-    <color name="TRANSPARENT">#00000000</color>
-    <color name="OFF_WHITE">#CCFFFFFF</color>
-
-    <color name="APP_MAIN_TEXT_COLOR">@color/white</color>
-    <color name="APP_WHITE_BACKGROUND_TEXT_COLOR">@color/APP_MAIN_BACKGROUND_COLOR</color>
-    <color name="EDIT_TEXT_HINT_TEXT_COLOUR">@android:color/darker_gray</color>
-    <color name="THIRTY_BLACK">#4C000000</color>
-    <color name="TRANSPARENT_PROGRESS">#22000000</color>
-
-
+    <color name="text_result_color">@color/pure_white</color>
 </resources>

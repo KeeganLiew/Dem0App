@@ -1,15 +1,20 @@
 package com.keegan.experiment.fragments;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.CoordinatorLayout.LayoutParams;
 import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnGroupExpandListener;
+import android.widget.ExpandableListView.OnGroupCollapseListener;
+import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.Toast;
 
 import com.keegan.experiment.R;
@@ -25,68 +30,44 @@ import java.util.List;
 /**
  * Created by Keegan on 28/01/16.
  */
-public class Development extends Fragment implements View.OnClickListener {
+public class Development extends Fragment implements OnClickListener {
 
     private final String TAG = Development.class.getSimpleName();
-    ExpandableListView expandableListView;
-    ExpandableListAdapter expandableListAdapter;
-    List<String> expandableListTitle;
-    HashMap<String, List<String>> expandableListDetail;
+    private ExpandableListView expandableListView;
+    private ExpandableListAdapter expandableListAdapter;
+    private List<String> expandableListTitle;
+    private HashMap<String, List<String>> expandableListDetail;
+    private Snackbar preLollipopErrorSnackBar;
+    private Activity mActivity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_development, container, false);
+        mActivity = getActivity();
+        viewObjectsInitializations(rootView);
+        return rootView;
+    }
+
+    private void viewObjectsInitializations(View rootView) {
         expandableListView = (ExpandableListView) rootView.findViewById(R.id.expandableListView);
         expandableListDetail = ExpandableListDataPump.getData();
-        DevelopmentLogParser.getMultiCurrencyList();
+        DevelopmentLogParser.getDevelopmentLog();
         expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
-        expandableListAdapter = new CustomExpandableListAdapter(getActivity(), expandableListTitle, expandableListDetail);
+        expandableListAdapter = new CustomExpandableListAdapter(mActivity, expandableListTitle, expandableListDetail);
         expandableListView.setAdapter(expandableListAdapter);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             expandableListView.setNestedScrollingEnabled(true);
-        }else {
-            CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) getActivity().findViewById(R.id.appBarLayout).getLayoutParams();
+        } else {
+            LayoutParams params = (LayoutParams) mActivity.findViewById(R.id.Activity_Main_AppBarLayout).getLayoutParams();
             params.bottomMargin = 256;
-            getActivity().findViewById(R.id.appBarLayout).setLayoutParams(params);
-            Snackbar.make(MainActivity.rootLayout, "Scrolling only works for Lollipop or above", Snackbar.LENGTH_INDEFINITE).show();
+            mActivity.findViewById(R.id.Activity_Main_AppBarLayout).setLayoutParams(params);
+            preLollipopErrorSnackBar = MainActivity.createSnackBar(mActivity.getString(R.string.scroll_error), Snackbar.LENGTH_INDEFINITE);
         }
 
-        expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-            @Override
-            public void onGroupExpand(int groupPosition) {
-                Toast.makeText(getActivity(),                        expandableListTitle.get(groupPosition) + " List Expanded.",                        Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        expandableListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
-
-            @Override
-            public void onGroupCollapse(int groupPosition) {
-                Toast.makeText(getActivity(),
-                        expandableListTitle.get(groupPosition) + " List Collapsed.",
-                        Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v,
-                                        int groupPosition, int childPosition, long id) {
-                Toast.makeText(
-                        getActivity(),
-                        expandableListTitle.get(groupPosition)
-                                + " -> "
-                                + expandableListDetail.get(
-                                expandableListTitle.get(groupPosition)).get(
-                                childPosition), Toast.LENGTH_SHORT
-                ).show();
-                return false;
-            }
-        });
-
-        return rootView;
+        expandableListView.setOnGroupExpandListener(new expandableLvGroupExpandListener());
+        expandableListView.setOnGroupCollapseListener(new expandableLvGroupCollapseListener());
+        expandableListView.setOnChildClickListener(new expandableLvChildListener());
     }
 
     @Override
@@ -102,9 +83,50 @@ public class Development extends Fragment implements View.OnClickListener {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (preLollipopErrorSnackBar != null) {
+            preLollipopErrorSnackBar.dismiss();
+        }
     }
 
     @Override
     public void onClick(View v) {
+        switch (v.getId()) {
+
+        }
     }
+
+    //Listeners
+    private class expandableLvGroupExpandListener implements OnGroupExpandListener {
+        @Override
+        public void onGroupExpand(int groupPosition) {
+            Toast.makeText(mActivity, expandableListTitle.get(groupPosition) + " List Expanded.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private class expandableLvGroupCollapseListener implements OnGroupCollapseListener {
+        @Override
+        public void onGroupCollapse(int groupPosition) {
+            Toast.makeText(mActivity,
+                    expandableListTitle.get(groupPosition) + " List Collapsed.",
+                    Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
+    private class expandableLvChildListener implements OnChildClickListener {
+        @Override
+        public boolean onChildClick(ExpandableListView parent, View v,
+                                    int groupPosition, int childPosition, long id) {
+            Toast.makeText(
+                    mActivity,
+                    expandableListTitle.get(groupPosition)
+                            + " -> "
+                            + expandableListDetail.get(
+                            expandableListTitle.get(groupPosition)).get(
+                            childPosition), Toast.LENGTH_SHORT
+            ).show();
+            return false;
+        }
+    }
+
 }

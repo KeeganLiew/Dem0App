@@ -1,52 +1,42 @@
 <resources>
-    <string name="app_name">aTestApp</string>
-
-    <string name="hello_world">Hello world!</string>
+    <!--App-->
+    <string name="app_name">Features App</string>
+    <!--Logins-->
+    <string name="username">Username</string>
+    <string name="pin">Pin</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <!--Login Navigation Drawer-->
+    <string name="new_user">New User</string>
+    <string name="forgot_pin">Forgot Pin</string>
+    <string name="help">Help</string>
+    <string name="scroll_error">Scrolling only works for Lollipop or above</string>
+    <string name="navigation_display_picture">Display Picture</string>
+    <!--Home Navigation Drawer-->
+    <string name="home">Home</string>
+    <string name="sms_service">Sms Service</string>
+    <string name="device_info">Device Info</string>
+    <string name="development">Development</string>
+    <string name="contact">Contact</string>
+    <string name="about">About</string>
+    <string name="feedback">Feedback</string>
+    <string name="log_out">Log out</string>
+    <!--Settings-->
     <string name="action_settings">Settings</string>
-    <string name="txt_toolbar">Toolbar</string>
-    <string name="txt_floating_action_button">FloatActionButton</string>
-    <string name="txt_navigation_view">NavigationView</string>
-    <string name="txt_other">Other</string>
-    <string name="txt_yo_yo">Yo Yo</string>
-    <string name="title_activity_code_lab">MyTestApp</string>
-    <string name="Password">Password</string>
-    <string name="Pin">Pin</string>
-    <string name="Login">Login</string>
-    <string name="Username">Username</string>
-    <string name="SMSSwitch">Toggle SMS receiver</string>
-
-    <string name="NAME">Username</string>info_strings.xml
-    <string name="SELECT_BANK_ACCOUNT_TYPE">Username</string>
-    <string name="BANK_ACCOUNT">Username</string>
-    <string name="REFERENCE">Username</string>
-    <string name="SELECT_BANK">Username</string>
-    <string name="SELECT_ACCOUNT">Username</string>
-    <string name="SELECT_CURRENCY">Username</string>
-    <string name="IBAN_FIELD">Username</string>
-
-    <string name="Phone_number_or_Contact"><i>Phone Number or Contact</i></string>
-    <string name="Message">Message</string>
-    <string name="Message_to">"Message to "</string>
-    <string name="Select_Message_Type">Select Message Type</string>
-
-
-    <string name="button_cancel">Cancel</string>
-    <string name="button_submit">Sumbit</string>
+    <!--Sms Fragment-->
+    <string name="select_message_type">Select Message Type</string>
+    <string name="message_type_sms">SMS Message</string>
+    <string name="message_type_mms">MMS Message</string>
+    <string name="hint_phone_number_or_contact"><i>Phone Number or Contact</i></string>
+    <string name="hint_message"><i>Enter Message</i></string>
+    <string name="message_to">"Message to "</string>
+    <string name="message_limit_error">"Please enter less than 160 characters"</string>
+    <string name="sms_switch">Toggle SMS receiver</string>
+    <!--General Fragment-->
+    <string name="button_submit">Submit</string>
     <string name="button_send">Send</string>
-
-    <string name="DOMESTIC"><i>Domestic</i></string>
-    <string name="INTERNATIONAL"><i>International</i></string>
-
-    <string name="Home">Home</string>
-    <string name="SmsService">Sms Service</string>
-    <string name="DeviceInfo">Device Info</string>
-    <string name="About">About</string>
-    <string name="Development">Development</string>
-    <string name="Contact">Contact</string>
-
-    <string name="Feedback">Feedback</string>
-    <string name="Log_out">Log out</string>
-
+    <string name="button_cancel">Cancel</string>
+    <!--Custom Numpad-->
     <string name="number_one">1</string>
     <string name="number_two">2</string>
     <string name="number_three">3</string>
@@ -57,7 +47,11 @@
     <string name="number_eight">8</string>
     <string name="number_nine">9</string>
     <string name="number_zero">0</string>
+    <string name="numpad_menu">Menu</string>
+    <string name="numpad_backspace">backspace</string>
     <string name="about_description_app">"This is a small sample which can be set in the about my app description file."</string>
     <string name="about_description_extra_info">"You can style this with html markup :D"</string>
-
+    <!--Others-->
+    <string name="hello_world">Hello world!</string>
+    <string name="refresh">refresh</string>
 </resources>
