@@ -6,8 +6,10 @@ GitHub
 HTTP requests
 API Limitation List (Scrolling, FloatingButton < 21)
 [ToImprove]
+Replace images
 Widget Sizes
 Widget Display Picture
+Widget Progress Bar
 Widget Open app on tap, except refresh button
 Put received SMS in a list (instead of toast)
 From DevLog to Page with Feature
@@ -15,7 +17,6 @@ Merge Weeks to Months
 About Page Info
 [ToFix]
 Widget only updates latest one
-Keyboard to show after logout
 [Done]
 <Week 1>
 Toolbar (new Navigation Drawer)
@@ -40,3 +41,4 @@ This page
 About page
 Actionbar(Toolbar) titles
 Major project code clean up
+Bug fixing - Login's keyboard behavior, Float button behaviour, Widget

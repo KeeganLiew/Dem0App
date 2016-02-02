@@ -326,7 +326,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
     private void loadSavedPreferences() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        String savedUsername = sharedPreferences.getString("Username", "");
+        String savedUsername = sharedPreferences.getString("Username", getString(R.string.new_user));
         usernameET.setText(savedUsername);
         pinET.setText("");
         if (!savedUsername.equalsIgnoreCase("")) {
@@ -343,7 +343,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                 .getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(key, value);
-        editor.commit();
+        editor.apply();
     }
 
     //public methods

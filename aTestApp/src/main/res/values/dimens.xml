@@ -17,7 +17,8 @@
     <dimen name="custom_fab_margin_right">16dp</dimen>
     <dimen name="custom_fab_margin_bottom">16dp</dimen>
     <!--widget-->
-    <dimen name="widget_margin">8dp</dimen>
+    <dimen name="widget_padding_left_right">8dp</dimen>
+    <dimen name="widget_element_paddings">10dp</dimen>
     <!--general-->
     <dimen name="margin_between_elements">10dp</dimen>
     <dimen name="edit_text_size">15sp</dimen>

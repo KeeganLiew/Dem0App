@@ -22,7 +22,11 @@
     <color name="app_main_background_color">@color/clean_blue</color>
     <color name="app_main_theme_color">@color/clean_blue</color>
     <color name="button_pressed_color">@color/grey</color>
+
+    <color name="progress_bar_head_colour">@color/app_main_theme_color</color>
+    <color name="progress_bar_body_colour">@color/app_main_theme_color</color>
     <color name="progress_bar_tail_colour">@color/twenty_percent_white</color>
+
     <color name="spinner_background_color">#888888</color>
     <color name="login_navigation_background_color">@color/pure_black</color>
     <color name="expandablelistview_group_title_text_color">@color/pure_black</color>
