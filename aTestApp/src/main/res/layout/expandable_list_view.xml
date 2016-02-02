@@ -2,17 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/APP_FRAGMENT_BACKGROUND_COLOR"
+    android:background="@color/app_fragment_background_color"
     android:fillViewport="true">
 
     <ExpandableListView
         android:id="@+id/expandableListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="@color/THIRTY_BLACK"
+        android:divider="@color/thirty_percent_black"
         android:dividerHeight="1dp"
         android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
         android:indicatorRight="2dp"
         android:overScrollMode="never" />
-
 </RelativeLayout>

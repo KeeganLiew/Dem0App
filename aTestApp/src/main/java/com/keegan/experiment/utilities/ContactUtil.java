@@ -14,7 +14,7 @@ import android.widget.Toast;
  */
 public class ContactUtil extends Activity {
 
-    static final String DEBUG_TAG = ContactUtil.class.getSimpleName();
+    private final static String TAG = ContactUtil.class.getSimpleName();
 
     public static String[] searchForContactNumber(Intent data, Context mContext) {
         Cursor cursor = null;
@@ -26,14 +26,14 @@ public class ContactUtil extends Activity {
             if (c.moveToFirst()) {
                 name = c.getString(c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
                 String id = c.getString(c.getColumnIndex(ContactsContract.Contacts._ID));
-                Log.d(DEBUG_TAG, "NAME: " + name);
-                Log.d(DEBUG_TAG, "id: " + id);
+                Log.d(TAG, "NAME: " + name);
+                Log.d(TAG, "id: " + id);
 
                 if (Integer.parseInt(c.getString(c.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
                     Cursor phones = mContext.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + id, null, null);
                     while (phones.moveToNext()) {
                         phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                        Log.d(DEBUG_TAG, "Number: " + phoneNumber);
+                        Log.d(TAG, "Number: " + phoneNumber);
                     }
                     phones.close();
                 }
@@ -48,7 +48,7 @@ public class ContactUtil extends Activity {
                 cursor.close();
             }
         }
-        Log.d(DEBUG_TAG, "Returning: " + name + " and " + phoneNumber);
+        Log.d(TAG, "Returning: " + name + " and " + phoneNumber);
         return new String[]{name, phoneNumber};
     }
 }

@@ -15,12 +15,14 @@ import android.graphics.Bitmap;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.AppBarLayout.Behavior;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.CoordinatorLayout.LayoutParams;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.widget.DrawerLayout.DrawerListener;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -32,6 +34,8 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,8 +44,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
-import com.keegan.experiment.GlobalVariables;
-import com.keegan.experiment.INTENT;
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.keegan.experiment.Global;
+import com.keegan.experiment.Intents;
 import com.keegan.experiment.R;
 import com.keegan.experiment.fragments.Development;
 import com.keegan.experiment.fragments.DeviceInfoFragment;
@@ -54,131 +59,79 @@ import com.keegan.experiment.customs.CustomCoordinatorLayout;
 import com.mikepenz.aboutlibraries.LibsBuilder;
 import com.mikepenz.aboutlibraries.ui.LibsFragment;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements OnClickListener {
 
-    private final String TAG = getClass().getSimpleName().toString();
+    private final String TAG = getClass().getSimpleName();
 
-    DrawerLayout mDrawerLayout;
-    ActionBarDrawerToggle drawerToggle;
+    private static DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle drawerToggle;
 
-    FloatingActionsMenu fabBtn;
-    //FloatingActionButton fabBtn;
-    //CoordinatorLayout rootLayout;
-    public static CustomCoordinatorLayout rootLayout;
-    Toolbar toolbar;
-    TabLayout tabLayout;
-    CollapsingToolbarLayout collapsingToolbarLayout;
-    NavigationView navigation;
-    AppBarLayout appBarLayout;
-    AppBarLayout.Behavior behavior;
+    private NestedScrollView fragmentLayoutNSV;
+    private NestedScrollView homeLayoutNSV;
 
-    EditText username_EditText;
-    EditText password_EditText;
-    TextView nav_username;
-    ImageView nav_display_picture;
-    ImageView background_image;
-    //Switch mySwitch;
-    Button login_Button;
+    private AppBarLayout mAppBarLayout;
+    private Behavior behavior;
+    private static CustomCoordinatorLayout rootLayoutCCL;
+    private Toolbar mToolbar;
+    //private TabLayout tabLayout;
+    private CollapsingToolbarLayout mCollapsingToolbarLayout;
+    private NavigationView navigationNV;
 
-    public static String username = "noName";
-    String password;
-    Activity mActivity;
-    public static Context mContext;
-    Toast exitToast;
-    BroadcastReceiver broadcastReceiver;
+    private TextView navigationUsernameTV;
+    private EditText usernameET;
+    private EditText passwordET;
+    private ImageView navigationDisplayPictureIV;
+    private ImageView toolBarImageIV;
+    private Button loginB;
+    private FloatingActionsMenu fabMainButtonFAM;
+    private FloatingActionButton buttonA;
+    private FloatingActionButton buttonB;
+    private FloatingActionButton buttonC;
+
+    private static String username;
+    private String password;
+
+    private static Activity mActivity;
+    private Context mContext;
+    private Toast exitToast;
+    private BroadcastReceiver broadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_main_activity);
-
-        initViewObjects();
-
         mActivity = this;
         mContext = getApplicationContext();
+        setContentView(R.layout.activity_main);
 
-        exitToast = Toast.makeText(mActivity, "Press again to exit.", Toast.LENGTH_LONG);
-
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        username = sharedPreferences.getString("Username", "noName");
-        updateUsername(username);
-
+        viewObjectsInitializations();
+        otherInitializations();
     }
 
-    //TODO TO USE
-    public void Logout() {
-        clear_pref();
-        this.finish();
-        //otherstuff
-    }
-
-    public void clear_pref() {
-        SharedPreferences sharedPreferences = PreferenceManager
-                .getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
-        editor.apply();
-    }
-
-    public static Context getAppContext() {
-        return MainActivity.mContext;
-    }
-
-    private void initViewObjects() {
-        ACTIVITY_FRAGMENTS_LAYOUT = (NestedScrollView) findViewById(R.id.main_activity_fragment_layout);
-        main_activity_home_layout = (NestedScrollView) findViewById(R.id.main_activity_home_layout);
+    private void viewObjectsInitializations() {
+        //layouts
+        fragmentLayoutNSV = (NestedScrollView) findViewById(R.id.Activity_Main_NestedScrollView_FragmentLayout);
+        homeLayoutNSV = (NestedScrollView) findViewById(R.id.Activity_Main_NestedScrollView_HomeLayout);
+        rootLayoutCCL = (CustomCoordinatorLayout) findViewById(R.id.Activity_Main_CustomCoordinatorLayout_RootLayout);
+        rootLayoutCCL.setAllowForScroll(true);
+        mAppBarLayout = (AppBarLayout) findViewById(R.id.Activity_Main_AppBarLayout);
 
         //toolbar
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        appBarLayout = (AppBarLayout) findViewById(R.id.appBarLayout);
+        mToolbar = (Toolbar) findViewById(R.id.Activity_Main_Toolbar);
+        setSupportActionBar(mToolbar);
 
         //drawers
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.Activity_Main_DrawerLayout);
         drawerToggle = new ActionBarDrawerToggle(MainActivity.this, mDrawerLayout, R.string.hello_world, R.string.hello_world);
-        mDrawerLayout.setDrawerListener(drawerToggle);
-        mDrawerLayout.setDrawerListener(new DrawerLayout.DrawerListener() {
-            @Override
-            public void onDrawerSlide(View view, float v) {
-                if (v * 100 > GlobalVariables.hide_keyboard_login_drawer_percentage) {
-                    hideKeyboard(mActivity);
-                }
-            }
-
-            @Override
-            public void onDrawerOpened(View view) {
-            }
-
-            @Override
-            public void onDrawerClosed(View view) {
-            }
-
-            @Override
-            public void onDrawerStateChanged(int i) {
-            }
-        });
-
+        mDrawerLayout.setDrawerListener(new mainDrawerListener());
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        //float button
-        //rootLayout = (CoordinatorLayout) findViewById(R.id.rootLayout);
-        rootLayout = (CustomCoordinatorLayout) findViewById(R.id.rootLayout);
-        rootLayout.setAllowForScroll(true);
-
-        fabBtn = (FloatingActionsMenu) findViewById(R.id.fabBtn);
-        Log.d(TAG, "fabBtn made");
-        final View actionB = findViewById(R.id.action_b);
-        com.getbase.floatingactionbutton.FloatingActionButton actionC = new com.getbase.floatingactionbutton.FloatingActionButton(getBaseContext());
-        actionC.setTitle("Hide/Show Action above");
-        actionC.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                actionB.setVisibility(actionB.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
-            }
-        });
-        fabBtn.addButton(actionC);
+        //float menu & buttons
+        fabMainButtonFAM = (FloatingActionsMenu) findViewById(R.id.Activity_Main_FloatingActionsMenu_FabMainButton);
+        buttonA = (FloatingActionButton) findViewById(R.id.Activity_Main_FloatingActionButton_ButtonA);
+        buttonB = (FloatingActionButton) findViewById(R.id.Activity_Main_FloatingActionButton_ButtonB);
+        buttonC = (FloatingActionButton) findViewById(R.id.Activity_Main_FloatingActionButton_ButtonC);
+        buttonC.setOnClickListener(this);
 
         //tabs
         /*tabLayout = (TabLayout) findViewById(R.id.tabLayout);
@@ -190,152 +143,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tabLayout.addTab(tabLayout.newTab().setText("Tab 6"));*/
 
         //Header toolbar
-        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsingToolbarLayout);
+        mCollapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.Activity_Main_CollapsingToolbarLayout);
         setTitle("Hello " + username);
 
         //nav draw
-        navigation = (NavigationView) findViewById(R.id.navigation);
-        navigation.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
-                int id = menuItem.getItemId();
-                Fragment mFragment;
-
-                closeDrawer();
-                hideKeyboard(mActivity);
-                FragmentManager fragmentManager = mActivity.getFragmentManager();
-                fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-
-                switch (id) {
-                    case R.id.nav_drawer_home:
-                        closeFragmentLayout();
-                        updateUsername(username);
-                        break;
-                    case R.id.nav_drawer_sms_service:
-                        mFragment = new SmsFragment();
-                        startFragment(mFragment, getString(R.string.SmsService));
-                        break;
-                    case R.id.nav_drawer_device_info:
-                        mFragment = new DeviceInfoFragment();
-                        startFragment(mFragment, getString(R.string.DeviceInfo));
-                        break;
-                    case R.id.nav_drawer_development:
-                        mFragment = new Development();
-                        startFragment(mFragment, getString(R.string.Development));
-                        break;
-                    case R.id.nav_drawer_contact:
-                        mFragment = new UnderConstructionFragment();
-                        startFragment(mFragment, getString(R.string.Contact));
-                        break;
-                    case R.id.nav_drawer_about:
-                        String description = getString(R.string.about_description_app);
-                        String extra= getString(R.string.about_description_extra_info);
-                        LibsFragment aboutPageFragment = new LibsBuilder()
-                                //get the fragment
-                                .withAboutIconShown(true)
-                                .withAboutVersionShown(true)
-                                //.withAboutDescription("This is a small sample which can be set in the about my app description file.<br /><b>You can style this with html markup :D</b>")
-                                .withAboutDescription(description)
-                                .fragment();
-                        startFragment(aboutPageFragment, getString(R.string.About));
-                        break;
-                    case R.id.nav_drawer_feedback:
-                        mFragment = new UnderConstructionFragment();
-                        startFragment(mFragment, getString(R.string.Feedback));
-                        break;
-                    case R.id.nav_drawer_log_out:
-                        Logout();
-                        break;
-                }
-                return false;
-            }
-        });
+        navigationNV = (NavigationView) findViewById(R.id.Activity_Main_NavigationView_Navigation);
+        navigationNV.setNavigationItemSelectedListener(new mainNavigationItemListener());
 
         //EditText
-        username_EditText = (EditText) findViewById(R.id.usernameEditText);
-        password_EditText = (EditText) findViewById(R.id.passwordEditText);
+        usernameET = (EditText) findViewById(R.id.Activity_Main_EditText_Username);
+        passwordET = (EditText) findViewById(R.id.Activity_Main_EditText_Password);
 
         //Buttons
-        login_Button = (Button) findViewById(R.id.loginButton);
+        loginB = (Button) findViewById(R.id.Activity_Main_Button_Login);
+        loginB.setOnClickListener(this);
 
         //TextView
-        nav_username = (TextView) navigation.getHeaderView(0).findViewById(R.id.nav_username);
+        navigationUsernameTV = (TextView) navigationNV.getHeaderView(0).findViewById(R.id.Navigation_TextView_Username);
+        navigationUsernameTV.setOnLongClickListener(new userNameLongClickListener());
 
         //ImageView
-        nav_display_picture = (ImageView) navigation.getHeaderView(0).findViewById(R.id.nav_display_picture);
-        background_image = (ImageView) findViewById(R.id.background_image);
-
-        //Listerners
-        login_Button.setOnClickListener(this);
-        nav_display_picture.setOnClickListener(this);
-        nav_username.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                Log.d(TAG, "Long pressed background_image");
-                //pop up dialog with cancel
-                return true;
-            }
-        });
+        navigationDisplayPictureIV = (ImageView) navigationNV.getHeaderView(0).findViewById(R.id.Navigation_ImageView_DisplayPicture);
+        navigationDisplayPictureIV.setOnClickListener(this);
+        toolBarImageIV = (ImageView) findViewById(R.id.Activity_Main_ImageView_ToolbarImage);
     }
 
-    public void closeDrawer() {
-        mDrawerLayout.closeDrawer(Gravity.LEFT);
-    }
-
-    private void startFragment(Fragment mFragment, String title) {
-        if (mFragment != null) {
-            FragmentManager fm = getFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.replace(R.id.FragmentContainer, mFragment);
-            ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
-            ft.addToBackStack(null);
-            ft.commit();
-            setFunctionLayout(View.VISIBLE);
-            updateTitle(title);
-        }
-    }
-
-    private void savePreferences(String key, String value) {
+    private void otherInitializations() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(key, value);
-        editor.apply();
-    }
+        username = sharedPreferences.getString("Username", "noName");
+        updateUsername(username);
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-        DisplayPictureUtil.loadImageFromStorage(nav_display_picture, "/data/data/com.keegan.experiment/app_imageDir");
-
-        broadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-
-                String action = intent.getAction();
-                Log.d(TAG, "received intent: " + intent.getAction());
-                if (INTENT.FRAGMENT_ITEM_CANCELLED.equalsName(action)) {
-                    closeFragmentLayout();
-                } else if (INTENT.PICK_CONTACT.equalsName(action)) {
-                    doLaunchContactPicker();
-                }
-            }
-        };
-
-        LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, new IntentFilter(INTENT.FRAGMENT_ITEM_CANCELLED.toString()));
-        LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, new IntentFilter(INTENT.PICK_CONTACT.toString()));
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver);
+        exitToast = Toast.makeText(mActivity, "Press again to exit.", Toast.LENGTH_LONG);
     }
 
     @Override
@@ -359,8 +197,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (drawerToggle.onOptionsItemSelected(item))
+        if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
+        }
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -373,109 +212,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return super.onOptionsItemSelected(item);
     }
 
-    private void updateUsername(String name) {
-        updateTitle("Hello " + name);
-        nav_username.setText(name);
-    }
-
-    private void updateTitle(String title){
-        collapsingToolbarLayout.setTitle(title);
-    }
-
     @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.loginButton:
-                username = username_EditText.getText().toString();
-                password = password_EditText.getText().toString();
-                Log.d(TAG, "Username is: " + username);
-                Log.d(TAG, "Password is: " + password);
-                updateUsername(username);
-                Snackbar.make(rootLayout, "Hello " + username, Snackbar.LENGTH_INDEFINITE)
-                        .setAction("Undo", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
+    protected void onResume() {
+        super.onResume();
+        DisplayPictureUtil.loadImageFromStorage(navigationDisplayPictureIV, "/data/data/com.keegan.experiment/app_imageDir");
 
-                            }
-                        })
-                        .show();
-                MainActivity.hideKeyboard(mActivity);
-                break;
-            case R.id.nav_display_picture:
-                imageMethod();
-                break;
-        }
-    }
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
 
-    public void imageMethod() {
-        Intent gallery_Intent = new Intent(getApplicationContext(), GalleryUtil.class);
-        startActivityForResult(gallery_Intent, GlobalVariables.GALLERY_ACTIVITY_CODE);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (resultCode) {
-            case (RESULT_OK):
-                Toast.makeText(getBaseContext(), "SMS sent ", Toast.LENGTH_SHORT).show();
-                Log.d(TAG, "requestCode: " + requestCode);
-                switch (requestCode) {
-                    case GlobalVariables.CONTACT_PICKER_RESULT:
-                        String[] nameAndPhoneNumber = ContactUtil.searchForContactNumber(data, mContext);
-                        Intent intent = new Intent(INTENT.PICKED_CONTACT_INFO.toString());
-                        intent.putExtra(INTENT.PICKED_CONTACT_INFO_EXTRA_NAME.toString(), nameAndPhoneNumber[0]);
-                        intent.putExtra(INTENT.PICKED_CONTACT_INFO_EXTRA_PHONE_NUMBER.toString(), nameAndPhoneNumber[1]);
-                        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
-                        Log.d(TAG, "SENDING INTENT: " + intent.getAction() + " with extra: " + intent.getStringExtra(INTENT.PICKED_CONTACT_INFO_EXTRA_PHONE_NUMBER.toString()));
-                        break;
-                    case GlobalVariables.GALLERY_ACTIVITY_CODE:
-                        String picturePath = data.getStringExtra("picturePath");
-                        //perform Crop on the Image Selected from Gallery
-                        Intent cropIntent = DisplayPictureUtil.performCrop(picturePath);
-
-                        if (cropIntent != null) {
-                            startActivityForResult(cropIntent, GlobalVariables.RESULT_CROP);
-                        } else {
-                            String errorMessage = "your device doesn't support the crop action!";
-                            Toast toast = Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT);
-                            toast.show();
-                        }
-                        break;
-                    case GlobalVariables.RESULT_CROP:
-                        Bundle extras = data.getExtras();
-                        Bitmap selectedBitmap = extras.getParcelable("data");
-                        // Set The Bitmap Data To ImageView
-                        selectedBitmap = DisplayPictureUtil.performCircleCrop(selectedBitmap);
-                        ContextWrapper cw = new ContextWrapper(getApplicationContext());
-                        DisplayPictureUtil.saveToInternalSorage(cw, selectedBitmap);
-                        nav_display_picture.setImageBitmap(selectedBitmap);
-                        nav_display_picture.setScaleType(ImageView.ScaleType.FIT_XY);
-                        break;
+                String action = intent.getAction();
+                Log.d(TAG, "Received Intent: " + intent.getAction());
+                if (Intents.FRAGMENT_ITEM_CANCELLED.equalsName(action)) {
+                    closeFragmentLayout();
+                } else if (Intents.PICK_CONTACT.equalsName(action)) {
+                    Intent contactPickerIntent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+                    Log.d(TAG, "Sending Intent: " + contactPickerIntent.getAction());
+                    startActivityForResult(contactPickerIntent, Global.CONTACT_PICKER_RESULT);
                 }
-                break;
-        }
-    }
+            }
+        };
 
-    public static void hideKeyboard(Activity activity) {
-        if (activity != null && activity.getCurrentFocus() != null) {
-            InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
-        }
+        LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, new IntentFilter(Intents.FRAGMENT_ITEM_CANCELLED.toString()));
+        LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, new IntentFilter(Intents.PICK_CONTACT.toString()));
     }
-
-    public static void showKeyboard(Activity activity, EditText editText) {
-        if (activity != null) {
-            InputMethodManager imm = (InputMethodManager) activity.getSystemService(INPUT_METHOD_SERVICE);
-            imm.showSoftInput(editText, InputMethodManager.SHOW_FORCED);
-        }
-    }
-
-    NestedScrollView ACTIVITY_FRAGMENTS_LAYOUT;
-    NestedScrollView main_activity_home_layout;
 
     @Override
     public void onBackPressed() {
-        Log.d(TAG, "Frag count: " + getFragmentManager().getBackStackEntryCount());
+        Log.d(TAG, "Fragment count: " + getFragmentManager().getBackStackEntryCount());
         if (mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
             closeDrawer();
         } else if (getFragmentManager().getBackStackEntryCount() > 1) {
@@ -492,51 +256,294 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public void doLaunchContactPicker() {
-        Intent contactPickerIntent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
-        Log.d(TAG, "SENDING INTENT: " + contactPickerIntent.getAction());
-        startActivityForResult(contactPickerIntent, GlobalVariables.CONTACT_PICKER_RESULT);
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.Activity_Main_Button_Login:
+                username = usernameET.getText().toString();
+                password = passwordET.getText().toString();
+                Log.d(TAG, "Username is: " + username);
+                Log.d(TAG, "Password is: " + password);
+                updateUsername(username);
+                Snackbar usernameSB = Snackbar.make(rootLayoutCCL, "Hello " + username, Snackbar.LENGTH_INDEFINITE);
+                usernameSB.setAction("Undo", new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
+                usernameSB.show();
+                hideKeyboard(mActivity);
+                break;
+            case R.id.Navigation_ImageView_DisplayPicture:
+                Intent gallery_Intent = new Intent(getApplicationContext(), GalleryUtil.class);
+                startActivityForResult(gallery_Intent, Global.GALLERY_ACTIVITY_CODE);
+                break;
+            case R.id.Activity_Main_FloatingActionButton_ButtonC:
+                buttonB.setVisibility(buttonB.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+                break;
+        }
     }
 
-    public void closeFragmentLayout() {
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (resultCode) {
+            case (RESULT_OK):
+                Toast.makeText(getBaseContext(), "SMS sent ", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "requestCode: " + requestCode);
+                switch (requestCode) {
+                    case Global.CONTACT_PICKER_RESULT:
+                        String[] nameAndPhoneNumber = ContactUtil.searchForContactNumber(data, mContext);
+                        Intent intent = new Intent(Intents.PICKED_CONTACT_INFO.toString());
+                        intent.putExtra(Intents.PICKED_CONTACT_INFO_EXTRA_NAME.toString(), nameAndPhoneNumber[0]);
+                        intent.putExtra(Intents.PICKED_CONTACT_INFO_EXTRA_PHONE_NUMBER.toString(), nameAndPhoneNumber[1]);
+                        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+                        Log.d(TAG, "Sending Intent: " + intent.getAction() + " with extra: " + intent.getStringExtra(Intents.PICKED_CONTACT_INFO_EXTRA_PHONE_NUMBER.toString()));
+                        break;
+                    case Global.GALLERY_ACTIVITY_CODE:
+                        String picturePath = data.getStringExtra("picturePath");
+                        //perform Crop on the Image Selected from Gallery
+                        Intent cropIntent = DisplayPictureUtil.performCrop(picturePath);
+
+                        if (cropIntent != null) {
+                            startActivityForResult(cropIntent, Global.RESULT_CROP);
+                        } else {
+                            String errorMessage = "your device doesn't support the crop action!";
+                            Toast toast = Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
+                        break;
+                    case Global.RESULT_CROP:
+                        Bundle extras = data.getExtras();
+                        Bitmap selectedBitmap = extras.getParcelable("data");
+                        // Set The Bitmap Data To ImageView
+                        selectedBitmap = DisplayPictureUtil.performCircleCrop(selectedBitmap);
+                        ContextWrapper cw = new ContextWrapper(getApplicationContext());
+                        DisplayPictureUtil.saveToInternalSorage(cw, selectedBitmap);
+                        navigationDisplayPictureIV.setImageBitmap(selectedBitmap);
+                        navigationDisplayPictureIV.setScaleType(ImageView.ScaleType.FIT_XY);
+                        break;
+                }
+                break;
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver);
+    }
+
+    //public methods
+    public void savePreferences(String key, String value) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(key, value);
+        editor.apply();
+    }
+
+    public void clearSharedPreferences() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
+    }
+
+    public void logout() {
+        clearSharedPreferences();
+        this.finish();
+    }
+
+    //getters and setters
+    public static Activity getmActivity() {
+        return mActivity;
+    }
+
+    public static String getUsername() {
+        return username;
+    }
+
+    //listeners
+    private class mainDrawerListener implements DrawerListener {
+        @Override
+        public void onDrawerSlide(View drawerView, float slideOffset) {
+            drawerToggle.onDrawerSlide(drawerView, slideOffset);
+            if (slideOffset * 100 > Global.hide_keyboard_login_drawer_percentage) {
+                hideKeyboard(mActivity);
+            }
+        }
+
+        @Override
+        public void onDrawerOpened(View drawerView) {
+        }
+
+        @Override
+        public void onDrawerClosed(View drawerView) {
+        }
+
+        @Override
+        public void onDrawerStateChanged(int newState) {
+        }
+    }
+
+    private class mainNavigationItemListener implements OnNavigationItemSelectedListener {
+
+        @Override
+        public boolean onNavigationItemSelected(MenuItem menuItem) {
+            int id = menuItem.getItemId();
+            Fragment mFragment;
+
+            closeDrawer();
+            hideKeyboard(mActivity);
+            FragmentManager fragmentManager = mActivity.getFragmentManager();
+            fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+            switch (id) {
+                case R.id.nav_drawer_home:
+                    closeFragmentLayout();
+                    updateUsername(username);
+                    break;
+                case R.id.nav_drawer_sms_service:
+                    mFragment = new SmsFragment();
+                    startFragment(mFragment, getString(R.string.sms_service));
+                    break;
+                case R.id.nav_drawer_device_info:
+                    mFragment = new DeviceInfoFragment();
+                    startFragment(mFragment, getString(R.string.device_info));
+                    break;
+                case R.id.nav_drawer_development:
+                    mFragment = new Development();
+                    startFragment(mFragment, getString(R.string.development));
+                    break;
+                case R.id.nav_drawer_contact:
+                    mFragment = new UnderConstructionFragment();
+                    startFragment(mFragment, getString(R.string.contact));
+                    break;
+                case R.id.nav_drawer_about:
+                    String description = getString(R.string.about_description_app);
+                    String extra = getString(R.string.about_description_extra_info);
+                    LibsFragment aboutPageFragment = new LibsBuilder()
+                            //get the fragment
+                            .withAboutIconShown(true)
+                            .withAboutVersionShown(true)
+                            .withAboutDescription(description)
+                            .fragment();
+                    startFragment(aboutPageFragment, getString(R.string.about));
+                    break;
+                case R.id.nav_drawer_feedback:
+                    mFragment = new UnderConstructionFragment();
+                    startFragment(mFragment, getString(R.string.feedback));
+                    break;
+                case R.id.nav_drawer_log_out:
+                    logout();
+                    break;
+            }
+            return false;
+        }
+    }
+
+    private class userNameLongClickListener implements OnLongClickListener {
+        @Override
+        public boolean onLongClick(View v) {
+            Log.d(TAG, "Long pressed background_image");
+            //pop up dialog with cancel
+            return true;
+        }
+    }
+
+    //public ui functions
+    public static Snackbar createSnackBar(String message, int length) {
+        Snackbar sb = Snackbar.make(rootLayoutCCL, message, length);
+        sb.show();
+        return sb;
+    }
+
+    public static void closeDrawer() {
+        mDrawerLayout.closeDrawer(Gravity.LEFT);
+    }
+
+    public static void hideKeyboard(Activity activity) {
+        if (activity != null && activity.getCurrentFocus() != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+        }
+    }
+
+    public static void showKeyboard(Activity activity, EditText editText) {
+        if (activity != null) {
+            InputMethodManager imm = (InputMethodManager) activity.getSystemService(INPUT_METHOD_SERVICE);
+            imm.showSoftInput(editText, InputMethodManager.SHOW_FORCED);
+        }
+    }
+
+    //private ui functions
+    private void updateUsername(String name) {
+        updateTitle("Hello " + name);
+        navigationUsernameTV.setText(name);
+    }
+
+    private void updateTitle(String title) {
+        mCollapsingToolbarLayout.setTitle(title);
+    }
+
+    private void collapseToolbar() {
+        LayoutParams params = (LayoutParams) mAppBarLayout.getLayoutParams();
+        behavior = (Behavior) params.getBehavior();
+        if (behavior != null) {
+            behavior.onNestedFling(rootLayoutCCL, mAppBarLayout, null, 0, 10000, true);
+        }
+        rootLayoutCCL.setAllowForScroll(false);
+    }
+
+    private void expandToolbar() {
+        LayoutParams params = (LayoutParams) mAppBarLayout.getLayoutParams();
+        behavior = (Behavior) params.getBehavior();
+        if (behavior != null) {
+            behavior.setTopAndBottomOffset(0);
+            behavior.onNestedPreScroll(rootLayoutCCL, mAppBarLayout, null, 0, 1, new int[2]);
+        }
+        rootLayoutCCL.setAllowForScroll(true);
+    }
+
+    private void startFragment(Fragment mFragment, String title) {
+        if (mFragment != null) {
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.replace(R.id.Activity_Main_FragmentLayout_FragmentContainer, mFragment);
+            ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
+            ft.addToBackStack(null);
+            ft.commit();
+            setFunctionLayout(View.VISIBLE);
+            updateTitle(title);
+        }
+    }
+
+    private void closeCurrentFragment() {
+        getFragmentManager().popBackStack();
+    }
+
+    private void closeFragmentLayout() {
         getFragmentManager().popBackStack();
         setFunctionLayout(View.GONE);
     }
 
     private void setFunctionLayout(int status) {
         if (status == View.VISIBLE) {
-            ACTIVITY_FRAGMENTS_LAYOUT.setVisibility(View.VISIBLE);
-            main_activity_home_layout.setVisibility(View.GONE);
+            fragmentLayoutNSV.setVisibility(View.VISIBLE);
+            homeLayoutNSV.setVisibility(View.GONE);
             collapseToolbar();
         } else {
-            ACTIVITY_FRAGMENTS_LAYOUT.setVisibility(View.GONE);
-            main_activity_home_layout.setVisibility(View.VISIBLE);
+            fragmentLayoutNSV.setVisibility(View.GONE);
+            homeLayoutNSV.setVisibility(View.VISIBLE);
             expandToolbar();
         }
-    }
-
-    public void closeCurrentFragment() {
-        getFragmentManager().popBackStack();
-    }
-
-    public void collapseToolbar() {
-        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();
-        behavior = (AppBarLayout.Behavior) params.getBehavior();
-        if (behavior != null) {
-            behavior.onNestedFling(rootLayout, appBarLayout, null, 0, 10000, true);
-        }
-        rootLayout.setAllowForScroll(false);
-
-    }
-
-    public void expandToolbar() {
-        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();
-        behavior = (AppBarLayout.Behavior) params.getBehavior();
-        if (behavior != null) {
-            behavior.setTopAndBottomOffset(0);
-            behavior.onNestedPreScroll(rootLayout, appBarLayout, null, 0, 1, new int[2]);
-        }
-        rootLayout.setAllowForScroll(true);
     }
 
 }

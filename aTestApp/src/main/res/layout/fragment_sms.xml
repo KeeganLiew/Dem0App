@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -7,17 +8,17 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/APP_FRAGMENT_BACKGROUND_COLOR">
+        android:background="@color/app_fragment_background_color">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/fragment_element_left_right_margins"
-            android:layout_marginRight="@dimen/fragment_element_left_right_margins"
+            android:layout_marginLeft="@dimen/element_left_right_margins"
+            android:layout_marginRight="@dimen/element_left_right_margins"
             android:orientation="vertical">
 
             <RelativeLayout
-                android:id="@+id/REFERENCE_LAYOUT"
+                android:id="@+id/Fragment_Sms_RelativeLayout_MessageType"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_between_elements"
@@ -25,39 +26,43 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/Fragment_Banks_Type_TextView_AccountId"
+                    android:id="@+id/Fragment_Sms_TextView_MessageType"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/edit_text_height"
                     android:gravity="center_vertical"
                     android:paddingLeft="@dimen/edit_text_padding_left_right"
                     android:paddingRight="@dimen/edit_text_padding_left_right"
-                    android:text="@string/Select_Message_Type"
-                    android:textColor="@android:color/darker_gray"
+                    android:text="@string/select_message_type"
+                    android:textColor="@color/edit_text_hint_text_color"
                     android:textSize="@dimen/edit_text_size" />
 
                 <ImageView
-                    android:id="@+id/Fragment_Banks_Type_ImageView_ListArrow"
+                    android:id="@+id/Fragment_Sms_ImageView_MessageType"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
+                    android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/down" />
 
                 <Spinner
-                    android:id="@+id/Fragment_Bank_Type_Spinner"
+                    android:id="@+id/Fragment_Sms_Spinner_MessageType"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_below="@+id/Fragment_Banks_Type_TextView_AccountId"
+                    android:layout_below="@+id/Fragment_Sms_TextView_MessageType"
                     android:layout_centerHorizontal="true"
                     android:gravity="start"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="@dimen/edit_text_padding_left_right"
-                    android:popupBackground="@color/nav_menu_listview_background_color" />
+                    android:paddingEnd="@dimen/spinner_padding_right"
+                    android:paddingLeft="@dimen/spinner_padding_left"
+                    android:paddingRight="@dimen/spinner_padding_right"
+                    android:paddingStart="@dimen/spinner_padding_left"
+                    android:popupBackground="@color/spinner_background_color" />
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/SmsTarget"
+                android:id="@+id/Fragment_Sms_RelativeLayout_SmsTarget"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
                 android:layout_marginTop="@dimen/margin_between_elements">
@@ -67,18 +72,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/background_send_money_linear"
-                    android:hint="@string/Phone_number_or_Contact"
+                    android:hint="@string/hint_phone_number_or_contact"
                     android:inputType="phone"
                     android:paddingLeft="@dimen/edit_text_padding_left_right"
                     android:paddingRight="@dimen/edit_text_padding_left_right"
-                    android:textColorHint="@color/EDIT_TEXT_HINT_TEXT_COLOUR"
+                    android:textColorHint="@color/edit_text_hint_text_color"
                     android:textSize="@dimen/edit_text_size" />
 
                 <ImageView
                     android:id="@+id/Fragment_Sms_ImageView_Contacts"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
+                    android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/name" />
@@ -90,12 +97,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_between_elements"
                 android:background="@drawable/background_send_money_linear"
-                android:hint="@string/Message"
+                android:hint="@string/hint_message"
                 android:paddingLeft="@dimen/edit_text_padding_left_right"
                 android:paddingRight="@dimen/edit_text_padding_left_right"
                 android:paddingTop="5dp"
-                android:textColorHint="@color/EDIT_TEXT_HINT_TEXT_COLOUR"
-                android:textSize="@dimen/edit_text_size">
+                android:textColorHint="@color/edit_text_hint_text_color"
+                android:textSize="@dimen/edit_text_size"
+                app:errorEnabled="false"
+                app:errorTextAppearance="@style/TextInputLayoutErrorStyle">
 
                 <EditText
                     android:id="@+id/Fragment_Sms_EditText_Message"
@@ -106,9 +115,7 @@
                     android:lines="6"
                     android:maxLines="6"
                     android:minLines="3"
-                    android:scrollbars="vertical"
-                    android:textColorHint="@android:color/white" />
-
+                    android:scrollbars="vertical" />
             </android.support.design.widget.TextInputLayout>
 
             <LinearLayout
@@ -117,52 +124,54 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/Fragment_Banks_Button_Pay"
+                    android:id="@+id/Fragment_Sms_Button_Send"
+                    style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/c_button_height"
+                    android:layout_height="@dimen/fragment_button_height"
+                    android:layout_marginEnd="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="@dimen/margin_between_elements"
                     android:layout_weight="1"
                     android:background="@drawable/error_button_background"
-                    android:text="@string/button_send"
-                    android:textColor="@color/registration_register_button_text_color" />
+                    android:text="@string/button_send" />
 
                 <Button
-                    android:id="@+id/Fragment_Banks_Button_Cancel"
+                    android:id="@+id/Fragment_Sms_Button_Cancel"
+                    style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/c_button_height"
+                    android:layout_height="@dimen/fragment_button_height"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="@dimen/margin_between_elements"
                     android:layout_weight="1"
                     android:background="@drawable/error_button_background"
-                    android:text="@string/button_cancel"
-                    android:textColor="@color/registration_register_button_text_color" />
+                    android:text="@string/button_cancel" />
             </LinearLayout>
 
             <Switch
-                android:id="@+id/smsToggleSwitch"
+                android:id="@+id/Fragment_Sms_Switch_receiverToggle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginTop="20dp"
-                android:text="@string/SMSSwitch" />
+                android:text="@string/sms_switch" />
 
             <ProgressBar
-                android:id="@+id/Fragment_Banks_Progressbar"
-                android:layout_width="@dimen/progressbar_width"
-                android:layout_height="@dimen/progressbar_height"
+                android:id="@+id/Fragment_Sms_Progressbar"
+                android:layout_width="@dimen/fragment_progressbar_width"
+                android:layout_height="@dimen/fragment_progressbar_height"
                 android:layout_gravity="center"
                 android:visibility="gone" />
 
             <TextView
-                android:id="@+id/Fragment_Banks_TextView_Result"
+                android:id="@+id/Fragment_Sms_TextView_Result"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/margin_before_result"
+                android:layout_marginTop="@dimen/fragment_margin_before_result"
                 android:gravity="center"
                 android:maxLines="10"
-                android:textSize="@dimen/server_response_text_size"
+                android:textSize="@dimen/fragment_result_text_size"
                 android:visibility="gone" />
 
         </LinearLayout>

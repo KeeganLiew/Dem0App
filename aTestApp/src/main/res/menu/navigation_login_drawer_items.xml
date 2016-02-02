@@ -5,26 +5,26 @@
         <item
             android:id="@+id/nav_drawer_home"
             android:icon="@drawable/ic_action_location_found_dark"
-            android:title="@string/Home" />
+            android:title="@string/home" />
         <item
             android:id="@+id/nav_drawer_sms_service"
             android:icon="@drawable/ic_action_location_found_dark"
-            android:title="@string/SmsService" />
+            android:title="@string/sms_service" />
 
         <item
             android:id="@+id/nav_drawer_development"
             android:icon="@drawable/ic_action_location_found_dark"
-            android:title="@string/Development" />
+            android:title="@string/development" />
 
         <item
             android:id="@+id/nav_drawer_contact"
             android:icon="@drawable/ic_action_location_found_dark"
-            android:title="@string/Contact" />
+            android:title="@string/contact" />
 
         <item
             android:id="@+id/nav_drawer_about"
             android:icon="@drawable/ic_action_location_found_dark"
-            android:title="@string/About" />
+            android:title="@string/about" />
 
     </group>
 

@@ -18,10 +18,10 @@ import android.util.Log;
 public class GalleryUtil extends Activity {
     private final static int RESULT_SELECT_IMAGE = 100;
     public static final int MEDIA_TYPE_IMAGE = 1;
-    private static final String TAG = "GalleryUtil";
+    private static final String TAG = GalleryUtil.class.getSimpleName();
 
-    String mCurrentPhotoPath;
-    File photoFile = null;
+    private String mCurrentPhotoPath;
+    private File photoFile = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

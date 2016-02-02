@@ -1,17 +1,13 @@
 package com.keegan.experiment.utilities;
 
+import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Build;
-import android.provider.Settings;
+import android.provider.Settings.Secure;
 import android.telephony.TelephonyManager;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.StyleSpan;
 import android.util.Log;
 
-import com.keegan.experiment.GlobalVariables;
+import com.keegan.experiment.Global;
 import com.keegan.experiment.R;
 import com.keegan.experiment.activities.MainActivity;
 
@@ -27,11 +23,11 @@ public class DeviceInfo {
     public static String getHTMLFormatDeviceInfo() {
         String resultString = "";
         try {
-            Context mContext = MainActivity.getAppContext();
+            Activity mActivity = MainActivity.getmActivity();
 
-            String deviceId = getDeviceId(GlobalVariables.DeviceIdType.undigestedDeviceId);
-            String deviceId2 = getDeviceId(GlobalVariables.DeviceIdType.digestedDeviceId);
-            String country = mContext.getResources().getConfiguration().locale.getCountry();
+            String deviceId = getDeviceId(Global.DeviceIdType.undigestedDeviceId);
+            String deviceId2 = getDeviceId(Global.DeviceIdType.digestedDeviceId);
+            String country = mActivity.getResources().getConfiguration().locale.getCountry();
             String countryZipCode = getCountryZipCode();
 
             String deviceInfoString = "";
@@ -75,11 +71,11 @@ public class DeviceInfo {
         Log.d(TAG, "getDeviceSuperInfo()");
         String info = "";
         try {
-            Context mContext = MainActivity.getAppContext();
-            String deviceId = getDeviceId(GlobalVariables.DeviceIdType.undigestedDeviceId);
-            String deviceId2 = getDeviceId(GlobalVariables.DeviceIdType.digestedDeviceId);
+            Activity mActivity = MainActivity.getmActivity();
+            String deviceId = getDeviceId(Global.DeviceIdType.undigestedDeviceId);
+            String deviceId2 = getDeviceId(Global.DeviceIdType.digestedDeviceId);
 
-            String country = mContext.getResources().getConfiguration().locale.getCountry();
+            String country = mActivity.getResources().getConfiguration().locale.getCountry();
             String countryZipCode = getCountryZipCode();
 
             String shortInfo = "Device Name " + Build.MANUFACTURER.toUpperCase() + " " + Build.MODEL +
@@ -125,10 +121,10 @@ public class DeviceInfo {
     }
 
     public static String getDeviceId(Enum idType) {
-        Context mContext = MainActivity.getAppContext();
+        Activity mActivity = MainActivity.getmActivity();
 
-        String device_uuid = Settings.Secure.getString(mContext.getContentResolver(), Settings.Secure.ANDROID_ID);
-        if (idType == GlobalVariables.DeviceIdType.undigestedDeviceId) {
+        String device_uuid = Secure.getString(mActivity.getContentResolver(), Secure.ANDROID_ID);
+        if (idType == Global.DeviceIdType.undigestedDeviceId) {
             return device_uuid;
         } else {
             if (device_uuid == null) {
@@ -152,14 +148,14 @@ public class DeviceInfo {
     public static String getCountryZipCode() {
         String CountryID = "";
         String CountryZipCode = "";
-        Context mContext = MainActivity.getAppContext();
+        Activity mActivity = MainActivity.getmActivity();
 
-        TelephonyManager manager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
+        TelephonyManager manager = (TelephonyManager) mActivity.getSystemService(Context.TELEPHONY_SERVICE);
         //getNetworkCountryIso
         CountryID = manager.getSimCountryIso().toUpperCase();
-        String[] rl = mContext.getResources().getStringArray(R.array.CountryCodes);
-        for (int i = 0; i < rl.length; i++) {
-            String[] g = rl[i].split(",");
+        String[] rl = mActivity.getResources().getStringArray(R.array.CountryCodes);
+        for (String aRl : rl) {
+            String[] g = aRl.split(",");
             if (g[1].trim().equals(CountryID.trim())) {
                 CountryZipCode = g[0];
                 break;

@@ -9,8 +9,6 @@ API Limitation List (Scrolling, FloatingButton < 21)
 Widget Sizes
 Widget Display Picture
 Widget Open app on tap, except refresh button
-Clean up XML-Layouts, colors, strings etc
-Clean up Java
 Put received SMS in a list (instead of toast)
 From Log to Page with Feature
 Merge Weeks to Months
@@ -42,3 +40,4 @@ This page
 <Week 3>
 About page
 Actionbar(Toolbar) titles
+Major project code clean up

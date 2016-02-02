@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/nav_header_height"
+    android:layout_height="@dimen/home_navigation_header_height"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
@@ -10,24 +10,27 @@
         android:scaleType="centerCrop"
         android:src="@drawable/nav_header_bg" />
 
-
     <ImageView
-        android:id="@+id/nav_display_picture"
-        android:layout_width="@dimen/nav_header_display_picture_size"
-        android:layout_height="@dimen/nav_header_display_picture_size"
-        android:layout_marginLeft="@dimen/nav_header_text_margin_left"
-        android:layout_marginTop="@dimen/nav_header_text_margin_left"
+        android:id="@+id/Navigation_ImageView_DisplayPicture"
+        android:layout_width="@dimen/home_nav_header_display_picture_size"
+        android:layout_height="@dimen/home_nav_header_display_picture_size"
+        android:layout_marginLeft="@dimen/home_nav_header_display_pic_margin_left"
+        android:layout_marginStart="@dimen/home_nav_header_display_pic_margin_left"
+        android:layout_marginTop="@dimen/home_nav_header_element_margin_from_top"
         android:scaleType="centerCrop"
-        android:src="@drawable/name" />
+        android:src="@drawable/name"
+        android:contentDescription="@string/navigation_display_picture" />
 
     <TextView
-        android:id="@+id/nav_username"
+        android:id="@+id/Navigation_TextView_Username"
         android:layout_width="match_parent"
-        android:layout_toRightOf="@+id/nav_display_picture"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/nav_header_text_margin_left"
-        android:text="@string/Username"
+        android:layout_marginLeft="@dimen/home_nav_header_gap_between_display_pic_and_username"
+        android:layout_marginStart="@dimen/home_nav_header_gap_between_display_pic_and_username"
+        android:layout_marginTop="@dimen/home_nav_header_element_margin_from_top"
+        android:layout_toEndOf="@+id/Navigation_ImageView_DisplayPicture"
+        android:layout_toRightOf="@+id/Navigation_ImageView_DisplayPicture"
+        android:text="@string/username"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="18sp" />
-
+        android:textSize="@dimen/home_nav_header_username_text_size" />
 </RelativeLayout>

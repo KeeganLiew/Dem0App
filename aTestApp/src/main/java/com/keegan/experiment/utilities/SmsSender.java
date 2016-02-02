@@ -6,6 +6,7 @@ import android.telephony.SmsManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.keegan.experiment.Global;
 import com.keegan.experiment.activities.MainActivity;
 
 /**
@@ -19,13 +20,14 @@ public class SmsSender {
         Log.d(TAG, "To: " + phoneNumber + ", Message: " + message);
         try {
             SmsManager smsManager = SmsManager.getDefault();
-            if (message.length() > 159) {
-                message = message.substring(0, 159);
+            if (message.length() >= Global.SMS_TEXT_LIMIT) {
+                message = message.substring(0, Global.SMS_TEXT_LIMIT - 1);
+                Toast.makeText(MainActivity.getmActivity(), "Not sending full message", Toast.LENGTH_LONG).show();
             }
             smsManager.sendTextMessage(phoneNumber, null, message, null, null);
-            Toast.makeText(MainActivity.mContext, "SMS sent.", Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.getmActivity(), "SMS sent.", Toast.LENGTH_LONG).show();
         } catch (Exception e) {
-            Toast.makeText(MainActivity.mContext, "SMS faild, please try again.", Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.getmActivity(), "SMS faild, please try again.", Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
     }
@@ -41,11 +43,11 @@ public class SmsSender {
         smsIntent.putExtra("sms_body", message);
 
         try {
-            MainActivity.mContext.startActivity(smsIntent);
-            //MainActivity.mContext.finish();
+            MainActivity.getmActivity().startActivity(smsIntent);
+            //MainActivity.getmContext().finish();
             Log.i("Finished sending SMS...", "");
         } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(MainActivity.mContext,
+            Toast.makeText(MainActivity.getmActivity(),
                     "SMS faild, please try again later.", Toast.LENGTH_SHORT).show();
         }
     }

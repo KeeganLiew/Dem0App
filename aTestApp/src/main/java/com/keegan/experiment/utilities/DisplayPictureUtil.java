@@ -34,7 +34,6 @@ public class DisplayPictureUtil {
     public static Intent performCrop(String picUri) {
         try {
             //Start Crop Activity
-
             Intent cropIntent = new Intent("com.android.camera.action.CROP");
             // indicate image type and Uri
             File f = new File(picUri);
@@ -62,8 +61,7 @@ public class DisplayPictureUtil {
     }
 
     public static Bitmap performCircleCrop(Bitmap bitmap) {
-        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
-                bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(output);
 
         final int color = 0xff424242;
@@ -100,7 +98,9 @@ public class DisplayPictureUtil {
             e.printStackTrace();
         } finally {
             try {
-                fos.close();
+                if (fos != null) {
+                    fos.close();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

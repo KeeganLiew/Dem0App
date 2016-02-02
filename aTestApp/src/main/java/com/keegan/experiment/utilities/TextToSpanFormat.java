@@ -1,7 +1,6 @@
 package com.keegan.experiment.utilities;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v4.content.ContextCompat;
 import android.text.Spannable;
@@ -21,9 +20,9 @@ public class TextToSpanFormat {
         TextToSpanFormat.mContext = mContext;
         final SpannableStringBuilder sb = new SpannableStringBuilder(string);
 
-        int titleColour = ContextCompat.getColor(mContext, R.color.white);
-        int subTitleColour = ContextCompat.getColor(mContext, R.color.white);
-        int textColour = ContextCompat.getColor(mContext, R.color.white);
+        int titleColour = ContextCompat.getColor(mContext, R.color.pure_white);
+        int subTitleColour = ContextCompat.getColor(mContext, R.color.pure_white);
+        int textColour = ContextCompat.getColor(mContext, R.color.pure_white);
 
         ForegroundColorSpan fcs;
         StyleSpan bss;

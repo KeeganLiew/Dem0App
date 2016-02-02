@@ -2,34 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/APP_FRAGMENT_BACKGROUND_COLOR"
+    android:background="@color/app_fragment_background_color"
     android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="vertical">
+    <include
+        android:id="@+id/Fragment_Development_ExpandableListView_DevLogList"
+        layout="@layout/expandable_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-            <include
-                android:id="@+id/ProgressBar_layout"
-                layout="@layout/expandable_list_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="visible" />
+    <include
+        android:id="@+id/ProgressBar_layout"
+        layout="@layout/main_progressbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/BLACK"
-                android:text="asdasdasdasd" />
-
-
-            <include
-                android:id="@+id/ProgressBar_layout"
-                layout="@layout/main_progressbar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone" />
-
-        </LinearLayout>
 </LinearLayout>
