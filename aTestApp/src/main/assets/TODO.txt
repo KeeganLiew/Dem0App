@@ -10,13 +10,12 @@ Widget Sizes
 Widget Display Picture
 Widget Open app on tap, except refresh button
 Put received SMS in a list (instead of toast)
-From Log to Page with Feature
+From DevLog to Page with Feature
 Merge Weeks to Months
 About Page Info
 [ToFix]
 Widget only updates latest one
 Keyboard to show after logout
-Hide float button in fragment
 [Done]
 <Week 1>
 Toolbar (new Navigation Drawer)

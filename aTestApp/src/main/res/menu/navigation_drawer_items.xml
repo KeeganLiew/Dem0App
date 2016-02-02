@@ -19,7 +19,7 @@
         <item
             android:id="@+id/nav_drawer_development"
             android:icon="@drawable/ic_action_location_found_dark"
-            android:title="@string/development" />
+            android:title="@string/development_log" />
 
         <item
             android:id="@+id/nav_drawer_contact"
