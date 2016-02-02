@@ -273,7 +273,6 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
     }
 
     private void startLoginProcess() {
-
         if (finalPin.equalsIgnoreCase("9090")) {
             //if correct credentials
             savePreferences("Username", finalUsername);
@@ -293,12 +292,22 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         int visibility = numericKeypad.getVisibility();
         if (numpad && visibility == View.GONE) {
             hideKeyboard(mActivity);
-            numericKeypad.setVisibility(View.VISIBLE);
+            numericKeypad.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    numericKeypad.setVisibility(View.VISIBLE);
+                }
+            }, 222);
         } else if (!numpad) {
-            showKeyboard(mActivity, usernameET);
             if (visibility == View.VISIBLE) {
                 numericKeypad.setVisibility(View.GONE);
             }
+            usernameET.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    showKeyboard(mActivity, usernameET);
+                }
+            }, 30);
         }
     }
 
