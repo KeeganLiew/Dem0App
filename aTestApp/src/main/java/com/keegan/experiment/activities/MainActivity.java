@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     private void otherInitializations() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        username = sharedPreferences.getString("Username", "noName");
+        username = sharedPreferences.getString("Username", getString(R.string.new_user));
         updateUsername(username);
 
         exitToast = Toast.makeText(mActivity, "Press again to exit.", Toast.LENGTH_LONG);

@@ -5,39 +5,48 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Handler;
+import android.preference.PreferenceManager;
+import android.util.Log;
+import android.view.View;
 import android.widget.RemoteViews;
 
 import com.keegan.experiment.R;
-import com.keegan.experiment.activities.MainActivity;
-
-import java.util.Random;
+import com.keegan.experiment.activities.LoginActivity;
 
 public class SimpleWidgetProvider extends AppWidgetProvider {
     private static final String TAG = SimpleWidgetProvider.class.getSimpleName();
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        final int count = appWidgetIds.length;
+        Log.d(TAG, "Widget onUpdate()");
+        for (int i = 0; i < appWidgetIds.length; i++) {
+            int appWidgetId = appWidgetIds[i];
+            Log.d(TAG, "updating widget " + i + ", id: " + appWidgetId);
+            RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_user);
 
-        for (int i = 0; i < count; i++) {
-            int widgetId = appWidgetIds[i];
-            String number = String.format("%03d", (new Random().nextInt(900) + 100));
 
-            //username
-            number = "Hello " + MainActivity.getUsername();
+            remoteViews.setViewVisibility(R.id.Widget_User_ImageView_RefreshIcon, View.GONE);
+            remoteViews.setViewVisibility(R.id.Widget_User_ProgressBar_Refresh, View.VISIBLE);
 
-            RemoteViews remoteViews = new RemoteViews(context.getPackageName(),
-                    R.layout.widget_display_refresh);
-            remoteViews.setTextViewText(R.id.textView, number);
+            //update process
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            String name = sharedPreferences.getString("Username", context.getString(R.string.new_user));
+            String widgetString = "Hello " + name;
+            remoteViews.setTextViewText(R.id.Widget_User_TextView_Username, widgetString);
 
-            Intent intent = new Intent(context, SimpleWidgetProvider.class);
-            intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
-                    0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            //remoteViews.setOnClickPendingIntent(R.id.actionButton, pendingIntent);
-            remoteViews.setOnClickPendingIntent(R.id.refreshIcon, pendingIntent);
-            appWidgetManager.updateAppWidget(widgetId, remoteViews);
+            remoteViews.setViewVisibility(R.id.Widget_User_ImageView_RefreshIcon, View.VISIBLE);
+            remoteViews.setViewVisibility(R.id.Widget_User_ProgressBar_Refresh, View.GONE);
+
+            //configuration
+            Intent configIntent = new Intent(context, SimpleWidgetProvider.class);
+            configIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+            configIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, appWidgetId, configIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            remoteViews.setOnClickPendingIntent(R.id.Widget_User_ImageView_RefreshIcon, pendingIntent);
+            appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
         }
     }
 }

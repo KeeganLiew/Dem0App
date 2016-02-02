@@ -1,0 +1,52 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/widget_background_color"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/widget_padding_left_right"
+        android:paddingRight="@dimen/widget_padding_left_right">
+
+        <ImageView
+            android:id="@+id/Widget_User_ImageView_DisplayPic"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/name" />
+
+        <TextView
+            android:id="@+id/Widget_User_TextView_Username"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:paddingLeft="@dimen/widget_element_paddings"
+            android:paddingRight="@dimen/widget_element_paddings"
+            android:textSize="@dimen/abc_text_size_large_material"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:id="@+id/Widget_User_RelativeLayout_Refresh"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5">
+
+            <ImageView
+                android:id="@+id/Widget_User_ImageView_RefreshIcon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/refresh"
+                android:src="@drawable/refresh"
+                android:visibility="visible"/>
+            <include
+                android:id="@+id/Widget_User_ProgressBar_Refresh"
+                layout="@layout/progressbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone" />
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>
