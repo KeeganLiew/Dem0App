@@ -420,7 +420,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                     break;
                 case R.id.nav_drawer_development:
                     mFragment = new Development();
-                    startFragment(mFragment, getString(R.string.development));
+                    startFragment(mFragment, getString(R.string.development_log));
                     break;
                 case R.id.nav_drawer_contact:
                     mFragment = new UnderConstructionFragment();
@@ -458,7 +458,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         }
     }
 
-    //public ui functions
+    //public ui methods
     public static Snackbar createSnackBar(String message, int length) {
         Snackbar sb = Snackbar.make(rootLayoutCCL, message, length);
         sb.show();
@@ -483,7 +483,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         }
     }
 
-    //private ui functions
+    //private ui methods
     private void updateUsername(String name) {
         updateTitle("Hello " + name);
         navigationUsernameTV.setText(name);
@@ -532,16 +532,19 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     private void closeFragmentLayout() {
         getFragmentManager().popBackStack();
         setFunctionLayout(View.GONE);
+        updateUsername(username);
     }
 
     private void setFunctionLayout(int status) {
         if (status == View.VISIBLE) {
             fragmentLayoutNSV.setVisibility(View.VISIBLE);
             homeLayoutNSV.setVisibility(View.GONE);
+            fabMainButtonFAM.setVisibility(View.GONE);
             collapseToolbar();
         } else {
             fragmentLayoutNSV.setVisibility(View.GONE);
             homeLayoutNSV.setVisibility(View.VISIBLE);
+            fabMainButtonFAM.setVisibility(View.VISIBLE);
             expandToolbar();
         }
     }
