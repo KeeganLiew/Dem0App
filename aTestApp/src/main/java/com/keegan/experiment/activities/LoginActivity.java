@@ -281,6 +281,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
             Bundle b = new Bundle();
             b.putString("Username", finalUsername); //Your id
             b.putString("Pin", finalPin); //Your id
+            b.putBoolean("OpenNavDraw", false); //Your id
             intent.putExtras(b); //Put your id to your next Intent
             startActivity(intent);
             //finish();
@@ -323,10 +324,11 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         }
     }
 
+    //todo refeactor
     private void loadSavedPreferences() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        String savedUsername = sharedPreferences.getString("Username", getString(R.string.new_user));
+        String savedUsername = sharedPreferences.getString("Username", Global.EMPTY_STRING);
         usernameET.setText(savedUsername);
         pinET.setText("");
         if (!savedUsername.equalsIgnoreCase("")) {

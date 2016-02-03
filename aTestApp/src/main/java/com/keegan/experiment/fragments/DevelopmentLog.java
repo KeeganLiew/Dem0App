@@ -30,9 +30,9 @@ import java.util.List;
 /**
  * Created by Keegan on 28/01/16.
  */
-public class Development extends Fragment implements OnClickListener {
+public class DevelopmentLog extends Fragment implements OnClickListener {
 
-    private final String TAG = Development.class.getSimpleName();
+    private final String TAG = DevelopmentLog.class.getSimpleName();
     private ExpandableListView expandableListView;
     private ExpandableListAdapter expandableListAdapter;
     private List<String> expandableListTitle;
