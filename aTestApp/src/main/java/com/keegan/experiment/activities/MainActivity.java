@@ -22,6 +22,7 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout.DrawerListener;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.NestedScrollView;
@@ -48,7 +49,7 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.keegan.experiment.Global;
 import com.keegan.experiment.Intents;
 import com.keegan.experiment.R;
-import com.keegan.experiment.fragments.Development;
+import com.keegan.experiment.fragments.DevelopmentLog;
 import com.keegan.experiment.fragments.DeviceInfoFragment;
 import com.keegan.experiment.fragments.SmsFragment;
 import com.keegan.experiment.fragments.UnderConstructionFragment;
@@ -59,9 +60,11 @@ import com.keegan.experiment.customs.CustomCoordinatorLayout;
 import com.mikepenz.aboutlibraries.LibsBuilder;
 import com.mikepenz.aboutlibraries.ui.LibsFragment;
 
+import java.io.File;
+
 public class MainActivity extends AppCompatActivity implements OnClickListener {
 
-    private final String TAG = getClass().getSimpleName();
+    private final String TAG = MainActivity.class.getSimpleName();
 
     private static DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle drawerToggle;
@@ -105,6 +108,22 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
         viewObjectsInitializations();
         otherInitializations();
+
+        Intent intent = getIntent();
+
+        Boolean value = intent.getBooleanExtra("OpenNavDraw", false);
+        Log.d(TAG, "DSADV: " + value);
+
+        if (getIntent().getExtras() != null && getIntent().getExtras().containsKey("OpenNavDraw")) {
+            boolean isNextWeek = false;
+            isNextWeek = getIntent().getExtras().getBoolean("OpenNavDraw");
+            Log.d(TAG, "DSAD2: " + isNextWeek);
+            if (isNextWeek) {
+                openDrawer();
+            }else{
+                closeDrawer();
+            }
+        }
     }
 
     private void viewObjectsInitializations() {
@@ -171,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     private void otherInitializations() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         username = sharedPreferences.getString("Username", getString(R.string.new_user));
-        updateUsername(username);
+        uiUpdateUsername(username);
 
         exitToast = Toast.makeText(mActivity, "Press again to exit.", Toast.LENGTH_LONG);
     }
@@ -215,7 +234,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
-        DisplayPictureUtil.loadImageFromStorage(navigationDisplayPictureIV, "/data/data/com.keegan.experiment/app_imageDir");
+        File profileImageDirectory = mContext.getDir(Global.profileImageDirectoryName, Context.MODE_PRIVATE);
+        DisplayPictureUtil.loadImageFromStorage(navigationDisplayPictureIV, profileImageDirectory.getPath());
 
         broadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -260,18 +280,24 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.Activity_Main_Button_Login:
+                final String previousUsername = loadSavedPreferences("Username");
                 username = usernameET.getText().toString();
                 password = passwordET.getText().toString();
                 Log.d(TAG, "Username is: " + username);
                 Log.d(TAG, "Password is: " + password);
-                updateUsername(username);
-                Snackbar usernameSB = Snackbar.make(rootLayoutCCL, "Hello " + username, Snackbar.LENGTH_INDEFINITE);
-                usernameSB.setAction("Undo", new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                });
+                savePreferences("Username", username);
+                uiUpdateUsername(username);
+                Snackbar usernameSB = Snackbar.make(rootLayoutCCL, "Hello " + username, Snackbar.LENGTH_LONG);
+                if (!previousUsername.equals("")) {
+                    usernameSB.setAction("Undo", new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            username = previousUsername;
+                            savePreferences("Username", username);
+                            uiUpdateUsername(username);
+                        }
+                    });
+                }
                 usernameSB.show();
                 hideKeyboard(mActivity);
                 break;
@@ -290,7 +316,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         super.onActivityResult(requestCode, resultCode, data);
         switch (resultCode) {
             case (RESULT_OK):
-                Toast.makeText(getBaseContext(), "SMS sent ", Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "requestCode: " + requestCode);
                 switch (requestCode) {
                     case Global.CONTACT_PICKER_RESULT:
@@ -349,6 +374,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         editor.apply();
     }
 
+    public String loadSavedPreferences(String key) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        return sharedPreferences.getString(key, Global.EMPTY_STRING);
+    }
+
     public void clearSharedPreferences() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -382,6 +412,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
         @Override
         public void onDrawerOpened(View drawerView) {
+            hideKeyboard(mActivity);
         }
 
         @Override
@@ -408,7 +439,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             switch (id) {
                 case R.id.nav_drawer_home:
                     closeFragmentLayout();
-                    updateUsername(username);
+                    uiUpdateUsername(username);
                     break;
                 case R.id.nav_drawer_sms_service:
                     mFragment = new SmsFragment();
@@ -419,7 +450,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                     startFragment(mFragment, getString(R.string.device_info));
                     break;
                 case R.id.nav_drawer_development:
-                    mFragment = new Development();
+                    mFragment = new DevelopmentLog();
                     startFragment(mFragment, getString(R.string.development_log));
                     break;
                 case R.id.nav_drawer_contact:
@@ -465,6 +496,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         return sb;
     }
 
+    public static void openDrawer() {
+        mDrawerLayout.openDrawer(GravityCompat.START);
+    }
+
     public static void closeDrawer() {
         mDrawerLayout.closeDrawer(Gravity.LEFT);
     }
@@ -484,7 +519,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     }
 
     //private ui methods
-    private void updateUsername(String name) {
+    private void uiUpdateUsername(String name) {
         updateTitle("Hello " + name);
         navigationUsernameTV.setText(name);
     }
@@ -532,7 +567,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     private void closeFragmentLayout() {
         getFragmentManager().popBackStack();
         setFunctionLayout(View.GONE);
-        updateUsername(username);
+        uiUpdateUsername(username);
     }
 
     private void setFunctionLayout(int status) {
