@@ -8,15 +8,14 @@ API Limitation List (Scrolling, FloatingButton < 21)
 [ToImprove]
 Replace images
 Widget Sizes
-Widget Display Picture
 Widget Progress Bar
-Widget Open app on tap, except refresh button
 Put received SMS in a list (instead of toast)
 From DevLog to Page with Feature
 Merge Weeks to Months
 About Page Info
+Refactor Intents and its extras
 [ToFix]
-Widget only updates latest one
+Repel's effect is still active for another 250 commits
 [Done]
 <Week 1>
 Toolbar (new Navigation Drawer)
@@ -42,3 +41,6 @@ About page
 Actionbar(Toolbar) titles
 Major project code clean up
 Bug fixing - Login's keyboard behavior, Float button behaviour, Widget
+Tap Widget to open app
+Snackbar to undo username
+Widget Display Picture

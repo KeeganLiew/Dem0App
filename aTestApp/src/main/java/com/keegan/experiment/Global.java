@@ -23,6 +23,7 @@ public class Global {
     public static final int RESULT_CROP = 3003;
     public static final String EMPTY_STRING = "";
     public static final int SMS_TEXT_LIMIT = 160;
+    public static final String profileImageDirectoryName = "imageDir";
 
     public static List<String> toCreateList = new ArrayList<String>();
     public static List<String> toImproveList = new ArrayList<String>();

@@ -1,6 +1,5 @@
 package com.keegan.experiment.utilities;
 
-import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.ContextWrapper;
@@ -12,11 +11,11 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
-import android.media.Image;
 import android.net.Uri;
 import android.util.Log;
 import android.widget.ImageView;
-import android.widget.Toast;
+
+import com.keegan.experiment.Global;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -83,7 +82,7 @@ public class DisplayPictureUtil {
 
     public static String saveToInternalSorage(ContextWrapper cw, Bitmap bitmapImage) {
         // path to /data/data/yourapp/app_data/imageDir
-        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+        File directory = cw.getDir(Global.profileImageDirectoryName, Context.MODE_PRIVATE);
         // Create imageDir
         File mypath = new File(directory, "profile.jpg");
         Log.d(TAG, "mypath: " + mypath.getAbsolutePath());
@@ -110,10 +109,10 @@ public class DisplayPictureUtil {
 
     public static void loadImageFromStorage(ImageView nav_display_picture, String path) {
         try {
+            Log.d(TAG, "Loading image from: " + path);
             File f = new File(path, "profile.jpg");
             if (f.exists()) {
                 Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
-                //ImageView img = (ImageView) findViewById(R.id.imgPicker);
                 nav_display_picture.setImageBitmap(b);
             } else {
                 Log.d(TAG, "No profile picture saved");
@@ -123,5 +122,19 @@ public class DisplayPictureUtil {
         }
     }
 
+    public static Bitmap getDisplayPictureFromStorage(String path) {
+        Bitmap b = null;
+        try {
+            File f = new File(path, "profile.jpg");
+            if (f.exists()) {
+                b = BitmapFactory.decodeStream(new FileInputStream(f));
+            } else {
+                Log.d(TAG, "No profile picture saved");
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return b;
+    }
 
 }
