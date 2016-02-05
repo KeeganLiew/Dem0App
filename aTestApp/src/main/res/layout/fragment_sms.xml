@@ -97,7 +97,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_between_elements"
                 android:background="@drawable/background_send_money_linear"
-                android:hint="@string/hint_message"
+                android:hint="@string/hint_message_sms"
                 android:paddingLeft="@dimen/edit_text_padding_left_right"
                 android:paddingRight="@dimen/edit_text_padding_left_right"
                 android:paddingTop="5dp"

@@ -10,6 +10,26 @@
         <item name="windowNoTitle">true</item>
         <item name="android:textColorPrimary">@color/app_main_text_color</item>
         <item name="android:textColor">@color/app_main_text_color</item>
+        <!--<item name="android:background">@color/app_main_theme_color</item>-->
+        <!--<item name="background">@color/app_main_theme_color</item>-->
+        <!--<item name="android:popupMenuStyle">@style/PopupMenu</item>-->
+        <!-- This is the styling for action bar -->
+        <!--<item name="actionBarStyle">@style/MyActionBar</item>-->
+        <!--To change the text styling of options menu items</item>-->
+        <item name="android:itemTextAppearance">@style/MyActionBar.MenuTextStyle</item>
+        <!--To change the background of options menu-->
+        <item name="android:itemBackground">@color/app_main_theme_color</item>
+    </style>
+
+    <style name="MyActionBar.MenuTextStyle"
+        parent="style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/app_main_text_color</item>
+        <!--<item name="android:textStyle">bold</item>-->
+        <item name="android:textSize">@dimen/standard_text_size</item>
+    </style>
+
+    <style name="PopupMenu" parent="@android:style/Widget.PopupMenu">
+        <item name="android:popupBackground">@color/app_main_theme_color</item>
     </style>
 
     <style name="MyTheme" parent="Theme.AppCompat.Light.DarkActionBar">
