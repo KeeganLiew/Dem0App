@@ -2,7 +2,7 @@
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/custom_numeric_keyboard_grid"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@color/custom_numpad_color"
     android:divider="@drawable/abc_text_cursor_material"
     android:orientation="vertical"
@@ -10,7 +10,8 @@
 
     <TableRow
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
         android:divider="@drawable/abc_text_cursor_material"
         android:gravity="center"
         android:showDividers="middle">
@@ -36,7 +37,8 @@
 
     <TableRow
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
         android:divider="@drawable/abc_text_cursor_material"
         android:gravity="center"
         android:showDividers="middle">
@@ -63,7 +65,8 @@
 
     <TableRow
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
         android:divider="@drawable/abc_text_cursor_material"
         android:gravity="center"
         android:showDividers="middle">
@@ -89,7 +92,8 @@
 
     <TableRow
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
         android:divider="@drawable/abc_text_cursor_material"
         android:gravity="center"
         android:showDividers="middle">

@@ -47,8 +47,11 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
             File profileImageDirectory = mContext.getDir(Global.profileImageDirectoryName, Context.MODE_PRIVATE);
             Bitmap displayPictureBitmap = DisplayPictureUtil.getDisplayPictureFromStorage(profileImageDirectory.getPath());
             //remoteViews.setImageViewBitmap(R.id.Widget_User_ImageView_DisplayPic, displayPictureBitmap); //doesn't work
-            setBitmap(remoteViews, R.id.Widget_User_ImageView_DisplayPic, displayPictureBitmap); //workaround
-
+            if(displayPictureBitmap != null) {
+                setBitmap(remoteViews, R.id.Widget_User_ImageView_DisplayPic, displayPictureBitmap); //workaround
+            }else{
+                Log.d(TAG, "No displayPicExist");
+            }
             //Stop progress bar
             remoteViews.setViewVisibility(R.id.Widget_User_ImageView_RefreshIcon, View.VISIBLE);
             remoteViews.setViewVisibility(R.id.Widget_User_ProgressBar_Refresh, View.GONE);
