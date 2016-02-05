@@ -6,6 +6,7 @@ GitHub
 HTTP requests
 API Limitation List (Scrolling, FloatingButton < 21)
 [ToImprove]
+Login page feedback, Logo
 Replace images
 Widget Sizes
 Widget Progress Bar
@@ -44,3 +45,4 @@ Bug fixing - Login's keyboard behavior, Float button behaviour, Widget
 Tap Widget to open app
 Snackbar to undo username
 Widget Display Picture
+Numpad set to 40% of screen
