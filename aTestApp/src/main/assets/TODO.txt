@@ -2,6 +2,7 @@
 Change username on long press
 Snackbar to undo display picture
 TestCases
+MMS Function
 GitHub
 HTTP requests
 API Limitation List (Scrolling, FloatingButton < 21)
@@ -10,7 +11,9 @@ Login page feedback, Logo
 Replace images
 Widget Sizes
 Widget Progress Bar
-Put received SMS in a list (instead of toast)
+SMS received with App: in a list (instead of toast)
+SMS receiver toggle to save
+SMS to add mandatory fields
 From DevLog to Page with Feature
 Merge Weeks to Months
 About Page Info

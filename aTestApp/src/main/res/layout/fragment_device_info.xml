@@ -32,7 +32,7 @@
             android:layout_marginTop="@dimen/margin_between_elements"
             android:gravity="center"
             android:textColor="@color/app_main_text_color"
-            android:textSize="@dimen/fragment_standard_text_size" />
+            android:textSize="@dimen/standard_text_size" />
 
     </LinearLayout>
 </LinearLayout>

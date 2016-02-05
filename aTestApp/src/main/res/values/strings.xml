@@ -28,7 +28,8 @@
     <string name="message_type_sms">SMS Message</string>
     <string name="message_type_mms">MMS Message</string>
     <string name="hint_phone_number_or_contact"><i>Phone Number or Contact</i></string>
-    <string name="hint_message"><i>Enter Message</i></string>
+    <string name="hint_message_sms"><i>Enter Message</i></string>
+    <string name="hint_message_mms"><i>MMS Coming Soon</i></string>
     <string name="message_to">"Message to "</string>
     <string name="message_limit_error">"Please enter less than 160 characters"</string>
     <string name="sms_switch">Toggle SMS receiver</string>

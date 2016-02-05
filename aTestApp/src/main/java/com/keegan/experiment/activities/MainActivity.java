@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             Log.d(TAG, "DSAD2: " + isNextWeek);
             if (isNextWeek) {
                 openDrawer();
-            }else{
+            } else {
                 closeDrawer();
             }
         }
