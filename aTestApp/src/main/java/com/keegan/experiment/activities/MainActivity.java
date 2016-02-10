@@ -10,11 +10,9 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.AppBarLayout.Behavior;
@@ -32,6 +30,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -64,6 +64,8 @@ import com.keegan.experiment.utilities.GalleryUtil;
 import com.keegan.experiment.customs.CustomCoordinatorLayout;
 import com.mikepenz.aboutlibraries.LibsBuilder;
 import com.mikepenz.aboutlibraries.ui.LibsFragment;
+
+import java.io.File;
 
 public class MainActivity extends AppCompatActivity implements OnClickListener {
 
@@ -175,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     }
 
     private void otherInitializations() {
-        username = Global.loadSavedPreferences(mActivity, Global.SharedPref_Username, getString(R.string.new_user));
+        username = Global.loadSavedPreferences(mActivity, Global.sharedPref_Username, getString(R.string.new_user));
         uiUpdateUsername(username);
 
         exitToast = Toast.makeText(mActivity, getString(R.string.toast_press_again_to_exit), Toast.LENGTH_LONG);
@@ -281,12 +283,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.Activity_Main_Button_Login:
-                final String previousUsername = Global.loadSavedPreferences(mActivity, Global.SharedPref_Username, Global.EMPTY_STRING);
+                final String previousUsername = Global.loadSavedPreferences(mActivity, Global.sharedPref_Username, Global.EMPTY_STRING);
                 username = usernameET.getText().toString();
                 password = passwordET.getText().toString();
                 Log.d(TAG, "Username is: " + username);
                 Log.d(TAG, "Password is: " + password);
-                Global.savePreferences(mActivity, Global.SharedPref_Username, username);
+                Global.savePreferences(mActivity, Global.sharedPref_Username, username);
                 uiUpdateUsername(username);
                 Snackbar usernameSB = Snackbar.make(rootLayoutCCL, "Hello " + username, Snackbar.LENGTH_LONG);
                 if (!previousUsername.equals("")) {
@@ -294,7 +296,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                         @Override
                         public void onClick(View v) {
                             username = previousUsername;
-                            Global.savePreferences(mActivity, Global.SharedPref_Username, username);
+                            Global.savePreferences(mActivity, Global.sharedPref_Username, username);
                             uiUpdateUsername(username);
                         }
                     });
@@ -344,9 +346,28 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                         // Set The Bitmap Data To ImageView
                         selectedBitmap = DisplayPictureUtil.performCircleCrop(selectedBitmap);
                         ContextWrapper cw = new ContextWrapper(getApplicationContext());
-                        DisplayPictureUtil.saveToInternalSorage(cw, selectedBitmap);
+                        DisplayPictureUtil.saveToInternalStorage(cw, selectedBitmap, Global.profileImageName);
                         navigationDisplayPictureIV.setImageBitmap(selectedBitmap);
                         navigationDisplayPictureIV.setScaleType(ImageView.ScaleType.FIT_XY);
+                        //undo if prev_profile_pic exist
+                        File directory = cw.getDir(Global.profileImageDirectoryName, Context.MODE_PRIVATE);
+                        Bitmap bitmapImage = DisplayPictureUtil.getDisplayPictureFromStorage(directory.getPath(), Global.profileImageName);
+                        Snackbar usernameSB = Snackbar.make(rootLayoutCCL, "Hello " + username, Snackbar.LENGTH_INDEFINITE);
+                        if (bitmapImage != null) {
+                            usernameSB.setAction("Undo", new OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    ContextWrapper cw = new ContextWrapper(getApplicationContext());
+                                    File directory = cw.getDir(Global.profileImageDirectoryName, Context.MODE_PRIVATE);
+                                    Bitmap bitmapImage = DisplayPictureUtil.getDisplayPictureFromStorage(directory.getPath(), Global.prevProfileImageName);
+                                    DisplayPictureUtil.saveToInternalStorage(cw, bitmapImage, Global.profileImageName);
+                                    navigationDisplayPictureIV.setImageBitmap(bitmapImage);
+                                    navigationDisplayPictureIV.setScaleType(ImageView.ScaleType.FIT_XY);
+                                    Global.deleteImage(mContext, Global.prevProfileImageName);
+                                }
+                            });
+                        }
+                        usernameSB.show();
                         break;
                 }
                 break;
@@ -367,7 +388,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     //public methods
     public void clearDisplayPicture() {
-        Global.deleteImage(mContext);
+        Global.deleteImage(mContext, Global.profileImageName);
     }
 
     public void logout() {
@@ -579,7 +600,22 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         final Button cancelB = (Button) merchantIdBoxDialog.findViewById(R.id.Fragment_Sms_Button_Cancel);
         final ProgressBar progressBar = (ProgressBar) merchantIdBoxDialog.findViewById(R.id.Dialog_merchantIdBox_Progressbar);
         final EditText editText = (EditText) merchantIdBoxDialog.findViewById(R.id.Dialog_merchantIdBox_EditText_Id);
-        progressBar.setVisibility(View.GONE);
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (editText.getText().length() > 0) {
+                    editText.setError(null);
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
         editText.requestFocus();
         editText.postDelayed(new Runnable() {
             @Override
@@ -601,21 +637,20 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         button.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(final View v) {
-                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
                 if (editText.getText().toString().isEmpty()) {
                     //Toast.makeText(v.getContext(), "Please enter more than one character", Toast.LENGTH_SHORT).show();
-                    Global.createAndShowToast((Activity) v.getContext(), getString(R.string.toast_enter_a_character), Toast.LENGTH_SHORT);
-                    merchantIdBoxDialog.dismiss();
+                    //Global.createAndShowToast(v.getContext(), getString(R.string.toast_enter_a_character), Toast.LENGTH_SHORT);
+                    editText.setError(getString(R.string.toast_enter_a_character));
                     return;
                 }
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
                 progressBar.setVisibility(View.VISIBLE);
-                //login.saveMerchantId(editText.getText().toString());
                 try {
-                    final String previousUsername = Global.loadSavedPreferences(mActivity, Global.SharedPref_Username, Global.EMPTY_STRING);
+                    final String previousUsername = Global.loadSavedPreferences(mActivity, Global.sharedPref_Username, Global.EMPTY_STRING);
                     username = editText.getText().toString();
                     Log.d(TAG, "Username is: " + username);
-                    Global.savePreferences(mActivity, Global.SharedPref_Username, username);
+                    Global.savePreferences(mActivity, Global.sharedPref_Username, username);
                     uiUpdateUsername(username);
                     Snackbar usernameSB = Snackbar.make(rootLayoutCCL, "Hello " + username, Snackbar.LENGTH_INDEFINITE);
                     if (!previousUsername.equals("")) {
@@ -623,7 +658,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                             @Override
                             public void onClick(View v) {
                                 username = previousUsername;
-                                Global.savePreferences(mActivity, Global.SharedPref_Username, username);
+                                Global.savePreferences(mActivity, Global.sharedPref_Username, username);
                                 uiUpdateUsername(username);
                             }
                         });
@@ -636,7 +671,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                     public void run() {
                         progressBar.setVisibility(View.GONE);
                         Log.d(TAG, "saved " + editText.getText().toString());
-                        //Toast.makeText(v.getContext(), "saved " + editText.getText().toString(), Toast.LENGTH_SHORT).show();
                         merchantIdBoxDialog.dismiss();
                     }
                 }, 750);

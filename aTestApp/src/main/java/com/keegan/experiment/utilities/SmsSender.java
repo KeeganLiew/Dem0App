@@ -23,8 +23,8 @@ public class SmsSender {
         Activity mActivity = MainActivity.getmActivity();
         try {
             SmsManager smsManager = SmsManager.getDefault();
-            if (message.length() >= Global.SMS_TEXT_LIMIT) {
-                message = message.substring(0, Global.SMS_TEXT_LIMIT - 1);
+            if (message.length() >= Global.sms_text_limit) {
+                message = message.substring(0, Global.sms_text_limit - 1);
                 //Toast.makeText(MainActivity.getmActivity(), "Not sending full message", Toast.LENGTH_LONG).show();
                 Global.createAndShowToast(mActivity, mActivity.getString(R.string.toast_not_sending_full_message), Toast.LENGTH_LONG);
             }

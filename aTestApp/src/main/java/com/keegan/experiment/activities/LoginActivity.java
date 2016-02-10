@@ -76,7 +76,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
     private TextView num0;
     //private ImageView numBackspace;
     private TextView numBackspace;
-    private View currencyPressedKey;
+    private View currentlyPressedKey;
 
     private Activity mActivity;
     private Context mContext;
@@ -254,9 +254,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         public void onDrawerSlide(View view, float v) {
             if (v * 100 > Global.hide_keyboard_login_drawer_percentage) {
                 if (pinET.hasFocus()) {
-                    if (currencyPressedKey != null) {
-                        currencyPressedKey.setBackgroundColor(ContextCompat.getColor(mContext, R.color.custom_numpad_color));
-                    }
+                    clearCurrencyPressedKeyColour();
                     lastFocused = pinET;
                 } else if (usernameET.hasFocus()) {
                     hideKeyboard(mActivity);
@@ -285,7 +283,13 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
     private OnTouchListener numpadListener = new OnTouchListener() {
         @Override
         public boolean onTouch(View view, MotionEvent event) {
+            clearCurrencyPressedKeyColour();
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                currentlyPressedKey = view;
+                view.setBackgroundColor(ContextCompat.getColor(mContext, R.color.custom_numpad_color_pressed));
+            } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                //currentlyPressedKey = null;
+                view.setBackgroundColor(ContextCompat.getColor(mContext, R.color.custom_numpad_color));
                 Integer pinClicked = Arrays.asList(Global.numpadKeysData).indexOf(view.getId());
                 if (pinClicked >= 0 && pinClicked <= 9) {
                     pinET.append(pinClicked.toString());
@@ -302,11 +306,6 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                 } else {
                     Log.w(TAG, "Somehow pressed a non-numpad key");
                 }
-                currencyPressedKey = view;
-                view.setBackgroundColor(ContextCompat.getColor(mContext, R.color.custom_numpad_color_pressed));
-            } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                //currencyPressedKey = null;
-                view.setBackgroundColor(ContextCompat.getColor(mContext, R.color.custom_numpad_color));
                 Log.d(TAG, "Current Pin: " + pinET.getText().toString());
                 pinLoginChecker(pinET);
             }
@@ -317,7 +316,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
     //private methods
     private void pinLoginChecker(EditText pin_EditText) {
         String pin = pin_EditText.getText().toString();
-        if (pin.length() == 4) {
+        if (pin.length() >= Global.pin_text_limit) {
             finalUsername = usernameET.getText().toString();
             finalPin = pin;
             //start logging in
@@ -337,6 +336,8 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                 } catch (InterruptedException ex) {
                     Log.d(TAG, ex.toString());
                 }
+
+
                 Intent intent;
                 if (finalPin.equalsIgnoreCase("9090")) {
                     intent = new Intent(Intents.LOGIN_SUCCESS.toString());
@@ -344,11 +345,11 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                     Log.d(TAG, "Sending Intent: " + intent.getAction());
 
                     //if correct credentials
-                    Global.savePreferences(mActivity, Global.SharedPref_Username, finalUsername);
+                    Global.savePreferences(mActivity, Global.sharedPref_Username, finalUsername);
                     //start main activity with extra info
                     intent = new Intent(LoginActivity.this, MainActivity.class);
                     Bundle b = new Bundle();
-                    b.putString(Global.SharedPref_Username, finalUsername); //Your id
+                    b.putString(Global.sharedPref_Username, finalUsername); //Your id
                     b.putString("Pin", finalPin); //Your id
                     b.putBoolean("OpenNavDraw", false); //Your id
                     intent.putExtras(b); //Put your id to your next Intent
@@ -363,6 +364,12 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
             }
         };
         thread.start();
+    }
+
+    private void clearCurrencyPressedKeyColour() {
+        if (currentlyPressedKey != null) {
+            currentlyPressedKey.setBackgroundColor(ContextCompat.getColor(mContext, R.color.custom_numpad_color));
+        }
     }
 
     private void enableAndShowViews(boolean bool) {
@@ -420,7 +427,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
     }
 
     private void loadSavedUsername() {
-        String savedUsername = Global.loadSavedPreferences(mActivity, Global.SharedPref_Username, Global.EMPTY_STRING);
+        String savedUsername = Global.loadSavedPreferences(mActivity, Global.sharedPref_Username, getString(R.string.new_user));
         usernameET.setText(savedUsername);
         pinET.setText("");
         if (!savedUsername.equalsIgnoreCase("")) {

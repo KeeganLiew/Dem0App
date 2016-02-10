@@ -1,5 +1,5 @@
 [ToCreate]
-Home/Snackbar to undo display picture
+Home/save&change PIN
 Home/Change background image on long press
 [Dev] Robolectric
 Sms/MMS Function
@@ -16,7 +16,7 @@ DevLog/Merge Weeks to Months
 About/Update About Page Info
 [Dev] Refactor Intents and its extras
 [ToFix]
-Cool, cool, cool for now
+Cooly fooly for now
 [Done]
 <Week 1>
 Home/Added Toolbar
@@ -53,8 +53,11 @@ Android/Added display picture for Widget
 Login/Added UI feedback
 Login/Added Display picture
 Login/Fix display picture not clearing on Logout bug
+Login/Fix numpad Login bug
 Home/Added OptionMenu functions
 Home/Added long press to change Username in NavDrawer
+Home/Fix long press Username bug
+Home/Added ability to undo display picture VIA Snackbar
 Sms/Sms toggle setting now saves
 Sms/Phone no. and Message are now mandatory fields
 Contact/Created Contact Page

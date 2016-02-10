@@ -45,11 +45,11 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
             remoteViews.setTextViewText(R.id.Widget_User_TextView_Username, widgetString);
             //Update display picture
             File profileImageDirectory = mContext.getDir(Global.profileImageDirectoryName, Context.MODE_PRIVATE);
-            Bitmap displayPictureBitmap = DisplayPictureUtil.getDisplayPictureFromStorage(profileImageDirectory.getPath());
+            Bitmap displayPictureBitmap = DisplayPictureUtil.getDisplayPictureFromStorage(profileImageDirectory.getPath(), Global.profileImageName);
             //remoteViews.setImageViewBitmap(R.id.Widget_User_ImageView_DisplayPic, displayPictureBitmap); //doesn't work
-            if(displayPictureBitmap != null) {
+            if (displayPictureBitmap != null) {
                 setBitmap(remoteViews, R.id.Widget_User_ImageView_DisplayPic, displayPictureBitmap); //workaround
-            }else{
+            } else {
                 Log.d(TAG, "No displayPicExist");
             }
             //Stop progress bar
