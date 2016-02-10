@@ -5,9 +5,11 @@
     <color name="clean_blue">#FF18B0E6</color>
     <color name="black_semi_transparent">#B2000000</color>
     <color name="grey">#FF666666</color>
-    <color name="twenty_percent_white">#ccffffff</color>
+    <color name="eighty_percent_white">#C8ffffff</color>
+    <color name="eighty_percent_black">#C8000000</color>
     <color name="thirty_percent_black">#4C000000</color>
-    <color name="ninety_percent_black">#22000000</color>
+    <color name="twenty_percent_black">#35000000</color>
+    <color name="ten_percent_black">#22000000</color>
     <color name="pink">#e91e63</color>
 
     <color name="fab_white_normal">#fafafa</color>
@@ -25,12 +27,13 @@
 
     <color name="progress_bar_head_colour">@color/app_main_theme_color</color>
     <color name="progress_bar_body_colour">@color/app_main_theme_color</color>
-    <color name="progress_bar_tail_colour">@color/twenty_percent_white</color>
+    <color name="progress_bar_tail_colour">@color/eighty_percent_white</color>
 
     <color name="spinner_background_color">#888888</color>
     <color name="login_navigation_background_color">@color/pure_black</color>
     <color name="expandablelistview_group_title_text_color">@color/pure_black</color>
     <color name="custom_numpad_color">@color/pure_black</color>
+    <color name="custom_numpad_color_pressed">@color/app_main_theme_color</color>
     <color name="widget_background_color">#55000000</color>
 
     <color name="app_main_text_color">@color/pure_white</color>

@@ -24,6 +24,12 @@ public class Global {
     public static final String EMPTY_STRING = "";
     public static final int SMS_TEXT_LIMIT = 160;
     public static final String profileImageDirectoryName = "imageDir";
+    public static final Integer[] numpadKeysData = {R.id.custom_numeric_keyboard_key_0,
+            R.id.custom_numeric_keyboard_key_1, R.id.custom_numeric_keyboard_key_2, R.id.custom_numeric_keyboard_key_3,
+            R.id.custom_numeric_keyboard_key_4, R.id.custom_numeric_keyboard_key_5, R.id.custom_numeric_keyboard_key_6,
+            R.id.custom_numeric_keyboard_key_7, R.id.custom_numeric_keyboard_key_8, R.id.custom_numeric_keyboard_key_9,
+            R.id.custom_numeric_keyboard_key_menu, R.id.custom_numeric_keyboard_key_backspace
+    };
 
     public static List<String> toCreateList = new ArrayList<String>();
     public static List<String> toImproveList = new ArrayList<String>();

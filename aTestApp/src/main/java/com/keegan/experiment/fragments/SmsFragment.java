@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View.OnClickListener;
@@ -18,6 +19,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -33,7 +35,6 @@ import com.keegan.experiment.Global;
 import com.keegan.experiment.Intents;
 import com.keegan.experiment.R;
 import com.keegan.experiment.services.SmsReceiver;
-import com.keegan.experiment.listener.MessageTypeOnItemSelectedListener;
 import com.keegan.experiment.utilities.SmsSender;
 
 import java.util.ArrayList;
@@ -90,7 +91,7 @@ public class SmsFragment extends Fragment implements OnClickListener {
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(mActivity, R.layout.spinner_layout, R.id.Spinner_TextView, spinnerList);
         messageTypeSpinner.setAdapter(spinnerAdapter);
         messageTypeSpinner.setSelection(0);
-        messageTypeSpinner.setOnItemSelectedListener(new MessageTypeOnItemSelectedListener(mActivity));
+        messageTypeSpinner.setOnItemSelectedListener(new messageTypeOnItemSelectedListener());
 
         //Switch
         mySwitch = (Switch) rootView.findViewById(R.id.Fragment_Sms_Switch_receiverToggle);
@@ -188,7 +189,7 @@ public class SmsFragment extends Fragment implements OnClickListener {
             Log.d(TAG, "Text length: " + messageET.length());
             if (messageET.length() >= Global.SMS_TEXT_LIMIT) {
                 messageTILShowError();
-            }else{
+            } else {
                 messageTILHideError();
             }
         }
@@ -196,6 +197,28 @@ public class SmsFragment extends Fragment implements OnClickListener {
         @Override
         public void afterTextChanged(Editable s) {
 
+        }
+    }
+
+    private class messageTypeOnItemSelectedListener implements AdapterView.OnItemSelectedListener {
+        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+            Log.d("OnItemSelected(Type)", "Selected " + pos);
+            messageTypeTV.setText(parent.getSelectedItem().toString());
+            messageTypeTV.setTextColor(ContextCompat.getColor(mActivity, R.color.app_main_text_color));
+
+            if (pos == 0) {
+                messageTIL.setHint(mActivity.getString(R.string.hint_message_sms));
+                messageTIL.setEnabled(true);
+                messageET.setEnabled(true);
+            } else if (pos == 1) {
+                messageTIL.setHint(mActivity.getString(R.string.hint_message_mms));
+                messageTIL.setEnabled(false);
+                messageET.setEnabled(false);
+            }
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> arg0) {
         }
     }
 

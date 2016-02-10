@@ -21,8 +21,7 @@
         <item name="android:itemBackground">@color/app_main_theme_color</item>
     </style>
 
-    <style name="MyActionBar.MenuTextStyle"
-        parent="style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+    <style name="MyActionBar.MenuTextStyle" parent="style/TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textColor">@color/app_main_text_color</item>
         <!--<item name="android:textStyle">bold</item>-->
         <item name="android:textSize">@dimen/standard_text_size</item>
@@ -66,7 +65,7 @@
 
     <style name="custom_numeric_keys">
         <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">1</item>
         <!--<item name="android:paddingTop">@dimen/anti_theft_t9_key_paddingTop</item>
         <item name="android:paddingBottom">@dimen/anti_theft_t9_key_paddingBottom</item>-->
@@ -76,6 +75,8 @@
         <item name="android:gravity">center</item>
         <item name="android:scaleType">centerInside</item>
         <item name="android:textColor">@color/pure_white</item>
+        <item name="android:hapticFeedbackEnabled">true</item>
+        <item name="android:background">@color/custom_numpad_color</item>
         <!--<item name="android:background">@drawable/anti_theft_btn_blue_bg</item>-->
         <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
     </style>
