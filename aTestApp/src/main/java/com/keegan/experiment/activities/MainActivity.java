@@ -49,6 +49,7 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.keegan.experiment.Global;
 import com.keegan.experiment.Intents;
 import com.keegan.experiment.R;
+import com.keegan.experiment.fragments.ContactMe;
 import com.keegan.experiment.fragments.DevelopmentLog;
 import com.keegan.experiment.fragments.DeviceInfoFragment;
 import com.keegan.experiment.fragments.SmsFragment;
@@ -234,9 +235,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
-        File profileImageDirectory = mContext.getDir(Global.profileImageDirectoryName, Context.MODE_PRIVATE);
-        DisplayPictureUtil.loadImageFromStorage(navigationDisplayPictureIV, profileImageDirectory.getPath());
-
+        Global.loadImage(mContext, navigationDisplayPictureIV);
+        closeFragmentLayout();
+        uiUpdateUsername(username);
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -454,7 +455,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                     startFragment(mFragment, getString(R.string.development_log));
                     break;
                 case R.id.nav_drawer_contact:
-                    mFragment = new UnderConstructionFragment();
+                    mFragment = new ContactMe();
                     startFragment(mFragment, getString(R.string.contact));
                     break;
                 case R.id.nav_drawer_about:

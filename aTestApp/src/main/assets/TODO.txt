@@ -1,14 +1,13 @@
 [ToCreate]
-Load saved picture for login page
 Change username on long press
 Snackbar to undo display picture
-TestCases
+Robolectric
 MMS Function
-GitHub
 HTTP requests
 API Limitation List (Scrolling, FloatingButton < 21)
 [ToImprove]
 Replace images
+Post on GitHub
 Widget Sizes
 Widget Progress Bar
 SMS received with App: in a list (instead of toast)
@@ -22,33 +21,37 @@ Refactor Intents and its extras
 Repel's effect is still active for another 250 commits
 [Done]
 <Week 1>
-Toolbar (new Navigation Drawer)
-CollapsingToolbarLayout
-FloatingAction Menu + Button
-CoordinatedLayout
-Upload and crop from Gallery
-Widget
-SMS service
+HomePage - Added Toolbar (new Navigation Drawer)
+HomePage - Added CollapsingToolbarLayout
+HomePage - Added FloatingAction Menu + Button
+HomePage - Added CoordinatedLayout
+HomePage - Added ability to upload & crop from Gallery
+AndroidPage - Created Widget
+Sms page - Implemented SMS service
 <Week 2>
-Double press back to exit
-Log out
-Login Page
-Login Navigation Drawer
-DeviceInfo Page
-Get Name and Ph.Number from Contacts
-SMS fragment
-ActionBar(Toolbar) only scrolls on HomePage
-TODO.TXT parser
-This page
+HomePage - Implemented double-press <Back> to exit
+HomePage - Implemented log out
+LoginPage - Created Login page
+LoginPage - Navigation Drawer
+DeviceInfo page - Created DeviceInfo Page
+SmsPage - Created Sms Page
+SmsPage - Get Name and Ph.Number from Contacts
+HomePage - Toolbar only expands/scrolls here
+DevLog - Implemented TODO.TXT parser
+DevLog - Created this page
 <Week 3>
-About page
-Actionbar(Toolbar) titles
-Major project code clean up
-Bug fixing - Login's keyboard behavior, Float button behaviour, Widget
-Tap Widget to open app
-Snackbar to undo username
-Widget Display Picture
-Numpad set to 40% of screen
+AboutPage - Created About Page
+HomePage+ - Actionbar(Toolbar) titles
+[Dev] Major project code refactor
+LoginPage - Fix keyboard behavior bug
+HomePage - Fix float button behaviour bug
+AndroidPage - Fix widget update bug
+AndroidPage - Tap Widget to open app
+HomePage - Snackbar to undo username
+AndroidPage - Widget Display Picture
+LoginPage - Numpad set to 40% of screen
 <Week 4>
-Refactor
-Login page UI feedback
+[Dev] Minor refactor/clean up
+LoginPage - UI feedback
+LoginPage - Display picture
+ContactPage - Created Contact Page
