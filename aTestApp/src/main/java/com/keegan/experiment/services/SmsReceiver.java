@@ -19,7 +19,7 @@ import com.keegan.experiment.utilities.DeviceInfo;
 public class SmsReceiver extends BroadcastReceiver {
 
     private Context mContext;
-    final String TAG = getClass().getSimpleName().toString();
+    final String TAG = getClass().getSimpleName();
 
     public void onReceive(Context mContext, Intent intent) {
         this.mContext = mContext;
