@@ -2,9 +2,14 @@ package com.keegan.experiment;
 
 import android.app.Activity;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.util.Log;
+import android.widget.ImageView;
 
+import com.keegan.experiment.utilities.DisplayPictureUtil;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,11 +22,12 @@ public class Global {
         undigestedDeviceId, digestedDeviceId
     }
 
+    public static final String KEEGAN_LINKEDIN_URL = "http://www.linkedin.com/in/keeganliew";
+    public static final String EMPTY_STRING = "";
     public static final int hide_keyboard_login_drawer_percentage = 50;
     public static final int CONTACT_PICKER_RESULT = 1001;
     public static final int GALLERY_ACTIVITY_CODE = 2002;
     public static final int RESULT_CROP = 3003;
-    public static final String EMPTY_STRING = "";
     public static final int SMS_TEXT_LIMIT = 160;
     public static final String profileImageDirectoryName = "imageDir";
     public static final Integer[] numpadKeysData = {R.id.custom_numeric_keyboard_key_0,
@@ -44,5 +50,10 @@ public class Global {
         } else if (status == PackageManager.COMPONENT_ENABLED_STATE_DISABLED) {
             Log.d(TAG, componentToCheck.getShortClassName() + " is disabled");
         }
+    }
+
+    public static void loadImage(Context mContext, ImageView pictureIV) {
+        File profileImageDirectory = mContext.getDir(profileImageDirectoryName, Context.MODE_PRIVATE);
+        DisplayPictureUtil.loadImageFromStorage(pictureIV, profileImageDirectory.getPath());
     }
 }

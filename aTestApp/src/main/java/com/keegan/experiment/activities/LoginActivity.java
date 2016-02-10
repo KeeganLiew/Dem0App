@@ -40,6 +40,7 @@ import android.widget.TextView;
 import com.keegan.experiment.Global;
 import com.keegan.experiment.Intents;
 import com.keegan.experiment.R;
+import com.keegan.experiment.utilities.DisplayPictureUtil;
 
 import java.util.Arrays;
 
@@ -55,12 +56,12 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
     private LinearLayout helpLL;
     private LinearLayout contactLL;
 
+    private ImageView displayPictureIV;
     private EditText usernameET;
     private EditText pinET;
 
     private RelativeLayout popUpProgressBarDialogRL;
     private TextView popUpProgressBarTextTV;
-
     private RelativeLayout popUpButtonDialogRL;
     private Button popUpButtonTextB;
 
@@ -96,6 +97,9 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void viewObjectsInitializations() {
+        //ImageView
+        displayPictureIV = (ImageView) findViewById(R.id.Activity_Login_ImageView_DisplayPicture);
+
         //EditText
         usernameET = (EditText) findViewById(R.id.Activity_Login_EditText_Name);
         pinET = (EditText) findViewById(R.id.Activity_Login_EditText_Pin);
@@ -162,6 +166,8 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         mActivity = this;
         mContext = getApplicationContext();
         loadSavedPreferences();
+
+        Global.loadImage(mContext, displayPictureIV);
 
         broadcastReceiver = new BroadcastReceiver() {
             @Override

@@ -4,9 +4,13 @@
 
     <!--For Saving Display Pictures-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!--For sms toast pop up-->
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <!--For choosing conatct and sending sms-->
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <!--For web browsing-->
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
