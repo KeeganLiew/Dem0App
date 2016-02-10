@@ -36,5 +36,11 @@
     <dimen name="fragment_margin_before_result">60dp</dimen>
     <dimen name="spinner_padding_left">10dp</dimen>
     <dimen name="spinner_padding_right">20dp</dimen>
+    <dimen name="login_screen_display_picture_size">120dp</dimen>
+    <dimen name="pop_up_dialog_width">210dp</dimen>
+    <dimen name="pop_up_dialog_height">100dp</dimen>
+    <!--pop up dialog-->
+    <dimen name="pop_up_dialog_padding_left_right">20dp</dimen>
+    <dimen name="pop_up_dialog">10dp</dimen>
 
 </resources>

@@ -2,8 +2,9 @@
     <!--App-->
     <string name="app_name">Features App</string>
     <!--Logins-->
+    <string name="guest">Guest</string>
     <string name="username">Username</string>
-    <string name="pin">Pin</string>
+    <string name="pin">PIN</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
     <!--Login Navigation Drawer-->
@@ -11,7 +12,7 @@
     <string name="forgot_pin">Forgot Pin</string>
     <string name="help">Help</string>
     <string name="scroll_error">Scrolling only works for Lollipop or above</string>
-    <string name="navigation_display_picture">Display Picture</string>
+    <string name="display_picture">Display Picture</string>
     <!--Home Navigation Drawer-->
     <string name="home">Home</string>
     <string name="sms_service">Sms Service</string>
@@ -37,6 +38,7 @@
     <string name="button_submit">Submit</string>
     <string name="button_send">Send</string>
     <string name="button_cancel">Cancel</string>
+    <string name="button_ok">OK</string>
     <!--Custom Numpad-->
     <string name="number_one">1</string>
     <string name="number_two">2</string>
@@ -49,10 +51,14 @@
     <string name="number_nine">9</string>
     <string name="number_zero">0</string>
     <string name="numpad_menu">Menu</string>
-    <string name="numpad_backspace">backspace</string>
+    <string name="numpad_backspace">Del</string>
     <string name="about_description_app">"This is a small sample which can be set in the about my app description file."</string>
     <string name="about_description_extra_info">"You can style this with html markup :D"</string>
     <!--Others-->
     <string name="hello_world">Hello world!</string>
     <string name="refresh">refresh</string>
+    <!--Pop up dialog-->
+    <string name="loading">Loading…</string>
+    <string name="pin_incorrect">Your PIN is incorrect. Please try again.</string>
+    <string name="logging_in">Logging in…</string>
 </resources>

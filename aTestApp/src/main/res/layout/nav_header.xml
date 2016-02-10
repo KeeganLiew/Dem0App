@@ -19,7 +19,7 @@
         android:layout_marginTop="@dimen/home_nav_header_element_margin_from_top"
         android:scaleType="centerCrop"
         android:src="@drawable/name"
-        android:contentDescription="@string/navigation_display_picture" />
+        android:contentDescription="@string/display_picture" />
 
     <TextView
         android:id="@+id/Navigation_TextView_Username"
