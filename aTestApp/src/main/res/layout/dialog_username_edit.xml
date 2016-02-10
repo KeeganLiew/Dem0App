@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_margin="10dp"
+    android:background="@color/app_fragment_background_color"
+    android:minWidth="300dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/element_left_right_margins"
+        android:layout_marginRight="@dimen/element_left_right_margins"
+        android:layout_marginTop="@dimen/margin_between_elements"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/Dialog_merchantIdBox_EditText_Id"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/background_send_money_linear"
+            android:hint="@string/username"
+            android:inputType="textPersonName"
+            android:paddingLeft="@dimen/edit_text_padding_left_right"
+            android:paddingRight="@dimen/edit_text_padding_left_right"
+            android:textColor="@color/app_main_text_color"
+            android:textColorHint="@color/edit_text_hint_text_color"
+            android:textSize="@dimen/edit_text_size" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/Dialog_merchantIdBox_Button_Submit"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/fragment_button_height"
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="@dimen/margin_between_elements"
+                android:layout_weight="1"
+                android:background="@drawable/error_button_background"
+                android:text="@string/button_submit" />
+
+            <Button
+                android:id="@+id/Fragment_Sms_Button_Cancel"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/fragment_button_height"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="@dimen/margin_between_elements"
+                android:layout_weight="1"
+                android:background="@drawable/error_button_background"
+                android:text="@string/button_cancel" />
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/Dialog_merchantIdBox_Progressbar"
+            android:layout_width="@dimen/fragment_progressbar_width"
+            android:layout_height="@dimen/fragment_progressbar_height"
+            android:layout_gravity="center"
+            android:layout_marginBottom="5dp"
+            android:indeterminateDrawable="@drawable/progress_style"
+            android:visibility="gone" />
+    </LinearLayout>
+</LinearLayout>

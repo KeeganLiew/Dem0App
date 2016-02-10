@@ -3,17 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.keegan.experiment.activities.MainActivity">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/main_menu_item_settings"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="@string/settings"
         app:showAsAction="never" />
     <item
-        android:id="@+id/Item_About"
+        android:id="@+id/main_menu_item_about"
         android:title="@string/about"
         app:showAsAction="never" />
     <item
         android:orderInCategory="100"
-        android:id="@+id/Item_logout"
+        android:id="@+id/main_menu_item_logout"
         android:title="@string/log_out"
         app:showAsAction="never" />
 

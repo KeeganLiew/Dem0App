@@ -167,6 +167,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         mContext = getApplicationContext();
         loadSavedPreferences();
 
+        displayPictureIV.setImageResource(R.drawable.name);
         Global.loadImage(mContext, displayPictureIV);
 
         broadcastReceiver = new BroadcastReceiver() {

@@ -1,6 +1,7 @@
 package com.keegan.experiment.activities;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -12,6 +13,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.support.design.widget.AppBarLayout;
@@ -37,10 +39,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,8 +64,6 @@ import com.keegan.experiment.utilities.GalleryUtil;
 import com.keegan.experiment.customs.CustomCoordinatorLayout;
 import com.mikepenz.aboutlibraries.LibsBuilder;
 import com.mikepenz.aboutlibraries.ui.LibsFragment;
-
-import java.io.File;
 
 public class MainActivity extends AppCompatActivity implements OnClickListener {
 
@@ -109,22 +111,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
         viewObjectsInitializations();
         otherInitializations();
-
-        Intent intent = getIntent();
-
-        Boolean value = intent.getBooleanExtra("OpenNavDraw", false);
-        Log.d(TAG, "DSADV: " + value);
-
-        if (getIntent().getExtras() != null && getIntent().getExtras().containsKey("OpenNavDraw")) {
-            boolean isNextWeek = false;
-            isNextWeek = getIntent().getExtras().getBoolean("OpenNavDraw");
-            Log.d(TAG, "DSAD2: " + isNextWeek);
-            if (isNextWeek) {
-                openDrawer();
-            } else {
-                closeDrawer();
-            }
-        }
     }
 
     private void viewObjectsInitializations() {
@@ -223,11 +209,26 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        Fragment mFragment;
+        switch (item.getItemId()) {
+            case R.id.main_menu_item_about:
+                String description = getString(R.string.about_description_app);
+                String extra = getString(R.string.about_description_extra_info);
+                LibsFragment aboutPageFragment = new LibsBuilder()
+                        //get the fragment
+                        .withAboutIconShown(true)
+                        .withAboutVersionShown(true)
+                        .withAboutDescription(description)
+                        .fragment();
+                startFragment(aboutPageFragment, getString(R.string.about));
+                break;
+            case R.id.main_menu_item_settings:
+                mFragment = new UnderConstructionFragment();
+                startFragment(mFragment, getString(R.string.settings));
+                break;
+            case R.id.main_menu_item_logout:
+                logout();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -387,8 +388,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         editor.apply();
     }
 
+    public void clearDisplayPicture() {
+        Global.deleteImage(mContext);
+    }
+
     public void logout() {
         clearSharedPreferences();
+        clearDisplayPicture();
         this.finish();
     }
 
@@ -486,6 +492,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         public boolean onLongClick(View v) {
             Log.d(TAG, "Long pressed background_image");
             //pop up dialog with cancel
+            showMerchantIdBox();
             return true;
         }
     }
@@ -583,6 +590,81 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             fabMainButtonFAM.setVisibility(View.VISIBLE);
             expandToolbar();
         }
+    }
+
+    private void showMerchantIdBox() {
+        final Dialog merchantIdBoxDialog = new Dialog(this);
+        merchantIdBoxDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        merchantIdBoxDialog.setContentView(R.layout.dialog_username_edit);
+        merchantIdBoxDialog.setCanceledOnTouchOutside(false);
+        final Button button = (Button) merchantIdBoxDialog.findViewById(R.id.Dialog_merchantIdBox_Button_Submit);
+        final Button cancelB = (Button) merchantIdBoxDialog.findViewById(R.id.Fragment_Sms_Button_Cancel);
+        final ProgressBar progressBar = (ProgressBar) merchantIdBoxDialog.findViewById(R.id.Dialog_merchantIdBox_Progressbar);
+        final EditText editText = (EditText) merchantIdBoxDialog.findViewById(R.id.Dialog_merchantIdBox_EditText_Id);
+        progressBar.setVisibility(View.GONE);
+        editText.requestFocus();
+        editText.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                imm.showSoftInput(editText, InputMethodManager.SHOW_FORCED);
+            }
+        }, 30);
+
+        cancelB.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                merchantIdBoxDialog.dismiss();
+            }
+        });
+
+        button.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                if (editText.getText().toString().isEmpty()) {
+                    Toast.makeText(v.getContext(), "Please enter more than one character", Toast.LENGTH_SHORT).show();
+                    merchantIdBoxDialog.dismiss();
+                    return;
+                }
+                progressBar.setVisibility(View.VISIBLE);
+                //login.saveMerchantId(editText.getText().toString());
+                try {
+                    final String previousUsername = loadSavedPreferences("Username");
+                    username = editText.getText().toString();
+                    Log.d(TAG, "Username is: " + username);
+                    savePreferences("Username", username);
+                    uiUpdateUsername(username);
+                    Snackbar usernameSB = Snackbar.make(rootLayoutCCL, "Hello " + username, Snackbar.LENGTH_INDEFINITE);
+                    if (!previousUsername.equals("")) {
+                        usernameSB.setAction("Undo", new OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                username = previousUsername;
+                                savePreferences("Username", username);
+                                uiUpdateUsername(username);
+                            }
+                        });
+                    }
+                    usernameSB.show();
+                } catch (Exception e) {
+                }
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressBar.setVisibility(View.GONE);
+                        Log.d(TAG, "saved " + editText.getText().toString());
+                        Toast.makeText(v.getContext(), "saved " + editText.getText().toString(), Toast.LENGTH_SHORT).show();
+                        merchantIdBoxDialog.dismiss();
+                    }
+                }, 750);
+                closeDrawer();
+            }
+        });
+        merchantIdBoxDialog.show();
     }
 
 }
