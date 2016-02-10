@@ -3,7 +3,6 @@ package com.keegan.experiment.fragments;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
@@ -11,7 +10,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View.OnClickListener;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.LocalBroadcastManager;
@@ -30,6 +28,7 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.keegan.experiment.Global;
 import com.keegan.experiment.Intents;
@@ -149,6 +148,14 @@ public class SmsFragment extends Fragment implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.Fragment_Sms_Button_Send:
+                if (phoneNumberET.getText().toString().isEmpty()) {
+                    Global.createAndShowToast(mActivity, mActivity.getString(R.string.phone_number_is_mandatory), Toast.LENGTH_LONG);
+                    return;
+                }
+                if (messageET.getText().toString().isEmpty()) {
+                    messageTILShowError(true, getString(R.string.message_is_mandatory));
+                    return;
+                }
                 SmsSender.sendSms(phoneNumberET.getText().toString(), messageET.getText().toString());
                 break;
             case R.id.Fragment_Sms_Button_Cancel:
@@ -187,9 +194,9 @@ public class SmsFragment extends Fragment implements OnClickListener {
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             Log.d(TAG, "Text length: " + messageET.length());
             if (messageET.length() >= Global.SMS_TEXT_LIMIT) {
-                messageTILShowError();
+                messageTILShowError(true, getString(R.string.message_limit_error));
             } else {
-                messageTILHideError();
+                messageTILShowError(false, Global.EMPTY_STRING);
             }
         }
 
@@ -222,14 +229,9 @@ public class SmsFragment extends Fragment implements OnClickListener {
     }
 
     //private methods
-    private void messageTILShowError() {
-        messageTIL.setErrorEnabled(true);
-        messageTIL.setError(getString(R.string.message_limit_error));
-    }
-
-    private void messageTILHideError() {
-        messageTIL.setErrorEnabled(false);
-        messageTIL.setError(Global.EMPTY_STRING);
+    private void messageTILShowError(boolean bool, String errorMessage) {
+        messageTIL.setErrorEnabled(bool);
+        messageTIL.setError(errorMessage);
     }
 
     private void showProgressBar() {

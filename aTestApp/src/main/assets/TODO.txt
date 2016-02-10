@@ -1,61 +1,64 @@
 [ToCreate]
-Snackbar to undo display picture
-Change background image on long press
-Robolectric
-MMS Function
+Home/Snackbar to undo display picture
+Home/Change background image on long press
+[Dev] Robolectric
+Sms/MMS Function
 HTTP requests
 API Limitation List (Scrolling, FloatingButton < 21)
 [ToImprove]
-Widget Sizes
-Widget Progress Bar
-SMS received with App: in a list (instead of toast)
-SMS to add mandatory fields
-From DevLog to Page with Feature
-Merge Weeks to Months
-About Page Info
-Refactor Intents and its extras
+Home/Add something?
+Android/Widget Sizes
+Android/Widget Progress Bar
+Sms/To split into two
+Sms/SMS received with App: in a list (instead of toast)
+DevLog/From DevLog to Page with Feature
+DevLog/Merge Weeks to Months
+About/Update About Page Info
+[Dev] Refactor Intents and its extras
 [ToFix]
 Cool, cool, cool for now
 [Done]
 <Week 1>
-HomePage - Added Toolbar (new Navigation Drawer)
-HomePage - Added CollapsingToolbarLayout
-HomePage - Added FloatingAction Menu + Button
-HomePage - Added CoordinatedLayout
-HomePage - Added ability to upload & crop from Gallery
-AndroidPage - Created Widget
-Sms page - Implemented SMS service
+Home/Added Toolbar
+Home/Added CollapsingToolbarLayout
+Home/Added FloatingAction Menu+Button
+Home/Added CoordinatedLayout
+Home/Added ability to upload & crop from Gallery
+Android/Created Widget
+Sms/Implemented SMS receiver service
 <Week 2>
-HomePage - Implemented double-press <Back> to exit
-HomePage - Implemented log out
-LoginPage - Created Login page
-LoginPage - Added Navigation Drawer
-DeviceInfo page - Created DeviceInfo Page
-SmsPage - Created Sms Page
-SmsPage - Added ability to get Contact Name and Phone no.
-HomePage - Toolbar now only expands/scrolls on HomePage
-DevLog - Implemented TODO.TXT parser
-DevLog - Created this (DevLog) page
+Login/Created Login page
+Login/Added Navigation Drawer
+Home/Implemented double-press <Back> to exit
+Home/Implemented log out
+Home/Toolbar now only expands/scrolls on HomePage
+Sms/Created Sms Page
+Sms/Added ability to get Contact Name and Phone no.
+DeviceInfo /Created DeviceInfo Page
+DevLog/Implemented TODO.TXT parser
+DevLog/Created this (DevLog) Page
 <Week 3>
-AboutPage - Created About Page
-HomePage+ - Added Toolbar titles
 [Dev] Major project code refactor
-LoginPage - Fix keyboard behavior bug
-HomePage - Fix float button behaviour bug
-AndroidPage - Fix widget update bug
-AndroidPage - Implemented tap Widget to open app
-HomePage - SnackBar to undo username
-AndroidPage - Added display picture for Widget
-LoginPage - Numpad is now set to 40% of screen
+All/Added Toolbar titles
+Login/Fix keyboard behavior bug
+Login/Numpad is now set to 40% of screen
+Home/Fix float button behaviour bug
+Home/SnackBar to undo username
+About/Created About Page
+Android/Fix widget update bug
+Android/Implemented tap Widget to open app
+Android/Added display picture for Widget
 <Week 4>
 [Dev] Minor refactor/clean up
-LoginPage - Added UI feedback
-LoginPage - Added Display picture
-ContactPage - Created Contact Page
-HomePage - Added OptionMenu functions
-LoginPage - Fix display picture not clearing on Logout bug
-HomePage - Added long press to change Username in NavDrawer
-SmsPage - Sms toggle setting now saves
+Login/Added UI feedback
+Login/Added Display picture
+Login/Fix display picture not clearing on Logout bug
+Home/Added OptionMenu functions
+Home/Added long press to change Username in NavDrawer
+Sms/Sms toggle setting now saves
+Sms/Phone no. and Message are now mandatory fields
+Contact/Created Contact Page
+
 <Week 5>
 [Dev] Update all image assets
 [Dev] Post to GitHub

@@ -61,4 +61,17 @@
     <string name="loading">Loading…</string>
     <string name="pin_incorrect">Your PIN is incorrect. Please try again.</string>
     <string name="logging_in">Logging in…</string>
+    <!--Mandatory fields-->
+    <string name="phone_number_is_mandatory">Phone number is mandatory</string>
+    <string name="message_is_mandatory">Message is mandatory</string>
+    <!--Toast message-->
+    <string name="toast_error_message_crop_support">Your device doesn\'t support the crop action!</string>
+    <string name="toast_press_again_to_exit">Press again to exit</string>
+    <string name="toast_enter_a_character">Please enter a character</string>
+    <string name="toast_enter_more_than_one_character">Please enter more than one character</string>
+    <string name="toast_no_phone_number_found_for_contact">No phone number found for Contact</string>
+    <string name="toast_failed_to_get_contact_data">Failed to get Contact data</string>
+    <string name="toast_not_sending_full_message">Not sending full message</string>
+    <string name="toast_sms_sent_success">SMS sent</string>
+    <string name="toast_sms_sent_fail">SMS failed, please try again</string>
 </resources>

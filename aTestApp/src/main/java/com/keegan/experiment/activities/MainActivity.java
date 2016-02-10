@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         username = Global.loadSavedPreferences(mActivity, Global.SharedPref_Username, getString(R.string.new_user));
         uiUpdateUsername(username);
 
-        exitToast = Toast.makeText(mActivity, "Press again to exit.", Toast.LENGTH_LONG);
+        exitToast = Toast.makeText(mActivity, getString(R.string.toast_press_again_to_exit), Toast.LENGTH_LONG);
     }
 
     @Override
@@ -335,9 +335,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                         if (cropIntent != null) {
                             startActivityForResult(cropIntent, Global.RESULT_CROP);
                         } else {
-                            String errorMessage = "your device doesn't support the crop action!";
-                            Toast toast = Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT);
-                            toast.show();
+                            Global.createAndShowToast(mActivity, getString(R.string.toast_error_message_crop_support), Toast.LENGTH_SHORT);
                         }
                         break;
                     case Global.RESULT_CROP:
@@ -606,7 +604,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                 InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
                 if (editText.getText().toString().isEmpty()) {
-                    Toast.makeText(v.getContext(), "Please enter more than one character", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(v.getContext(), "Please enter more than one character", Toast.LENGTH_SHORT).show();
+                    Global.createAndShowToast((Activity) v.getContext(), getString(R.string.toast_enter_a_character), Toast.LENGTH_SHORT);
                     merchantIdBoxDialog.dismiss();
                     return;
                 }
@@ -637,7 +636,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                     public void run() {
                         progressBar.setVisibility(View.GONE);
                         Log.d(TAG, "saved " + editText.getText().toString());
-                        Toast.makeText(v.getContext(), "saved " + editText.getText().toString(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(v.getContext(), "saved " + editText.getText().toString(), Toast.LENGTH_SHORT).show();
                         merchantIdBoxDialog.dismiss();
                     }
                 }, 750);
