@@ -46,6 +46,7 @@ import java.util.List;
 public class SmsFragment extends Fragment implements OnClickListener {
 
     private final String TAG = SmsFragment.class.getSimpleName();
+
     private TextView messageTypeTV;
     private TextView resultTV;
     private EditText phoneNumberET;
@@ -59,6 +60,7 @@ public class SmsFragment extends Fragment implements OnClickListener {
     private EditText messageET;
     private ImageView contactsIV;
 
+    private Boolean switchS;
     private Activity mActivity;
 
     @Override
@@ -96,7 +98,9 @@ public class SmsFragment extends Fragment implements OnClickListener {
         //Switch
         mySwitch = (Switch) rootView.findViewById(R.id.Fragment_Sms_Switch_receiverToggle);
         mySwitch.setOnCheckedChangeListener(new smsSwitchListener());
-        mySwitch.setChecked(true); //set the switch to ON
+        switchS = Global.loadSavedPreferences(mActivity, Global.SharedPref_SmsReceiverToggle, Global.SMS_SWITCH_DEFAULT);
+        Global.setComponent(mActivity, SmsReceiver.class, switchS);
+        mySwitch.setChecked(switchS);
 
         messageTypeTV.setOnClickListener(this);
         sendButton.setOnClickListener(this);
@@ -167,14 +171,9 @@ public class SmsFragment extends Fragment implements OnClickListener {
     private class smsSwitchListener implements OnCheckedChangeListener {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            ComponentName smsReceiverComponent = new ComponentName(mActivity, SmsReceiver.class);
-            if (isChecked) {
-                mActivity.getPackageManager().setComponentEnabledSetting(smsReceiverComponent, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
-                Global.componentChecker(mActivity, TAG, smsReceiverComponent);
-            } else {
-                mActivity.getPackageManager().setComponentEnabledSetting(smsReceiverComponent, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
-                Global.componentChecker(mActivity, TAG, smsReceiverComponent);
-            }
+            Global.setComponent(mActivity, SmsReceiver.class, isChecked);
+            Global.savePreferences(mActivity, Global.SharedPref_SmsReceiverToggle, isChecked);
+            Global.checkComponent(mActivity, TAG, SmsReceiver.class);
         }
     }
 

@@ -1,24 +1,21 @@
 [ToCreate]
-Change background image on long press
 Snackbar to undo display picture
+Change background image on long press
 Robolectric
 MMS Function
 HTTP requests
 API Limitation List (Scrolling, FloatingButton < 21)
 [ToImprove]
-Replace images
-Post on GitHub
 Widget Sizes
 Widget Progress Bar
 SMS received with App: in a list (instead of toast)
-SMS receiver toggle to save
 SMS to add mandatory fields
 From DevLog to Page with Feature
 Merge Weeks to Months
 About Page Info
 Refactor Intents and its extras
 [ToFix]
-Repel's effect is still active for another 250 commits
+Cool, cool, cool for now
 [Done]
 <Week 1>
 HomePage - Added Toolbar (new Navigation Drawer)
@@ -32,30 +29,33 @@ Sms page - Implemented SMS service
 HomePage - Implemented double-press <Back> to exit
 HomePage - Implemented log out
 LoginPage - Created Login page
-LoginPage - Navigation Drawer
+LoginPage - Added Navigation Drawer
 DeviceInfo page - Created DeviceInfo Page
 SmsPage - Created Sms Page
-SmsPage - Get Name and Ph.Number from Contacts
-HomePage - Toolbar only expands/scrolls here
+SmsPage - Added ability to get Contact Name and Phone no.
+HomePage - Toolbar now only expands/scrolls on HomePage
 DevLog - Implemented TODO.TXT parser
-DevLog - Created this page
+DevLog - Created this (DevLog) page
 <Week 3>
 AboutPage - Created About Page
-HomePage+ - Actionbar(Toolbar) titles
+HomePage+ - Added Toolbar titles
 [Dev] Major project code refactor
 LoginPage - Fix keyboard behavior bug
 HomePage - Fix float button behaviour bug
 AndroidPage - Fix widget update bug
-AndroidPage - Tap Widget to open app
-HomePage - Snackbar to undo username
-AndroidPage - Widget Display Picture
-LoginPage - Numpad set to 40% of screen
+AndroidPage - Implemented tap Widget to open app
+HomePage - SnackBar to undo username
+AndroidPage - Added display picture for Widget
+LoginPage - Numpad is now set to 40% of screen
 <Week 4>
 [Dev] Minor refactor/clean up
-LoginPage - UI feedback
-LoginPage - Display picture
+LoginPage - Added UI feedback
+LoginPage - Added Display picture
 ContactPage - Created Contact Page
 HomePage - Added OptionMenu functions
 LoginPage - Fix display picture not clearing on Logout bug
 HomePage - Added long press to change Username in NavDrawer
+SmsPage - Sms toggle setting now saves
 <Week 5>
+[Dev] Update all image assets
+[Dev] Post to GitHub

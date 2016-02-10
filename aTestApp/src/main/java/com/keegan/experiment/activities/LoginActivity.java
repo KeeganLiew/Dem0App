@@ -9,10 +9,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -40,7 +38,6 @@ import android.widget.TextView;
 import com.keegan.experiment.Global;
 import com.keegan.experiment.Intents;
 import com.keegan.experiment.R;
-import com.keegan.experiment.utilities.DisplayPictureUtil;
 
 import java.util.Arrays;
 
@@ -165,7 +162,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         super.onResume();
         mActivity = this;
         mContext = getApplicationContext();
-        loadSavedPreferences();
+        loadSavedUsername();
 
         displayPictureIV.setImageResource(R.drawable.name);
         Global.loadImage(mContext, displayPictureIV);
@@ -347,11 +344,11 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                     Log.d(TAG, "Sending Intent: " + intent.getAction());
 
                     //if correct credentials
-                    savePreferences("Username", finalUsername);
+                    Global.savePreferences(mActivity, Global.SharedPref_Username, finalUsername);
                     //start main activity with extra info
                     intent = new Intent(LoginActivity.this, MainActivity.class);
                     Bundle b = new Bundle();
-                    b.putString("Username", finalUsername); //Your id
+                    b.putString(Global.SharedPref_Username, finalUsername); //Your id
                     b.putString("Pin", finalPin); //Your id
                     b.putBoolean("OpenNavDraw", false); //Your id
                     intent.putExtras(b); //Put your id to your next Intent
@@ -422,11 +419,8 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         }
     }
 
-    //todo refeactor
-    private void loadSavedPreferences() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-
-        String savedUsername = sharedPreferences.getString("Username", Global.EMPTY_STRING);
+    private void loadSavedUsername() {
+        String savedUsername = Global.loadSavedPreferences(mActivity, Global.SharedPref_Username, Global.EMPTY_STRING);
         usernameET.setText(savedUsername);
         pinET.setText("");
         if (!savedUsername.equalsIgnoreCase("")) {
@@ -436,14 +430,6 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
             usernameET.requestFocus();
             showKeyboard(mActivity, usernameET);
         }
-    }
-
-    private void savePreferences(String key, String value) {
-        SharedPreferences sharedPreferences = PreferenceManager
-                .getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(key, value);
-        editor.apply();
     }
 
     //public methods

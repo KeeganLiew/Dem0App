@@ -175,8 +175,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     }
 
     private void otherInitializations() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        username = sharedPreferences.getString("Username", getString(R.string.new_user));
+        username = Global.loadSavedPreferences(mActivity, Global.SharedPref_Username, getString(R.string.new_user));
         uiUpdateUsername(username);
 
         exitToast = Toast.makeText(mActivity, "Press again to exit.", Toast.LENGTH_LONG);
@@ -282,12 +281,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.Activity_Main_Button_Login:
-                final String previousUsername = loadSavedPreferences("Username");
+                final String previousUsername = Global.loadSavedPreferences(mActivity, Global.SharedPref_Username, Global.EMPTY_STRING);
                 username = usernameET.getText().toString();
                 password = passwordET.getText().toString();
                 Log.d(TAG, "Username is: " + username);
                 Log.d(TAG, "Password is: " + password);
-                savePreferences("Username", username);
+                Global.savePreferences(mActivity, Global.SharedPref_Username, username);
                 uiUpdateUsername(username);
                 Snackbar usernameSB = Snackbar.make(rootLayoutCCL, "Hello " + username, Snackbar.LENGTH_LONG);
                 if (!previousUsername.equals("")) {
@@ -295,7 +294,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                         @Override
                         public void onClick(View v) {
                             username = previousUsername;
-                            savePreferences("Username", username);
+                            Global.savePreferences(mActivity, Global.SharedPref_Username, username);
                             uiUpdateUsername(username);
                         }
                     });
@@ -369,31 +368,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     }
 
     //public methods
-    public void savePreferences(String key, String value) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(key, value);
-        editor.apply();
-    }
-
-    public String loadSavedPreferences(String key) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        return sharedPreferences.getString(key, Global.EMPTY_STRING);
-    }
-
-    public void clearSharedPreferences() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
-        editor.apply();
-    }
-
     public void clearDisplayPicture() {
         Global.deleteImage(mContext);
     }
 
     public void logout() {
-        clearSharedPreferences();
+        Global.clearSharedPreferences(mActivity);
         clearDisplayPicture();
         this.finish();
     }
@@ -633,10 +613,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                 progressBar.setVisibility(View.VISIBLE);
                 //login.saveMerchantId(editText.getText().toString());
                 try {
-                    final String previousUsername = loadSavedPreferences("Username");
+                    final String previousUsername = Global.loadSavedPreferences(mActivity, Global.SharedPref_Username, Global.EMPTY_STRING);
                     username = editText.getText().toString();
                     Log.d(TAG, "Username is: " + username);
-                    savePreferences("Username", username);
+                    Global.savePreferences(mActivity, Global.SharedPref_Username, username);
                     uiUpdateUsername(username);
                     Snackbar usernameSB = Snackbar.make(rootLayoutCCL, "Hello " + username, Snackbar.LENGTH_INDEFINITE);
                     if (!previousUsername.equals("")) {
@@ -644,7 +624,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                             @Override
                             public void onClick(View v) {
                                 username = previousUsername;
-                                savePreferences("Username", username);
+                                Global.savePreferences(mActivity, Global.SharedPref_Username, username);
                                 uiUpdateUsername(username);
                             }
                         });

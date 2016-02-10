@@ -33,7 +33,7 @@
     <string name="hint_message_mms"><i>MMS Coming Soon</i></string>
     <string name="message_to">"Message to "</string>
     <string name="message_limit_error">"Please enter less than 160 characters"</string>
-    <string name="sms_switch">Toggle SMS receiver</string>
+    <string name="sms_switch">Toggle SMS toast</string>
     <!--General Fragment-->
     <string name="button_submit">Submit</string>
     <string name="button_send">Send</string>
