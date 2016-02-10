@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 
+import com.keegan.experiment.Global;
+
 /**
  * Created by keegan on 21/01/16.
  */
@@ -27,6 +29,8 @@ public class GalleryUtil extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         try {
+            ContextWrapper cw = new ContextWrapper(getApplicationContext());
+            DisplayPictureUtil.backUpDisplayPictureFromStorage(cw);
             //Pick Image From Gallery
             Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(i, RESULT_SELECT_IMAGE);

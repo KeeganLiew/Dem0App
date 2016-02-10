@@ -64,7 +64,7 @@ public class SmsReceiver extends BroadcastReceiver {
                                 , Toast.LENGTH_LONG);
                         toast.show();*/
                         String toastMessage = "senderNum: " + senderNum + ", message: " + message;
-                        Global.createAndShowToast((Activity) mContext, toastMessage, Toast.LENGTH_LONG);
+                        Global.createAndShowToast(mContext, toastMessage, Toast.LENGTH_LONG);
 
                     } // end for loop
                 } // bundle is null

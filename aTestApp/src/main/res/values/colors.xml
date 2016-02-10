@@ -2,7 +2,8 @@
 <resources>
     <color name="pure_white">#ffffff</color>
     <color name="pure_black">#000000</color>
-    <color name="clean_blue">#FF18B0E6</color>
+    <color name="clean_blue">#18B0E6</color>
+    <color name="darker_blue">#1890E0</color>
     <color name="black_semi_transparent">#B2000000</color>
     <color name="grey">#FF666666</color>
     <color name="eighty_percent_white">#C8ffffff</color>
@@ -25,7 +26,7 @@
     <color name="app_main_theme_color">@color/clean_blue</color>
     <color name="button_pressed_color">@color/grey</color>
 
-    <color name="progress_bar_head_colour">@color/app_main_theme_color</color>
+    <color name="progress_bar_head_colour">@color/darker_blue</color>
     <color name="progress_bar_body_colour">@color/app_main_theme_color</color>
     <color name="progress_bar_tail_colour">@color/eighty_percent_white</color>
 

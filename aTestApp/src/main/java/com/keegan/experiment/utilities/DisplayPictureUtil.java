@@ -80,11 +80,11 @@ public class DisplayPictureUtil {
         return output;
     }
 
-    public static String saveToInternalSorage(ContextWrapper cw, Bitmap bitmapImage) {
+    public static String saveToInternalStorage(ContextWrapper cw, Bitmap bitmapImage, String fileName) {
         // path to /data/data/yourapp/app_data/imageDir
         File directory = cw.getDir(Global.profileImageDirectoryName, Context.MODE_PRIVATE);
         // Create imageDir
-        File mypath = new File(directory, "profile.jpg");
+        File mypath = new File(directory, fileName);
         Log.d(TAG, "mypath: " + mypath.getAbsolutePath());
         Log.d(TAG, "directory: " + directory.getPath());
 
@@ -107,10 +107,10 @@ public class DisplayPictureUtil {
         return directory.getAbsolutePath();
     }
 
-    public static void deleteImageFromStorage(String path) {
+    public static void deleteImageFromStorage(String path, String fileName) {
         try {
             Log.d(TAG, "Loading image from: " + path);
-            File f = new File(path, "profile.jpg");
+            File f = new File(path, fileName);
             if (f.exists()) {
                 boolean deleted = f.delete();
                 Log.d(TAG, f.getAbsolutePath() + " is deleted? " + deleted);
@@ -125,7 +125,7 @@ public class DisplayPictureUtil {
     public static void loadImageFromStorage(ImageView nav_display_picture, String path) {
         try {
             Log.d(TAG, "Loading image from: " + path);
-            File f = new File(path, "profile.jpg");
+            File f = new File(path, Global.profileImageName);
             if (f.exists()) {
                 Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
                 nav_display_picture.setImageBitmap(b);
@@ -137,10 +137,10 @@ public class DisplayPictureUtil {
         }
     }
 
-    public static Bitmap getDisplayPictureFromStorage(String path) {
+    public static Bitmap getDisplayPictureFromStorage(String path, String fileName) {
         Bitmap b = null;
         try {
-            File f = new File(path, "profile.jpg");
+            File f = new File(path, fileName);
             if (f.exists()) {
                 b = BitmapFactory.decodeStream(new FileInputStream(f));
             } else {
@@ -150,6 +150,22 @@ public class DisplayPictureUtil {
             e.printStackTrace();
         }
         return b;
+    }
+
+    public static void backUpDisplayPictureFromStorage(ContextWrapper cw) {
+        try {
+            File directory = cw.getDir(Global.profileImageDirectoryName, Context.MODE_PRIVATE);
+            File f = new File(directory, Global.profileImageName);
+            if (f.exists()) {
+                Bitmap bitmapImage = getDisplayPictureFromStorage(directory.getPath(), Global.profileImageName);
+                saveToInternalStorage(cw, bitmapImage, Global.prevProfileImageName);
+                Log.d(TAG, "Backed up profile pic");
+            } else {
+                Log.d(TAG, "No profile picture saved");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

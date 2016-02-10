@@ -23,16 +23,20 @@ import java.util.List;
 public class Global {
     public static final String KEEGAN_LINKEDIN_URL = "http://www.linkedin.com/in/keeganliew";
     public static final String EMPTY_STRING = "";
+    public static final String prevProfileImageName = "prev_profile.jpg";
+    public static final String profileImageName = "profile.jpg";
     public static final String profileImageDirectoryName = "imageDir";
-    public static final String SharedPref_Username = "Username";
-    public static final String SharedPref_SmsReceiverToggle = "SmsReceiverToggle";
+    public static final String sharedPref_Username = "Username";
+    public static final String sharedPref_SmsReceiverToggle = "SmsReceiverToggle";
+
     public static final Boolean SMS_SWITCH_DEFAULT = false;
 
     public static final int hide_keyboard_login_drawer_percentage = 50;
     public static final int CONTACT_PICKER_RESULT = 1001;
     public static final int GALLERY_ACTIVITY_CODE = 2002;
     public static final int RESULT_CROP = 3003;
-    public static final int SMS_TEXT_LIMIT = 160;
+    public static final int sms_text_limit = 160;
+    public static final int pin_text_limit = 4;
 
     public static List<String> toCreateList = new ArrayList<String>();
     public static List<String> toImproveList = new ArrayList<String>();
@@ -75,9 +79,9 @@ public class Global {
         DisplayPictureUtil.loadImageFromStorage(pictureIV, profileImageDirectory.getPath());
     }
 
-    public static void deleteImage(Context mContext) {
+    public static void deleteImage(Context mContext, String fileName) {
         File profileImageDirectory = mContext.getDir(profileImageDirectoryName, Context.MODE_PRIVATE);
-        DisplayPictureUtil.deleteImageFromStorage(profileImageDirectory.getPath());
+        DisplayPictureUtil.deleteImageFromStorage(profileImageDirectory.getPath(), fileName);
     }
 
     public static void savePreferences(Activity mActivity, String key, String value) {
@@ -114,5 +118,8 @@ public class Global {
 
     public static void createAndShowToast(Activity mActivity, String toastMessage, int length){
         Toast.makeText(mActivity, toastMessage, length).show();
+    }
+    public static void createAndShowToast(Context mContext, String toastMessage, int length){
+        Toast.makeText(mContext, toastMessage, length).show();
     }
 }
