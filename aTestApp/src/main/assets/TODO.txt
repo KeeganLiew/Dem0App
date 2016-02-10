@@ -1,5 +1,5 @@
 [ToCreate]
-Change username on long press
+Change background image on long press
 Snackbar to undo display picture
 Robolectric
 MMS Function
@@ -55,3 +55,7 @@ LoginPage - Numpad set to 40% of screen
 LoginPage - UI feedback
 LoginPage - Display picture
 ContactPage - Created Contact Page
+HomePage - Added OptionMenu functions
+LoginPage - Fix display picture not clearing on Logout bug
+HomePage - Added long press to change Username in NavDrawer
+<Week 5>

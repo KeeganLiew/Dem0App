@@ -23,7 +23,7 @@
     <string name="feedback">Feedback</string>
     <string name="log_out">Log out</string>
     <!--Settings-->
-    <string name="action_settings">Settings</string>
+    <string name="settings">Settings</string>
     <!--Sms Fragment-->
     <string name="select_message_type">Select Message Type</string>
     <string name="message_type_sms">SMS Message</string>

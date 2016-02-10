@@ -107,6 +107,21 @@ public class DisplayPictureUtil {
         return directory.getAbsolutePath();
     }
 
+    public static void deleteImageFromStorage(String path) {
+        try {
+            Log.d(TAG, "Loading image from: " + path);
+            File f = new File(path, "profile.jpg");
+            if (f.exists()) {
+                boolean deleted = f.delete();
+                Log.d(TAG, f.getAbsolutePath() + " is deleted? " + deleted);
+            } else {
+                Log.d(TAG, "No profile picture saved");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void loadImageFromStorage(ImageView nav_display_picture, String path) {
         try {
             Log.d(TAG, "Loading image from: " + path);

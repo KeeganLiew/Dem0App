@@ -88,14 +88,14 @@
 
         <include
             android:id="@+id/Activity_Login_PopUpProgressBarDialog"
-            layout="@layout/pop_up_progress_bar_dialog"
+            layout="@layout/dialog_progress_bar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone" />
 
         <include
             android:id="@+id/Activity_Login_PopUpButtonDialog"
-            layout="@layout/pop_up_button_dialog"
+            layout="@layout/dialog_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone" />

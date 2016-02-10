@@ -56,4 +56,9 @@ public class Global {
         File profileImageDirectory = mContext.getDir(profileImageDirectoryName, Context.MODE_PRIVATE);
         DisplayPictureUtil.loadImageFromStorage(pictureIV, profileImageDirectory.getPath());
     }
+    public static void deleteImage(Context mContext) {
+        File profileImageDirectory = mContext.getDir(profileImageDirectoryName, Context.MODE_PRIVATE);
+        DisplayPictureUtil.deleteImageFromStorage(profileImageDirectory.getPath());
+    }
+
 }
