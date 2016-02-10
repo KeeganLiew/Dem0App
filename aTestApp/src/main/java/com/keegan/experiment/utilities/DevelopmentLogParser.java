@@ -58,7 +58,7 @@ public class DevelopmentLogParser {
                             } else {
                                 weekCode = "W" + weekNumber;
                             }
-                            Global.doneList.add(weekCode + "-" + mLine);
+                            Global.doneList.add(weekCode + "/" + mLine);
                             mLine = reader.readLine();
                             Log.d(TAG, "Next Line: " + mLine);
                         }

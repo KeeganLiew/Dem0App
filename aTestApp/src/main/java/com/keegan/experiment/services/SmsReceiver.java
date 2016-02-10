@@ -1,5 +1,6 @@
 package com.keegan.experiment.services;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.keegan.experiment.Global;
+import com.keegan.experiment.R;
 import com.keegan.experiment.utilities.DeviceInfo;
 
 /**
@@ -55,11 +57,15 @@ public class SmsReceiver extends BroadcastReceiver {
                                 "\n Country Code: " + countryZipCode +
                                 "\n Device ID: " + deviceId;
 
-                        final Toast toast = Toast.makeText(mContext,
+
+                        /*final Toast toast = Toast.makeText(mContext,
                                 "senderNum: " + senderNum + ", message: " + message
                                 //+ " \n PhoneInfo: " + shortInfo
                                 , Toast.LENGTH_LONG);
-                        toast.show();
+                        toast.show();*/
+                        String toastMessage = "senderNum: " + senderNum + ", message: " + message;
+                        Global.createAndShowToast((Activity) mContext, toastMessage, Toast.LENGTH_LONG);
+
                     } // end for loop
                 } // bundle is null
             } catch (Exception e) {

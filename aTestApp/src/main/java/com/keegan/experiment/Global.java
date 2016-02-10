@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.keegan.experiment.services.SmsReceiver;
 import com.keegan.experiment.utilities.DisplayPictureUtil;
@@ -109,5 +110,9 @@ public class Global {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
         editor.apply();
+    }
+
+    public static void createAndShowToast(Activity mActivity, String toastMessage, int length){
+        Toast.makeText(mActivity, toastMessage, length).show();
     }
 }

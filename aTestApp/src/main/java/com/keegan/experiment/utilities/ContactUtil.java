@@ -9,6 +9,9 @@ import android.provider.ContactsContract;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.keegan.experiment.Global;
+import com.keegan.experiment.R;
+
 /**
  * Created by keegan on 27/01/16.
  */
@@ -39,10 +42,12 @@ public class ContactUtil extends Activity {
                 }
             }
             if (phoneNumber.length() == 0) {
-                Toast.makeText(mContext, "No phone number found for contact.", Toast.LENGTH_LONG).show();
+                //Toast.makeText(mContext, "No phone number found for contact.", Toast.LENGTH_LONG).show();
+                Global.createAndShowToast((Activity) mContext, mContext.getString(R.string.toast_no_phone_number_found_for_contact), Toast.LENGTH_LONG);
             }
         } catch (Exception e) {
-            Toast.makeText(mContext, "Failed to get contact data.", Toast.LENGTH_LONG).show();
+            //Toast.makeText(mContext, "Failed to get contact data.", Toast.LENGTH_LONG).show();
+            Global.createAndShowToast((Activity) mContext, mContext.getString(R.string.toast_failed_to_get_contact_data), Toast.LENGTH_LONG);
         } finally {
             if (cursor != null) {
                 cursor.close();
