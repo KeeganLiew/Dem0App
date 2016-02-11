@@ -1,5 +1,6 @@
 [ToCreate]
-Home/save&change PIN
+Login/Select PIN or Password
+Home/Ability to update PIN or Password
 Home/Change background image on long press
 [Dev] Robolectric
 Sms/MMS Function
@@ -15,6 +16,7 @@ DevLog/From DevLog to Page with Feature
 DevLog/Merge Weeks to Months
 About/Update About Page Info
 [Dev] Refactor Intents and its extras
+Contact/Other links
 [ToFix]
 Cooly fooly for now
 [Done]
@@ -61,7 +63,6 @@ Home/Added ability to undo display picture VIA Snackbar
 Sms/Sms toggle setting now saves
 Sms/Phone no. and Message are now mandatory fields
 Contact/Created Contact Page
-
 <Week 5>
 [Dev] Update all image assets
 [Dev] Post to GitHub

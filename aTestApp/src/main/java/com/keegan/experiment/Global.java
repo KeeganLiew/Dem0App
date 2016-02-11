@@ -27,7 +27,9 @@ public class Global {
     public static final String profileImageName = "profile.jpg";
     public static final String profileImageDirectoryName = "imageDir";
     public static final String sharedPref_Username = "Username";
+    public static final String sharedPref_Password = "Password";
     public static final String sharedPref_SmsReceiverToggle = "SmsReceiverToggle";
+    public static final String pin_default = "1111";
 
     public static final Boolean SMS_SWITCH_DEFAULT = false;
 
@@ -65,11 +67,11 @@ public class Global {
         }
     }
 
-    public static void setComponent(Activity mActivity, Class className, Boolean bool){
+    public static void setComponent(Activity mActivity, Class className, Boolean bool) {
         ComponentName smsReceiverComponent = new ComponentName(mActivity, className);
-        if(bool) {
+        if (bool) {
             mActivity.getPackageManager().setComponentEnabledSetting(smsReceiverComponent, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
-        }else{
+        } else {
             mActivity.getPackageManager().setComponentEnabledSetting(smsReceiverComponent, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
         }
     }
@@ -116,10 +118,11 @@ public class Global {
         editor.apply();
     }
 
-    public static void createAndShowToast(Activity mActivity, String toastMessage, int length){
+    public static void createAndShowToast(Activity mActivity, String toastMessage, int length) {
         Toast.makeText(mActivity, toastMessage, length).show();
     }
-    public static void createAndShowToast(Context mContext, String toastMessage, int length){
+
+    public static void createAndShowToast(Context mContext, String toastMessage, int length) {
         Toast.makeText(mContext, toastMessage, length).show();
     }
 }

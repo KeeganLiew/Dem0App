@@ -339,7 +339,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
 
 
                 Intent intent;
-                if (finalPin.equalsIgnoreCase("9090")) {
+                if (finalPin.equalsIgnoreCase(Global.pin_default)) {
                     intent = new Intent(Intents.LOGIN_SUCCESS.toString());
                     LocalBroadcastManager.getInstance(mActivity).sendBroadcast(intent);
                     Log.d(TAG, "Sending Intent: " + intent.getAction());

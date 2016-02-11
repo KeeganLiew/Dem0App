@@ -85,6 +85,13 @@
                 android:orientation="vertical"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+                <TextView
+                    android:id="@+id/Activity_Main_TextView_Label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/change_username_or_password"
+                    android:textSize="@dimen/home_title_text_size" />
+
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
