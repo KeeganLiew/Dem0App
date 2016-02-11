@@ -380,37 +380,32 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
                         break;
                     case Global.RESULT_CROP:
-                        AsyncTask.execute(new Runnable() {
-                            @Override
-                            public void run() {
-                                ContextWrapper cw = new ContextWrapper(getApplicationContext());
-                                DisplayPictureUtil.backUpDisplayPictureFromStorage(cw);
-                            }
-                        });
-
+                        final ContextWrapper cw = new ContextWrapper(getApplicationContext());
+                        //back up
+                        DisplayPictureUtil.backUpDisplayPictureFromStorage(cw);
+                        //crop result
                         Bundle extras = data.getExtras();
-                        Bitmap selectedBitmap = extras.getParcelable("data");
+                        Bitmap imageBitmap = extras.getParcelable("data");
                         //circle crop
-                        selectedBitmap = DisplayPictureUtil.performCircleCrop(selectedBitmap);
-                        ContextWrapper cw = new ContextWrapper(getApplicationContext());
+                        Bitmap circleCroppedBitmap = DisplayPictureUtil.performCircleCrop(imageBitmap);
                         //save final to internal
-                        DisplayPictureUtil.saveToInternalStorage(cw, selectedBitmap, Global.profilePictureImageName);
+                        DisplayPictureUtil.saveToInternalStorage(cw, circleCroppedBitmap, Global.profilePictureImageName);
+
                         // Set The Bitmap Data To ImageView
-                        navigationDisplayPictureIV.setImageBitmap(selectedBitmap);
+                        navigationDisplayPictureIV.setImageBitmap(circleCroppedBitmap);
                         navigationDisplayPictureIV.setScaleType(ImageView.ScaleType.FIT_XY);
+
                         //undo if prev_profile_pic exist
+                        Log.d(TAG, "undo if prev_profile_pic exist");
                         File directory = cw.getDir(Global.profileImagesDirectoryName, Context.MODE_PRIVATE);
-                        Bitmap bitmapImage = DisplayPictureUtil.getDisplayPictureFromStorage(directory.getPath(), Global.profilePictureImageName);
-                        Snackbar usernameSB = Snackbar.make(rootLayoutCCL, "Hello " + username, Snackbar.LENGTH_INDEFINITE);
-                        if (bitmapImage != null) {
+                        final Bitmap prev_bitmapImage = DisplayPictureUtil.getDisplayPictureFromStorage(directory.getPath(), Global.prevProfileImageName);
+                        Snackbar usernameSB = Snackbar.make(rootLayoutCCL, "Revert display picture? ", Snackbar.LENGTH_INDEFINITE);
+                        if (prev_bitmapImage != null) {
                             usernameSB.setAction("Undo", new OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    ContextWrapper cw = new ContextWrapper(getApplicationContext());
-                                    File directory = cw.getDir(Global.profileImagesDirectoryName, Context.MODE_PRIVATE);
-                                    Bitmap bitmapImage = DisplayPictureUtil.getDisplayPictureFromStorage(directory.getPath(), Global.prevProfileImageName);
-                                    DisplayPictureUtil.saveToInternalStorage(cw, bitmapImage, Global.profilePictureImageName);
-                                    navigationDisplayPictureIV.setImageBitmap(bitmapImage);
+                                    DisplayPictureUtil.saveToInternalStorage(cw, prev_bitmapImage, Global.profilePictureImageName);
+                                    navigationDisplayPictureIV.setImageBitmap(prev_bitmapImage);
                                     navigationDisplayPictureIV.setScaleType(ImageView.ScaleType.FIT_XY);
                                     Global.deleteImage(mContext, Global.prevProfileImageName);
                                 }
