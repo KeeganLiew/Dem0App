@@ -94,9 +94,7 @@ public class DisplayPictureUtil {
             fos = new FileOutputStream(mypath);
             // Use the compress method on the BitMap object to write image to the OutputStream
             Log.d(TAG, "bitmapImage null?: " + bitmapImage);
-            Log.d(TAG, "fileName null?: " + fileName);
-            Log.d(TAG, "cw null?: " + cw);
-            bitmapImage.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -161,11 +159,15 @@ public class DisplayPictureUtil {
         try {
             File directory = cw.getDir(Global.profileImagesDirectoryName, Context.MODE_PRIVATE);
             File f = new File(directory, Global.profilePictureImageName);
-            Log.d(TAG, "backing as: " + f.getAbsolutePath());
+            Log.d(TAG, "Backing as: " + f.getAbsolutePath());
             if (f.exists()) {
                 Bitmap bitmapImage = getDisplayPictureFromStorage(directory.getPath(), Global.profilePictureImageName);
-                saveToInternalStorage(cw, bitmapImage, Global.prevProfileImageName);
-                Log.d(TAG, "Backed up profile pic");
+                if (bitmapImage != null) {
+                    saveToInternalStorage(cw, bitmapImage, Global.prevProfileImageName);
+                    Log.d(TAG, "Backed up profile pic");
+                } else {
+                    Log.d(TAG, "Error getting profile picture");
+                }
             } else {
                 Log.d(TAG, "No profile picture saved");
             }

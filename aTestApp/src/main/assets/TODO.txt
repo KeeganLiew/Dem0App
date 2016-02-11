@@ -1,7 +1,7 @@
 [ToCreate]
 Login/Select PIN or Password
 Home/Ability to update PIN or Password
-[Dev] Robolectric
+Dev/Robolectric
 MMS Function
 HTTP requests
 API Limitation List (Scrolling, FloatingButton < 21)
@@ -14,11 +14,10 @@ Sms/SMS received with App: in a list (instead of toast)
 DevLog/From DevLog to Page with Feature
 DevLog/Merge Weeks to Months
 About/Update About Page Info
-[Dev] Refactor Intents and its extras
+Dev/Refactor Intents and its extras
 Contact/Other links
 [ToFix]
 Cooly fooly for now
-Home/Display pic sometimes fails to save to internal
 [Done]
 <Week 1>
 Home/Added Toolbar
@@ -40,7 +39,7 @@ DeviceInfo /Created DeviceInfo Page
 DevLog/Implemented TODO.TXT parser
 DevLog/Created this (DevLog) Page
 <Week 3>
-[Dev] Major project code refactor
+Dev/Major project code refactor
 All/Added Toolbar titles
 Login/Fix keyboard behavior bug
 Login/Numpad is now set to 40% of screen
@@ -51,7 +50,7 @@ Android/Fix widget update bug
 Android/Implemented tap Widget to open app
 Android/Added display picture for Widget
 <Week 4>
-[Dev] Minor refactor/clean up
+Dev/Minor refactor/clean up
 Login/Added UI feedback
 Login/Added Display picture
 Login/Fix display picture not clearing on Logout bug
@@ -62,9 +61,10 @@ Home/Fix long press Username bug
 Home/Added ability to undo display picture VIA Snackbar
 Home/Added long press to change background image
 Home/Background image now saves
+Home/Fixed Display pic back up bug
 Sms/Sms toggle setting now saves
 Sms/Phone no. and Message are now mandatory fields
 Contact/Created Contact Page
 <Week 5>
-[Dev] Update all image assets
-[Dev] Post to GitHub
+Dev/Update all image assets
+Dev/Post to GitHub
