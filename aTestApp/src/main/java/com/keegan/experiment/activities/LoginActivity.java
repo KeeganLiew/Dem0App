@@ -165,14 +165,14 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         loadSavedUsername();
 
         displayPictureIV.setImageResource(R.drawable.name);
-        Global.loadImage(mContext, displayPictureIV);
+        Global.loadImageIntoImageView(mContext, displayPictureIV, Global.profilePictureImageName);
 
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-
                 String action = intent.getAction();
                 Log.d(TAG, "Received Intent: " + intent.getAction());
+
                 if (Intents.LOGIN_SUCCESS.equalsName(action)) {
                     enableAndShowViews(true);
                 } else if (Intents.LOGIN_FAIL.equalsName(action)) {

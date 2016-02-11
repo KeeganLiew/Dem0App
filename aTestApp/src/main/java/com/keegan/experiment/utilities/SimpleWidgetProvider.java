@@ -3,14 +3,12 @@ package com.keegan.experiment.utilities;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
@@ -19,7 +17,6 @@ import android.widget.RemoteViews;
 import com.keegan.experiment.Global;
 import com.keegan.experiment.R;
 import com.keegan.experiment.activities.LoginActivity;
-import com.keegan.experiment.activities.MainActivity;
 
 import java.io.File;
 
@@ -44,8 +41,8 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
             String widgetString = "Hello " + name;
             remoteViews.setTextViewText(R.id.Widget_User_TextView_Username, widgetString);
             //Update display picture
-            File profileImageDirectory = mContext.getDir(Global.profileImageDirectoryName, Context.MODE_PRIVATE);
-            Bitmap displayPictureBitmap = DisplayPictureUtil.getDisplayPictureFromStorage(profileImageDirectory.getPath(), Global.profileImageName);
+            File profileImageDirectory = mContext.getDir(Global.profileImagesDirectoryName, Context.MODE_PRIVATE);
+            Bitmap displayPictureBitmap = DisplayPictureUtil.getDisplayPictureFromStorage(profileImageDirectory.getPath(), Global.profilePictureImageName);
             //remoteViews.setImageViewBitmap(R.id.Widget_User_ImageView_DisplayPic, displayPictureBitmap); //doesn't work
             if (displayPictureBitmap != null) {
                 setBitmap(remoteViews, R.id.Widget_User_ImageView_DisplayPic, displayPictureBitmap); //workaround
