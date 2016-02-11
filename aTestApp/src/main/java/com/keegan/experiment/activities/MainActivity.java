@@ -12,6 +12,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.provider.ContactsContract;
 import android.support.design.widget.AppBarLayout;
@@ -98,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     private static String username;
     private String password;
+    private boolean cropGalleryImage = false;
 
     private static Activity mActivity;
     private Context mContext;
@@ -173,7 +176,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         //ImageView
         navigationDisplayPictureIV = (ImageView) navigationNV.getHeaderView(0).findViewById(R.id.Navigation_ImageView_DisplayPicture);
         navigationDisplayPictureIV.setOnClickListener(this);
+        Global.loadImageIntoImageView(mContext, navigationDisplayPictureIV, Global.profilePictureImageName);
         toolBarImageIV = (ImageView) findViewById(R.id.Activity_Main_ImageView_ToolbarImage);
+        toolBarImageIV.setOnLongClickListener(new toolBarImageLongClickListener());
+        Global.loadImageIntoImageView(mContext, toolBarImageIV, Global.profileBackgroundPictureImageName);
     }
 
     private void otherInitializations() {
@@ -237,7 +243,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
-        Global.loadImage(mContext, navigationDisplayPictureIV);
         uiUpdateUsername(username);
         broadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -323,6 +328,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             case R.id.Navigation_ImageView_DisplayPicture:
                 Intent gallery_Intent = new Intent(getApplicationContext(), GalleryUtil.class);
                 startActivityForResult(gallery_Intent, Global.GALLERY_ACTIVITY_CODE);
+                cropGalleryImage = true;
                 break;
             case R.id.Activity_Main_FloatingActionButton_ButtonC:
                 buttonB.setVisibility(buttonB.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
@@ -346,37 +352,64 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                         Log.d(TAG, "Sending Intent: " + intent.getAction() + " with extra: " + intent.getStringExtra(Intents.PICKED_CONTACT_INFO_EXTRA_PHONE_NUMBER.toString()));
                         break;
                     case Global.GALLERY_ACTIVITY_CODE:
-                        String picturePath = data.getStringExtra("picturePath");
+                        final String picturePath = data.getStringExtra("picturePath");
                         //perform Crop on the Image Selected from Gallery
-                        Intent cropIntent = DisplayPictureUtil.performCrop(picturePath);
+                        if (cropGalleryImage) {
+                            Intent cropIntent = DisplayPictureUtil.performCrop(picturePath, Global.display_picture_crop_size);
 
-                        if (cropIntent != null) {
-                            startActivityForResult(cropIntent, Global.RESULT_CROP);
+                            if (cropIntent != null) {
+                                startActivityForResult(cropIntent, Global.RESULT_CROP);
+                            } else {
+                                Global.createAndShowToast(mActivity, getString(R.string.toast_error_message_crop_support), Toast.LENGTH_SHORT);
+                            }
+                            cropGalleryImage = false;
                         } else {
-                            Global.createAndShowToast(mActivity, getString(R.string.toast_error_message_crop_support), Toast.LENGTH_SHORT);
+                            BitmapFactory.Options options = new BitmapFactory.Options();
+                            options.inSampleSize = 2;
+                            final Bitmap bitmap = BitmapFactory.decodeFile(picturePath, options);
+                            toolBarImageIV.setImageBitmap(bitmap);
+
+                            AsyncTask.execute(new Runnable() {
+                                @Override
+                                public void run() {
+                                    ContextWrapper cw = new ContextWrapper(getApplicationContext());
+                                    DisplayPictureUtil.saveToInternalStorage(cw, bitmap, Global.profileBackgroundPictureImageName);
+                                }
+                            });
                         }
+
                         break;
                     case Global.RESULT_CROP:
+                        AsyncTask.execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                ContextWrapper cw = new ContextWrapper(getApplicationContext());
+                                DisplayPictureUtil.backUpDisplayPictureFromStorage(cw);
+                            }
+                        });
+
                         Bundle extras = data.getExtras();
                         Bitmap selectedBitmap = extras.getParcelable("data");
-                        // Set The Bitmap Data To ImageView
+                        //circle crop
                         selectedBitmap = DisplayPictureUtil.performCircleCrop(selectedBitmap);
                         ContextWrapper cw = new ContextWrapper(getApplicationContext());
-                        DisplayPictureUtil.saveToInternalStorage(cw, selectedBitmap, Global.profileImageName);
+                        //save final to internal
+                        DisplayPictureUtil.saveToInternalStorage(cw, selectedBitmap, Global.profilePictureImageName);
+                        // Set The Bitmap Data To ImageView
                         navigationDisplayPictureIV.setImageBitmap(selectedBitmap);
                         navigationDisplayPictureIV.setScaleType(ImageView.ScaleType.FIT_XY);
                         //undo if prev_profile_pic exist
-                        File directory = cw.getDir(Global.profileImageDirectoryName, Context.MODE_PRIVATE);
-                        Bitmap bitmapImage = DisplayPictureUtil.getDisplayPictureFromStorage(directory.getPath(), Global.profileImageName);
+                        File directory = cw.getDir(Global.profileImagesDirectoryName, Context.MODE_PRIVATE);
+                        Bitmap bitmapImage = DisplayPictureUtil.getDisplayPictureFromStorage(directory.getPath(), Global.profilePictureImageName);
                         Snackbar usernameSB = Snackbar.make(rootLayoutCCL, "Hello " + username, Snackbar.LENGTH_INDEFINITE);
                         if (bitmapImage != null) {
                             usernameSB.setAction("Undo", new OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     ContextWrapper cw = new ContextWrapper(getApplicationContext());
-                                    File directory = cw.getDir(Global.profileImageDirectoryName, Context.MODE_PRIVATE);
+                                    File directory = cw.getDir(Global.profileImagesDirectoryName, Context.MODE_PRIVATE);
                                     Bitmap bitmapImage = DisplayPictureUtil.getDisplayPictureFromStorage(directory.getPath(), Global.prevProfileImageName);
-                                    DisplayPictureUtil.saveToInternalStorage(cw, bitmapImage, Global.profileImageName);
+                                    DisplayPictureUtil.saveToInternalStorage(cw, bitmapImage, Global.profilePictureImageName);
                                     navigationDisplayPictureIV.setImageBitmap(bitmapImage);
                                     navigationDisplayPictureIV.setScaleType(ImageView.ScaleType.FIT_XY);
                                     Global.deleteImage(mContext, Global.prevProfileImageName);
@@ -404,7 +437,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     //public methods
     public void clearDisplayPicture() {
-        Global.deleteImage(mContext, Global.profileImageName);
+        Global.deleteImage(mContext, Global.profilePictureImageName);
     }
 
     public void logout() {
@@ -505,9 +538,18 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     private class userNameLongClickListener implements OnLongClickListener {
         @Override
         public boolean onLongClick(View v) {
-            Log.d(TAG, "Long pressed background_image");
-            //pop up dialog with cancel
+            Log.d(TAG, "Long pressed username");
             showMerchantIdBox();
+            return true;
+        }
+    }
+
+    private class toolBarImageLongClickListener implements OnLongClickListener {
+        @Override
+        public boolean onLongClick(View v) {
+            Log.d(TAG, "Long pressed background_image");
+            Intent gallery_Intent = new Intent(getApplicationContext(), GalleryUtil.class);
+            startActivityForResult(gallery_Intent, Global.GALLERY_ACTIVITY_CODE);
             return true;
         }
     }

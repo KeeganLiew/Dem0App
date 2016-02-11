@@ -5,12 +5,12 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.keegan.experiment.services.SmsReceiver;
 import com.keegan.experiment.utilities.DisplayPictureUtil;
 
 import java.io.File;
@@ -24,8 +24,9 @@ public class Global {
     public static final String KEEGAN_LINKEDIN_URL = "http://www.linkedin.com/in/keeganliew";
     public static final String EMPTY_STRING = "";
     public static final String prevProfileImageName = "prev_profile.jpg";
-    public static final String profileImageName = "profile.jpg";
-    public static final String profileImageDirectoryName = "imageDir";
+    public static final String profilePictureImageName = "profile.jpg";
+    public static final String profileBackgroundPictureImageName = "profile_background.jpg";
+    public static final String profileImagesDirectoryName = "imageDir";
     public static final String sharedPref_Username = "Username";
     public static final String sharedPref_Password = "Password";
     public static final String sharedPref_SmsReceiverToggle = "SmsReceiverToggle";
@@ -39,6 +40,7 @@ public class Global {
     public static final int RESULT_CROP = 3003;
     public static final int sms_text_limit = 160;
     public static final int pin_text_limit = 4;
+    public static final int display_picture_crop_size = 280;
 
     public static List<String> toCreateList = new ArrayList<String>();
     public static List<String> toImproveList = new ArrayList<String>();
@@ -76,13 +78,13 @@ public class Global {
         }
     }
 
-    public static void loadImage(Context mContext, ImageView pictureIV) {
-        File profileImageDirectory = mContext.getDir(profileImageDirectoryName, Context.MODE_PRIVATE);
-        DisplayPictureUtil.loadImageFromStorage(pictureIV, profileImageDirectory.getPath());
+    public static void loadImageIntoImageView(Context mContext, ImageView pictureIV, String fileName) {
+        File profileImageDirectory = mContext.getDir(profileImagesDirectoryName, Context.MODE_PRIVATE);
+        DisplayPictureUtil.loadImageFromStorage(pictureIV, profileImageDirectory.getPath(), fileName);
     }
 
     public static void deleteImage(Context mContext, String fileName) {
-        File profileImageDirectory = mContext.getDir(profileImageDirectoryName, Context.MODE_PRIVATE);
+        File profileImageDirectory = mContext.getDir(profileImagesDirectoryName, Context.MODE_PRIVATE);
         DisplayPictureUtil.deleteImageFromStorage(profileImageDirectory.getPath(), fileName);
     }
 
@@ -124,5 +126,27 @@ public class Global {
 
     public static void createAndShowToast(Context mContext, String toastMessage, int length) {
         Toast.makeText(mContext, toastMessage, length).show();
+    }
+
+    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while ((halfHeight / inSampleSize) > reqHeight
+                    && (halfWidth / inSampleSize) > reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+
+        return inSampleSize;
     }
 }

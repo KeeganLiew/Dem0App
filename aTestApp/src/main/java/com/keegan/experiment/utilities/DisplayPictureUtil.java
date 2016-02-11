@@ -30,7 +30,7 @@ public class DisplayPictureUtil {
 
     private static final String TAG = "DisplayPictureUtil";
 
-    public static Intent performCrop(String picUri) {
+    public static Intent performCrop(String picUri, int size) {
         try {
             //Start Crop Activity
             Intent cropIntent = new Intent("com.android.camera.action.CROP");
@@ -45,9 +45,11 @@ public class DisplayPictureUtil {
             cropIntent.putExtra("aspectX", 1);
             cropIntent.putExtra("aspectY", 1);
             // indicate output X and Y
-            cropIntent.putExtra("outputX", 280);
-            cropIntent.putExtra("outputY", 280);
+            Log.d(TAG, "size: " + size);
+            cropIntent.putExtra("outputX", size);
+            cropIntent.putExtra("outputY", size);
 
+            cropIntent.putExtra("scale", true);
             // retrieve data on return
             cropIntent.putExtra("return-data", true);
             // start the activity - we handle returning in onActivityResult
@@ -82,17 +84,19 @@ public class DisplayPictureUtil {
 
     public static String saveToInternalStorage(ContextWrapper cw, Bitmap bitmapImage, String fileName) {
         // path to /data/data/yourapp/app_data/imageDir
-        File directory = cw.getDir(Global.profileImageDirectoryName, Context.MODE_PRIVATE);
         // Create imageDir
+        File directory = cw.getDir(Global.profileImagesDirectoryName, Context.MODE_PRIVATE);
         File mypath = new File(directory, fileName);
-        Log.d(TAG, "mypath: " + mypath.getAbsolutePath());
-        Log.d(TAG, "directory: " + directory.getPath());
+        Log.d(TAG, "saving as: " + mypath.getAbsolutePath());
 
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(mypath);
             // Use the compress method on the BitMap object to write image to the OutputStream
-            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            Log.d(TAG, "bitmapImage null?: " + bitmapImage);
+            Log.d(TAG, "fileName null?: " + fileName);
+            Log.d(TAG, "cw null?: " + cw);
+            bitmapImage.compress(Bitmap.CompressFormat.JPEG, 100, fos);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -109,8 +113,8 @@ public class DisplayPictureUtil {
 
     public static void deleteImageFromStorage(String path, String fileName) {
         try {
-            Log.d(TAG, "Loading image from: " + path);
             File f = new File(path, fileName);
+            Log.d(TAG, "delete image as: " + f.getAbsolutePath());
             if (f.exists()) {
                 boolean deleted = f.delete();
                 Log.d(TAG, f.getAbsolutePath() + " is deleted? " + deleted);
@@ -122,10 +126,10 @@ public class DisplayPictureUtil {
         }
     }
 
-    public static void loadImageFromStorage(ImageView nav_display_picture, String path) {
+    public static void loadImageFromStorage(ImageView nav_display_picture, String path, String fileName) {
         try {
-            Log.d(TAG, "Loading image from: " + path);
-            File f = new File(path, Global.profileImageName);
+            File f = new File(path, fileName);
+            Log.d(TAG, "Loading image as: " + f.getAbsolutePath());
             if (f.exists()) {
                 Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
                 nav_display_picture.setImageBitmap(b);
@@ -141,6 +145,7 @@ public class DisplayPictureUtil {
         Bitmap b = null;
         try {
             File f = new File(path, fileName);
+            Log.d(TAG, "getting display pic as: " + f.getAbsolutePath());
             if (f.exists()) {
                 b = BitmapFactory.decodeStream(new FileInputStream(f));
             } else {
@@ -154,10 +159,11 @@ public class DisplayPictureUtil {
 
     public static void backUpDisplayPictureFromStorage(ContextWrapper cw) {
         try {
-            File directory = cw.getDir(Global.profileImageDirectoryName, Context.MODE_PRIVATE);
-            File f = new File(directory, Global.profileImageName);
+            File directory = cw.getDir(Global.profileImagesDirectoryName, Context.MODE_PRIVATE);
+            File f = new File(directory, Global.profilePictureImageName);
+            Log.d(TAG, "backing as: " + f.getAbsolutePath());
             if (f.exists()) {
-                Bitmap bitmapImage = getDisplayPictureFromStorage(directory.getPath(), Global.profileImageName);
+                Bitmap bitmapImage = getDisplayPictureFromStorage(directory.getPath(), Global.profilePictureImageName);
                 saveToInternalStorage(cw, bitmapImage, Global.prevProfileImageName);
                 Log.d(TAG, "Backed up profile pic");
             } else {

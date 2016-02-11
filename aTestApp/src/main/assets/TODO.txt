@@ -1,9 +1,8 @@
 [ToCreate]
 Login/Select PIN or Password
 Home/Ability to update PIN or Password
-Home/Change background image on long press
 [Dev] Robolectric
-Sms/MMS Function
+MMS Function
 HTTP requests
 API Limitation List (Scrolling, FloatingButton < 21)
 [ToImprove]
@@ -19,6 +18,7 @@ About/Update About Page Info
 Contact/Other links
 [ToFix]
 Cooly fooly for now
+Home/Display pic sometimes fails to save to internal
 [Done]
 <Week 1>
 Home/Added Toolbar
@@ -60,6 +60,8 @@ Home/Added OptionMenu functions
 Home/Added long press to change Username in NavDrawer
 Home/Fix long press Username bug
 Home/Added ability to undo display picture VIA Snackbar
+Home/Added long press to change background image
+Home/Background image now saves
 Sms/Sms toggle setting now saves
 Sms/Phone no. and Message are now mandatory fields
 Contact/Created Contact Page
