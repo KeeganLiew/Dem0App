@@ -238,7 +238,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     protected void onResume() {
         super.onResume();
         Global.loadImage(mContext, navigationDisplayPictureIV);
-        closeFragmentLayout();
         uiUpdateUsername(username);
         broadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -283,15 +282,14 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.Activity_Main_Button_Login:
+                //username
                 final String previousUsername = Global.loadSavedPreferences(mActivity, Global.sharedPref_Username, Global.EMPTY_STRING);
                 username = usernameET.getText().toString();
-                password = passwordET.getText().toString();
                 Log.d(TAG, "Username is: " + username);
-                Log.d(TAG, "Password is: " + password);
                 Global.savePreferences(mActivity, Global.sharedPref_Username, username);
                 uiUpdateUsername(username);
                 Snackbar usernameSB = Snackbar.make(rootLayoutCCL, "Hello " + username, Snackbar.LENGTH_LONG);
-                if (!previousUsername.equals("")) {
+                if (!previousUsername.equals(Global.EMPTY_STRING) && !previousUsername.equals(username)) {
                     usernameSB.setAction("Undo", new OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -300,8 +298,26 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                             uiUpdateUsername(username);
                         }
                     });
+                    usernameSB.show();
                 }
-                usernameSB.show();
+                //password
+                final String previousPassword = Global.loadSavedPreferences(mActivity, Global.sharedPref_Password, Global.EMPTY_STRING);
+                password = passwordET.getText().toString();
+                Log.d(TAG, "Password is: " + password);
+                Global.savePreferences(mActivity, Global.sharedPref_Password, password);
+                Snackbar passwordSB = Snackbar.make(rootLayoutCCL, "Updated password to: " + password, Snackbar.LENGTH_SHORT);
+                if (!previousPassword.equals(Global.EMPTY_STRING) && !previousPassword.equals(password)) {
+                    passwordSB.setAction("Undo", new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            password = previousPassword;
+                            Global.savePreferences(mActivity, Global.sharedPref_Password, password);
+                            uiUpdateUsername(password);
+                        }
+                    });
+                    passwordSB.show();
+                }
+
                 hideKeyboard(mActivity);
                 break;
             case R.id.Navigation_ImageView_DisplayPicture:
@@ -653,7 +669,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                     Global.savePreferences(mActivity, Global.sharedPref_Username, username);
                     uiUpdateUsername(username);
                     Snackbar usernameSB = Snackbar.make(rootLayoutCCL, "Hello " + username, Snackbar.LENGTH_INDEFINITE);
-                    if (!previousUsername.equals("")) {
+                    if (!previousUsername.equals(Global.EMPTY_STRING)) {
                         usernameSB.setAction("Undo", new OnClickListener() {
                             @Override
                             public void onClick(View v) {

@@ -120,11 +120,12 @@ public class SmsFragment extends Fragment implements OnClickListener {
                     String phoneNumber = intent.getStringExtra(Intents.PICKED_CONTACT_INFO_EXTRA_PHONE_NUMBER.toString());
                     Log.d(TAG, "Received name & phoneNumber: " + name + " & " + phoneNumber);
                     phoneNumberET.setText(phoneNumber);
-                    messageTIL.setHint(getResources().getString(R.string.message_to) + name);
+                    messageTIL.setHint(mActivity.getResources().getString(R.string.message_to) + name);
                 }
             }
         };
         LocalBroadcastManager.getInstance(mActivity).registerReceiver(broadcastReceiver, new IntentFilter(Intents.PICKED_CONTACT_INFO.toString()));
+
     }
 
     @Override

@@ -27,6 +27,8 @@
     <dimen name="edit_text_padding_left_right">20dp</dimen>
     <dimen name="element_left_right_margins">30dp</dimen>
     <dimen name="text_input_layout_error_text_size">11sp</dimen>
+    <!--Home-->
+    <dimen name="home_title_text_size">25sp</dimen>
     <!--Fragment-->
     <dimen name="fragment_title_text_size">35sp</dimen>
     <dimen name="fragment_button_height">40dp</dimen>
