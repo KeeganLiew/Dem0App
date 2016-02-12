@@ -41,6 +41,9 @@
     <string name="button_send">Send</string>
     <string name="button_cancel">Cancel</string>
     <string name="button_ok">OK</string>
+    <string name="button_pin">Pin</string>
+    <string name="button_password">Password</string>
+    <string name="button_gesture">Gesture</string>
     <!--Custom Numpad-->
     <string name="number_one">1</string>
     <string name="number_two">2</string>

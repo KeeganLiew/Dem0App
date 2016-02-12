@@ -1,11 +1,12 @@
 [ToCreate]
-Login/Select PIN or Password
-Home/Ability to update PIN or Password
+Login/PIN or Password or Gesture
+Home/Ability to update PIN or Password or Gesture
 Dev/Robolectric
 MMS Function
 HTTP requests
 API Limitation List (Scrolling, FloatingButton < 21)
 [ToImprove]
+Dev/RoboGuice
 Home/Add something?
 Android/Widget Sizes
 Android/Widget Progress Bar
@@ -18,6 +19,7 @@ Dev/Refactor Intents and its extras
 Contact/Other links
 [ToFix]
 Cooly fooly for now
+Don't save Guest username
 [Done]
 <Week 1>
 Home/Added Toolbar
@@ -55,6 +57,7 @@ Login/Added UI feedback
 Login/Added Display picture
 Login/Fix display picture not clearing on Logout bug
 Login/Fix numpad Login bug
+Login/Fix Login UI bug
 Home/Added OptionMenu functions
 Home/Added long press to change Username in NavDrawer
 Home/Fix long press Username bug

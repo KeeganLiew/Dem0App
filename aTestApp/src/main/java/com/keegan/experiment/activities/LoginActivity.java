@@ -61,6 +61,9 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
     private TextView popUpProgressBarTextTV;
     private RelativeLayout popUpButtonDialogRL;
     private Button popUpButtonTextB;
+    private Button inputOptionPinB;
+    private Button inputOptionPasswordB;
+    private Button inputOptionGestureB;
 
     private TableLayout numericKeypad;
     private TextView num1;
@@ -83,6 +86,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
     private String finalUsername;
     private String finalPin;
     private TextView[] numpadList;
+    private Button inputOption[];
     private BroadcastReceiver broadcastReceiver;
 
     @Override
@@ -106,6 +110,16 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
             pinET.setShowSoftInputOnFocus(false);
         }
 
+        //button
+        inputOptionPinB = (Button) findViewById(R.id.InputOption_Button_Pin);
+        inputOptionPasswordB = (Button) findViewById(R.id.InputOption_Button_Password);
+        inputOptionGestureB = (Button) findViewById(R.id.InputOption_Button_Gesture);
+        inputOption = new Button[]{inputOptionPinB, inputOptionPasswordB, inputOptionGestureB};
+        for (Button button : inputOption) {
+            button.setOnTouchListener(inputOptionTouchListener);
+        }
+        inputOptionPinB.setSelected(true);
+
         //numpadListener
         numericKeypad = (TableLayout) findViewById(R.id.Activity_Login_NumericKeypad);
         num0 = (TextView) findViewById(R.id.custom_numeric_keyboard_key_0);
@@ -123,7 +137,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
 
         numpadList = new TextView[]{num1, num2, num3, num4, num5, num6, num7, num8, num9, numMenu, num0, numBackspace};
         for (TextView number : numpadList) {
-            number.setOnTouchListener(numpadListener);
+            number.setOnTouchListener(numpadTouchListener);
         }
 
         //nav draw
@@ -214,7 +228,6 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
     @Override
     protected void onPause() {
         super.onPause();
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver);
     }
 
     @Override
@@ -280,7 +293,17 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         }
     }
 
-    private OnTouchListener numpadListener = new OnTouchListener() {
+    private OnTouchListener inputOptionTouchListener = new OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                setInputOption((Button) v);
+            }
+            return false;
+        }
+    };
+
+    private OnTouchListener numpadTouchListener = new OnTouchListener() {
         @Override
         public boolean onTouch(View view, MotionEvent event) {
             clearCurrencyPressedKeyColour();
@@ -340,11 +363,11 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
 
                 Intent intent;
                 if (finalPin.equalsIgnoreCase(Global.pin_default)) {
-                    intent = new Intent(Intents.LOGIN_SUCCESS.toString());
-                    LocalBroadcastManager.getInstance(mActivity).sendBroadcast(intent);
-                    Log.d(TAG, "Sending Intent: " + intent.getAction());
-
-                    //if correct credentials
+                    //send success intent
+                    Intent successIntent = new Intent(Intents.LOGIN_SUCCESS.toString());
+                    LocalBroadcastManager.getInstance(mActivity).sendBroadcast(successIntent);
+                    Log.d(TAG, "Sending Intent: " + successIntent.getAction());
+                    //save username
                     Global.savePreferences(mActivity, Global.sharedPref_Username, finalUsername);
                     //start main activity with extra info
                     intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -372,7 +395,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         }
     }
 
-    private void enableAndShowViews(boolean bool) {
+    private void enableAndShowViews(boolean bool) { //todo rename
         if (bool) {
             popUpButtonDialogRL.setVisibility(View.GONE);
             popUpProgressBarDialogRL.setVisibility(View.GONE);
@@ -387,6 +410,16 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
     private void setEnabledNumpad(boolean bool) {
         for (TextView number : numpadList) {
             number.setEnabled(bool);
+        }
+    }
+
+    private void setInputOption(Button selectedButton) {
+        for (Button button : inputOption) {
+            if (button == selectedButton) {
+                button.setSelected(true);
+            } else {
+                button.setSelected(false);
+            }
         }
     }
 
@@ -412,7 +445,6 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
             }, 30);
         }
     }
-
 
     private void startFragment(Fragment mFragment) {
         if (mFragment == null) {
