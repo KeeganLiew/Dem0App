@@ -435,9 +435,18 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         Global.deleteImage(mContext, Global.profilePictureImageName);
     }
 
+    public void clearBackgroundPicture() {
+        Global.deleteImage(mContext, Global.profileBackgroundPictureImageName);
+    }
+
+    public void clearAllPictures() {
+        clearDisplayPicture();
+        clearBackgroundPicture();
+    }
+
     public void logout() {
         Global.clearSharedPreferences(mActivity);
-        clearDisplayPicture();
+        clearAllPictures();
         this.finish();
     }
 

@@ -67,11 +67,18 @@
                         android:textSize="@dimen/edit_text_size" />
 
                     <include
+                        android:id="@+id/Activity_Login_InputOption"
+                        layout="@layout/login_input_option_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="visible" />
+
+                    <!--<include
                         android:id="@+id/Activity_Login_ProgressBar"
                         layout="@layout/main_progressbar"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:visibility="gone" />
+                        android:visibility="gone" />-->
                 </LinearLayout>
             </ScrollView>
 

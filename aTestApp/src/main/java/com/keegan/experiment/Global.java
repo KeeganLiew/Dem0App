@@ -30,7 +30,8 @@ public class Global {
     public static final String sharedPref_Username = "Username";
     public static final String sharedPref_Password = "Password";
     public static final String sharedPref_SmsReceiverToggle = "SmsReceiverToggle";
-    public static final String pin_default = "1111";
+    public static final String pin_default = "1234";
+    public static final String password_default = "password";
 
     public static final Boolean SMS_SWITCH_DEFAULT = false;
 
