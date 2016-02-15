@@ -85,7 +85,7 @@ public class DisplayPictureUtil {
     public static String saveToInternalStorage(ContextWrapper cw, Bitmap bitmapImage, String fileName) {
         // path to /data/data/yourapp/app_data/imageDir
         // Create imageDir
-        File directory = cw.getDir(Global.profileImagesDirectoryName, Context.MODE_PRIVATE);
+        File directory = cw.getDir(Global.profileImgDirName, Context.MODE_PRIVATE);
         File mypath = new File(directory, fileName);
         Log.d(TAG, "saving as: " + mypath.getAbsolutePath());
 
@@ -157,13 +157,13 @@ public class DisplayPictureUtil {
 
     public static void backUpDisplayPictureFromStorage(ContextWrapper cw) {
         try {
-            File directory = cw.getDir(Global.profileImagesDirectoryName, Context.MODE_PRIVATE);
-            File f = new File(directory, Global.profilePictureImageName);
+            File directory = cw.getDir(Global.profileImgDirName, Context.MODE_PRIVATE);
+            File f = new File(directory, Global.profilePicImgName);
             Log.d(TAG, "Backing as: " + f.getAbsolutePath());
             if (f.exists()) {
-                Bitmap bitmapImage = getDisplayPictureFromStorage(directory.getPath(), Global.profilePictureImageName);
+                Bitmap bitmapImage = getDisplayPictureFromStorage(directory.getPath(), Global.profilePicImgName);
                 if (bitmapImage != null) {
-                    saveToInternalStorage(cw, bitmapImage, Global.prevProfileImageName);
+                    saveToInternalStorage(cw, bitmapImage, Global.prevProfileImgName);
                     Log.d(TAG, "Backed up profile pic");
                 } else {
                     Log.d(TAG, "Error getting profile picture");

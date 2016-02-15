@@ -20,7 +20,7 @@
             android:paddingLeft="@dimen/pop_up_dialog_padding_left_right"
             android:paddingRight="@dimen/pop_up_dialog_padding_left_right"
             android:paddingTop="@dimen/edit_text_padding_left_right"
-            android:text="@string/pin_incorrect" />
+            android:text="@string/login_pin_incorrect" />
 
         <Button
             android:id="@+id/Pop_Up_Button_Dialog_Button"

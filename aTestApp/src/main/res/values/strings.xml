@@ -1,6 +1,6 @@
 <resources>
     <!--App-->
-    <string name="app_name">Features App</string>
+    <string name="app_name">Dem0App</string>
     <!--Logins-->
     <string name="guest">Guest</string>
     <string name="username">Username</string>
@@ -64,8 +64,10 @@
     <string name="refresh">refresh</string>
     <!--Pop up dialog-->
     <string name="loading">Loading…</string>
-    <string name="pin_incorrect">Your PIN is incorrect. Please try again.</string>
-    <string name="logging_in">Logging in…</string>
+    <string name="login_pin_incorrect">Your PIN is incorrect. Please try again.</string>
+    <string name="login_gesture_incorrect">Your gesture is incorrect. Please try again.</string>
+    <string name="login_password_incorrect">Your password is incorrect. Please try again.</string>
+    <string name="login_login_in">Logging in…</string>
     <!--Mandatory fields-->
     <string name="phone_number_is_mandatory">Phone number is mandatory</string>
     <string name="message_is_mandatory">Message is mandatory</string>

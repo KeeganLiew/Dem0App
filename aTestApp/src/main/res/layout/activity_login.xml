@@ -45,10 +45,10 @@
                         android:layout_marginTop="@dimen/margin_between_elements"
                         android:background="@drawable/background_send_money_linear"
                         android:hint="@string/username"
-                        android:text="@string/guest"
                         android:inputType="textPersonName"
                         android:paddingLeft="@dimen/edit_text_padding_left_right"
                         android:paddingRight="@dimen/edit_text_padding_left_right"
+                        android:text="@string/guest"
                         android:textColorHint="@color/edit_text_hint_text_color"
                         android:textSize="@dimen/edit_text_size" />
 
@@ -66,6 +66,41 @@
                         android:textColorHint="@color/edit_text_hint_text_color"
                         android:textSize="@dimen/edit_text_size" />
 
+                    <RelativeLayout
+                        android:id="@+id/Activity_Login_RelativeLayout_Password"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_between_elements"
+                        android:visibility="gone">
+
+                        <EditText
+                            android:id="@+id/Activity_Login_EditText_Password"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/edit_text_height"
+                            android:background="@drawable/background_send_money_linear"
+                            android:hint="@string/password"
+                            android:inputType="textPassword"
+                            android:longClickable="false"
+                            android:paddingLeft="@dimen/edit_text_padding_left_right"
+                            android:imeOptions="actionDone"
+                            android:paddingRight="@dimen/edit_text_padding_left_right"
+                            android:textColorHint="@color/edit_text_hint_text_color"
+                            android:textSize="@dimen/edit_text_size"
+                            android:visibility="visible" />
+
+                        <ImageView
+                            android:id="@+id/Activity_Login_ImageView_PasswordLogin"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/down" />
+                    </RelativeLayout>
+
+
                     <include
                         android:id="@+id/Activity_Login_InputOption"
                         layout="@layout/login_input_option_button"
@@ -73,12 +108,20 @@
                         android:layout_height="match_parent"
                         android:visibility="visible" />
 
-                    <!--<include
-                        android:id="@+id/Activity_Login_ProgressBar"
-                        layout="@layout/main_progressbar"
+                    <android.gesture.GestureOverlayView
+                        android:id="@+id/Activity_Login_InputOption_Gesture"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:visibility="gone" />-->
+                        android:layout_height="250dp"
+                        android:layout_marginTop="@dimen/margin_between_elements"
+                        android:background="@color/black_semi_transparent"
+                        android:eventsInterceptionEnabled="true"
+                        android:fadeEnabled="false"
+                        android:gestureColor="@color/pure_white"
+                        android:gestureStrokeLengthThreshold="0.1"
+                        android:gestureStrokeType="multiple"
+                        android:orientation="vertical"
+                        android:visibility="gone" />
+
                 </LinearLayout>
             </ScrollView>
 
@@ -90,7 +133,7 @@
                 android:layout_gravity="bottom"
                 android:layout_weight="0.4"
                 android:gravity="center_horizontal|bottom"
-                android:visibility="visible" />
+                android:visibility="gone" />
         </LinearLayout>
 
         <include

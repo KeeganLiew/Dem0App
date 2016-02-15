@@ -1,5 +1,5 @@
 [ToCreate]
-Login/PIN or Password or Gesture
+Home/Hidden Menu
 Home/Ability to update PIN or Password or Gesture
 Dev/Robolectric
 MMS Function
@@ -20,6 +20,7 @@ Contact/Other links
 [ToFix]
 Cooly fooly for now
 Don't save Guest username
+Login/disable input when loggin in
 [Done]
 <Week 1>
 Home/Added Toolbar
@@ -41,26 +42,26 @@ DeviceInfo /Created DeviceInfo Page
 DevLog/Implemented TODO.TXT parser
 DevLog/Created this (DevLog) Page
 <Week 3>
-Dev/Major project code refactor
+Dev/Did major project code refactor
 All/Added Toolbar titles
-Login/Fix keyboard behavior bug
+Login/Fixed keyboard behavior bug
 Login/Numpad is now set to 40% of screen
-Home/Fix float button behaviour bug
+Home/Fixed float button behaviour bug
 Home/SnackBar to undo username
 About/Created About Page
-Android/Fix widget update bug
+Android/Fixed widget update bug
 Android/Implemented tap Widget to open app
 Android/Added display picture for Widget
 <Week 4>
-Dev/Minor refactor/clean up
+Dev/Did minor refactor/clean up
 Login/Added UI feedback
 Login/Added Display picture
-Login/Fix display picture not clearing on Logout bug
-Login/Fix numpad Login bug
-Login/Fix Login UI bug
+Login/Fixed display picture not clearing on Logout bug
+Login/Fixed numpad Login bug
+Login/Fixed Login UI bug
 Home/Added OptionMenu functions
 Home/Added long press to change Username in NavDrawer
-Home/Fix long press Username bug
+Home/Fixed long press Username bug
 Home/Added ability to undo display picture VIA Snackbar
 Home/Added long press to change background image
 Home/Background image now saves
@@ -69,5 +70,8 @@ Sms/Sms toggle setting now saves
 Sms/Phone no. and Message are now mandatory fields
 Contact/Created Contact Page
 <Week 5>
+Dev/Refactored to reduce codes
+Dev/Added useful comments
+Login/Added Password and Gesture auth options
 Dev/Update all image assets
 Dev/Post to GitHub
