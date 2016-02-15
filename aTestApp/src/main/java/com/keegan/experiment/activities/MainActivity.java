@@ -176,14 +176,14 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         //ImageView
         navigationDisplayPictureIV = (ImageView) navigationNV.getHeaderView(0).findViewById(R.id.Navigation_ImageView_DisplayPicture);
         navigationDisplayPictureIV.setOnClickListener(this);
-        Global.loadImageIntoImageView(mContext, navigationDisplayPictureIV, Global.profilePictureImageName);
+        Global.loadImageIntoImageView(mContext, navigationDisplayPictureIV, Global.profilePicImgName);
         toolBarImageIV = (ImageView) findViewById(R.id.Activity_Main_ImageView_ToolbarImage);
         toolBarImageIV.setOnLongClickListener(new toolBarImageLongClickListener());
-        Global.loadImageIntoImageView(mContext, toolBarImageIV, Global.profileBackgroundPictureImageName);
+        Global.loadImageIntoImageView(mContext, toolBarImageIV, Global.profileBgPicImgName);
     }
 
     private void otherInitializations() {
-        username = Global.loadSavedPreferences(mActivity, Global.sharedPref_Username, getString(R.string.new_user));
+        username = Global.loadSavedPreferences(mActivity, Global.sharedPref_Username, Global.username_default);
         uiUpdateUsername(username);
 
         exitToast = Toast.makeText(mActivity, getString(R.string.toast_press_again_to_exit), Toast.LENGTH_LONG);
@@ -373,7 +373,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                                 @Override
                                 public void run() {
                                     ContextWrapper cw = new ContextWrapper(getApplicationContext());
-                                    DisplayPictureUtil.saveToInternalStorage(cw, bitmap, Global.profileBackgroundPictureImageName);
+                                    DisplayPictureUtil.saveToInternalStorage(cw, bitmap, Global.profileBgPicImgName);
                                 }
                             });
                         }
@@ -389,7 +389,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                         //circle crop
                         Bitmap circleCroppedBitmap = DisplayPictureUtil.performCircleCrop(imageBitmap);
                         //save final to internal
-                        DisplayPictureUtil.saveToInternalStorage(cw, circleCroppedBitmap, Global.profilePictureImageName);
+                        DisplayPictureUtil.saveToInternalStorage(cw, circleCroppedBitmap, Global.profilePicImgName);
 
                         // Set The Bitmap Data To ImageView
                         navigationDisplayPictureIV.setImageBitmap(circleCroppedBitmap);
@@ -397,17 +397,17 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
                         //undo if prev_profile_pic exist
                         Log.d(TAG, "undo if prev_profile_pic exist");
-                        File directory = cw.getDir(Global.profileImagesDirectoryName, Context.MODE_PRIVATE);
-                        final Bitmap prev_bitmapImage = DisplayPictureUtil.getDisplayPictureFromStorage(directory.getPath(), Global.prevProfileImageName);
+                        File directory = cw.getDir(Global.profileImgDirName, Context.MODE_PRIVATE);
+                        final Bitmap prev_bitmapImage = DisplayPictureUtil.getDisplayPictureFromStorage(directory.getPath(), Global.prevProfileImgName);
                         Snackbar usernameSB = Snackbar.make(rootLayoutCCL, "Revert display picture? ", Snackbar.LENGTH_INDEFINITE);
                         if (prev_bitmapImage != null) {
                             usernameSB.setAction("Undo", new OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    DisplayPictureUtil.saveToInternalStorage(cw, prev_bitmapImage, Global.profilePictureImageName);
+                                    DisplayPictureUtil.saveToInternalStorage(cw, prev_bitmapImage, Global.profilePicImgName);
                                     navigationDisplayPictureIV.setImageBitmap(prev_bitmapImage);
                                     navigationDisplayPictureIV.setScaleType(ImageView.ScaleType.FIT_XY);
-                                    Global.deleteImage(mContext, Global.prevProfileImageName);
+                                    Global.deleteImage(mContext, Global.prevProfileImgName);
                                 }
                             });
                         }
@@ -432,11 +432,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     //public methods
     public void clearDisplayPicture() {
-        Global.deleteImage(mContext, Global.profilePictureImageName);
+        Global.deleteImage(mContext, Global.profilePicImgName);
     }
 
     public void clearBackgroundPicture() {
-        Global.deleteImage(mContext, Global.profileBackgroundPictureImageName);
+        Global.deleteImage(mContext, Global.profileBgPicImgName);
     }
 
     public void clearAllPictures() {

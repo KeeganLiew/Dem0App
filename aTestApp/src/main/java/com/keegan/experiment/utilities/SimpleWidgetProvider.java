@@ -37,12 +37,12 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
 
             //Update username
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-            String name = sharedPreferences.getString("Username", mContext.getString(R.string.new_user));
+            String name = sharedPreferences.getString("Username", Global.username_default);
             String widgetString = "Hello " + name;
             remoteViews.setTextViewText(R.id.Widget_User_TextView_Username, widgetString);
             //Update display picture
-            File profileImageDirectory = mContext.getDir(Global.profileImagesDirectoryName, Context.MODE_PRIVATE);
-            Bitmap displayPictureBitmap = DisplayPictureUtil.getDisplayPictureFromStorage(profileImageDirectory.getPath(), Global.profilePictureImageName);
+            File profileImageDirectory = mContext.getDir(Global.profileImgDirName, Context.MODE_PRIVATE);
+            Bitmap displayPictureBitmap = DisplayPictureUtil.getDisplayPictureFromStorage(profileImageDirectory.getPath(), Global.profilePicImgName);
             //remoteViews.setImageViewBitmap(R.id.Widget_User_ImageView_DisplayPic, displayPictureBitmap); //doesn't work
             if (displayPictureBitmap != null) {
                 setBitmap(remoteViews, R.id.Widget_User_ImageView_DisplayPic, displayPictureBitmap); //workaround
