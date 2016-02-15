@@ -7,7 +7,10 @@ HTTP requests
 API Limitation List (Scrolling, FloatingButton < 21)
 [ToImprove]
 Dev/RoboGuice
+Login/Add auth hint
 Home/Add something?
+Home/Add long press to remove display picture
+Home/Login time
 Android/Widget Sizes
 Android/Widget Progress Bar
 Sms/To split into two
@@ -72,6 +75,7 @@ Contact/Created Contact Page
 <Week 5>
 Dev/Refactored to reduce codes
 Dev/Added useful comments
+Login/Fixed Username not saving bug
 Login/Added Password and Gesture auth options
 Dev/Update all image assets
 Dev/Post to GitHub

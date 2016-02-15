@@ -42,6 +42,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -243,6 +244,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
+        mActivity.getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN); //hide android keyboard
         uiUpdateUsername(username);
         broadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -399,9 +402,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                         Log.d(TAG, "undo if prev_profile_pic exist");
                         File directory = cw.getDir(Global.profileImgDirName, Context.MODE_PRIVATE);
                         final Bitmap prev_bitmapImage = DisplayPictureUtil.getDisplayPictureFromStorage(directory.getPath(), Global.prevProfileImgName);
-                        Snackbar usernameSB = Snackbar.make(rootLayoutCCL, "Revert display picture? ", Snackbar.LENGTH_INDEFINITE);
+                        Snackbar displayPicSB = Snackbar.make(rootLayoutCCL, "Revert display picture? ", Snackbar.LENGTH_INDEFINITE);
                         if (prev_bitmapImage != null) {
-                            usernameSB.setAction("Undo", new OnClickListener() {
+                            displayPicSB.setAction("Undo", new OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     DisplayPictureUtil.saveToInternalStorage(cw, prev_bitmapImage, Global.profilePicImgName);
@@ -411,7 +414,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                                 }
                             });
                         }
-                        usernameSB.show();
+                        displayPicSB.show();
                         break;
                 }
                 break;

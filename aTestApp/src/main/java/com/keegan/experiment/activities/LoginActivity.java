@@ -548,7 +548,6 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
     private void pinLoginChecker(EditText pin_EditText) {
         String pin = pin_EditText.getText().toString();
         if (pin.length() >= Global.pin_text_limit) {
-            finalUsername = usernameET.getText().toString();
             finalPin = pin;
             //start logging in
             startLoginProcess(Global.LoginInputMethod.PIN_INPUT);
@@ -580,6 +579,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                 Intent intent;
                 if (youShallPass) {
                     //save username
+                    finalUsername = usernameET.getText().toString();
                     Global.savePreferences(mActivity, Global.sharedPref_Username, finalUsername);
                     //start main activity with extra info
                     intent = new Intent(LoginActivity.this, MainActivity.class);
