@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/Activity_Splash_RelativeLayout_WholeScreen"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.flaviofaria.kenburnsview.KenBurnsView
+        android:id="@+id/Activity_Splash_KenBurnsView_Background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/aa_bg" />
+
+    <ImageView
+        android:id="@+id/Activity_Splash_ImageView_Logo"
+        android:layout_width="@dimen/splash_screen_logo_size"
+        android:layout_height="@dimen/splash_screen_logo_size"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-100dp"
+        android:src="@drawable/backspace"
+        android:contentDescription="@string/app_logo" />
+
+    <RelativeLayout
+        android:id="@+id/Activity_Splash_CenterItem"
+        android:layout_width="322dp"
+        android:layout_height="0dp"
+        android:background="@color/pure_black"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
+
+    <TextView
+        android:id="@+id/Activity_Splash_TextView_Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="-100dp"
+        android:gravity="center"
+        android:text="@string/welcome"
+        android:textSize="@dimen/splash_screen_title_size"
+        android:visibility="visible" />
+
+</RelativeLayout>

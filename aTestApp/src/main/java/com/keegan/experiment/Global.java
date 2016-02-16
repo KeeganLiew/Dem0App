@@ -43,6 +43,10 @@ public class Global {
     //value limits
     public static final int sms_text_limit = 160;
     public static final int pin_text_limit = 4;
+    //times
+    public static final int animationTime = 3000; //3 seconds
+    public static final int afterAnimationWaitTime = 1000; //1 second
+    public static final int totalSplashScreenTime = animationTime + afterAnimationWaitTime; //4 seconds
     //others
     public static final String KEEGAN_LINKEDIN_URL = "http://www.linkedin.com/in/keeganliew";
     public static final String EMPTY_STRING = "";
