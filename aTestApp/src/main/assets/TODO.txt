@@ -76,10 +76,11 @@ Contact/Created Contact Page
 <Week 5>
 Dev/Refactored to reduce codes
 Dev/Added comments for java files
+Dev/Uploaded to GitHub
+Dev/Updated README.md
 Splash/Added Splash screen
 Login/Fixed Username not saving bug
 Login/Added Password and Gesture auth options
 Home/Added Login time
-Dev/Post to GitHub
 
 Dev/Update all image assets
