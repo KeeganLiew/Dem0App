@@ -1,5 +1,4 @@
 [ToCreate]
-SplahScreen
 Home/Hidden Menu
 Home/Ability to update PIN or Password or Gesture
 Dev/Robolectric
@@ -77,8 +76,10 @@ Contact/Created Contact Page
 <Week 5>
 Dev/Refactored to reduce codes
 Dev/Added comments for java files
+Splash/Added Splash screen
 Login/Fixed Username not saving bug
 Login/Added Password and Gesture auth options
 Home/Added Login time
-Dev/Update all image assets
 Dev/Post to GitHub
+
+Dev/Update all image assets
