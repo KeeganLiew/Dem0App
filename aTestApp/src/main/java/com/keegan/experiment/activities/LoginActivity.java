@@ -106,8 +106,6 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
     private View currentlyPressedKey;
 
     //non-view object variables
-    private Activity mActivity;
-    private Context mContext;
     private String finalUsername;
     private String finalPin;
     private TextView[] numpadList;
@@ -115,6 +113,9 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
     private int currentAuthenticationOption;
     private GestureLibrary loginGestureLibrary;
     private double loginGestureScore;
+
+    private Activity mActivity;
+    private Context mContext;
     private BroadcastReceiver broadcastReceiver;
 
     @Override
@@ -275,7 +276,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) { //todo implement nav drawer item functions
+        switch (view.getId()) { ////TODO: 16/12/15 implement nav drawer item functions
             case R.id.Activity_Login_NewUser:
                 closeDrawer();
                 break;
@@ -364,7 +365,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
 
         @Override
         public void onDrawerClosed(View view) { //resume previous input
-            //todo fix with other inputs
+            ////TODO: 16/12/15 fix with other inputs
             if (lastFocused != null) {
                 Log.d(TAG, lastFocused.toString());
                 lastFocused.requestFocus();
@@ -463,7 +464,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         }
     }
 
-    private void enableAndShowViews(boolean bool) { //todo rename
+    private void enableAndShowViews(boolean bool) { ////TODO: 11/12/15 rename
         if (bool) { //reset after login attempt
             loginResultDialogRL.setVisibility(View.GONE);
             loginProgressDialogRL.setVisibility(View.GONE);

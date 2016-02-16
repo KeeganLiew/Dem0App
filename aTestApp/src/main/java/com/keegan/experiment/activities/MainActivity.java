@@ -69,43 +69,49 @@ import com.mikepenz.aboutlibraries.LibsBuilder;
 import com.mikepenz.aboutlibraries.ui.LibsFragment;
 
 import java.io.File;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     private final String TAG = MainActivity.class.getSimpleName();
 
+    //Parent layouts
     private static DrawerLayout mDrawerLayout;
+    private static CustomCoordinatorLayout mCustomCoordinatorLayout;
+    private AppBarLayout mAppBarLayout;
+    private CollapsingToolbarLayout mCollapsingToolbarLayout;
+    private Toolbar mToolbar;
+    private ImageView mToolBarImageIV;
     private ActionBarDrawerToggle drawerToggle;
+    //private TabLayout tabLayout;
 
+    //Navigation Drawer
+    private NavigationView navigationNV;
+    private TextView navigationUsernameTV;
+    private ImageView navigationDisplayPictureIV;
+    private TextView navigationLoginTimeTV;
+    //Page layout
     private NestedScrollView fragmentLayoutNSV;
     private NestedScrollView homeLayoutNSV;
-
-    private AppBarLayout mAppBarLayout;
-    private Behavior behavior;
-    private static CustomCoordinatorLayout rootLayoutCCL;
-    private Toolbar mToolbar;
-    //private TabLayout tabLayout;
-    private CollapsingToolbarLayout mCollapsingToolbarLayout;
-    private NavigationView navigationNV;
-
-    private TextView navigationUsernameTV;
-    private EditText usernameET;
-    private EditText passwordET;
-    private ImageView navigationDisplayPictureIV;
-    private ImageView toolBarImageIV;
-    private Button loginB;
+    //Float menu and button
     private FloatingActionsMenu fabMainButtonFAM;
     private FloatingActionButton buttonA;
     private FloatingActionButton buttonB;
     private FloatingActionButton buttonC;
+    //content
+    private EditText usernameET;
+    private EditText passwordET;
+    private Button loginB;
 
+    //non-view object variables
+    private boolean cropGalleryImage = false;
     private static String username;
     private String password;
-    private boolean cropGalleryImage = false;
+    private Behavior behavior;
+    private Toast exitToast;
 
     private static Activity mActivity;
     private Context mContext;
-    private Toast exitToast;
     private BroadcastReceiver broadcastReceiver;
 
     @Override
@@ -120,32 +126,29 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     }
 
     private void viewObjectsInitializations() {
-        //layouts
-        fragmentLayoutNSV = (NestedScrollView) findViewById(R.id.Activity_Main_NestedScrollView_FragmentLayout);
-        homeLayoutNSV = (NestedScrollView) findViewById(R.id.Activity_Main_NestedScrollView_HomeLayout);
-        rootLayoutCCL = (CustomCoordinatorLayout) findViewById(R.id.Activity_Main_CustomCoordinatorLayout_RootLayout);
-        rootLayoutCCL.setAllowForScroll(true);
-        mAppBarLayout = (AppBarLayout) findViewById(R.id.Activity_Main_AppBarLayout);
-
-        //toolbar
-        mToolbar = (Toolbar) findViewById(R.id.Activity_Main_Toolbar);
-        setSupportActionBar(mToolbar);
-
-        //drawers
+        //Parent layout
         mDrawerLayout = (DrawerLayout) findViewById(R.id.Activity_Main_DrawerLayout);
-        drawerToggle = new ActionBarDrawerToggle(MainActivity.this, mDrawerLayout, R.string.hello_world, R.string.hello_world);
-        mDrawerLayout.setDrawerListener(new mainDrawerListener());
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        //float menu & buttons
-        fabMainButtonFAM = (FloatingActionsMenu) findViewById(R.id.Activity_Main_FloatingActionsMenu_FabMainButton);
-        buttonA = (FloatingActionButton) findViewById(R.id.Activity_Main_FloatingActionButton_ButtonA);
-        buttonB = (FloatingActionButton) findViewById(R.id.Activity_Main_FloatingActionButton_ButtonB);
-        buttonC = (FloatingActionButton) findViewById(R.id.Activity_Main_FloatingActionButton_ButtonC);
-        buttonC.setOnClickListener(this);
-
-        //tabs
+        mDrawerLayout.setDrawerListener(new mDrawerListener()); //set listener
+        //CustomCoordinatorLayout
+        mCustomCoordinatorLayout = (CustomCoordinatorLayout) findViewById(R.id.Activity_Main_CustomCoordinatorLayout_RootLayout);
+        mCustomCoordinatorLayout.setAllowForScroll(true); //enable collapsing toolbar
+        //AppBarLayout
+        mAppBarLayout = (AppBarLayout) findViewById(R.id.Activity_Main_AppBarLayout);
+        //CollapsingToolbarLayout
+        mCollapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.Activity_Main_CollapsingToolbarLayout);
+        //Toolbar
+        mToolbar = (Toolbar) findViewById(R.id.Activity_Main_Toolbar);
+        mToolBarImageIV = (ImageView) findViewById(R.id.Activity_Main_ImageView_ToolbarImage);
+        mToolBarImageIV.setOnLongClickListener(new toolBarImageLongClickListener()); //set listener
+        //ActionBar
+        drawerToggle = new ActionBarDrawerToggle(MainActivity.this, mDrawerLayout,
+                R.string.hello_world, R.string.hello_world); ////TODO: 16/12/15 replace string titles
+        setSupportActionBar(mToolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setHomeButtonEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        } ////TODO: 16/12/15 fix - hamburger somehow turned black
+        //TabLayout
         /*tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         tabLayout.addTab(tabLayout.newTab().setText("Tab 1"));
         tabLayout.addTab(tabLayout.newTab().setText("Tab 2"));
@@ -154,39 +157,41 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         tabLayout.addTab(tabLayout.newTab().setText("Tab 5"));
         tabLayout.addTab(tabLayout.newTab().setText("Tab 6"));*/
 
-        //Header toolbar
-        mCollapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.Activity_Main_CollapsingToolbarLayout);
-        setTitle("Hello " + username);
-
-        //nav draw
+        //Navigation Drawer
         navigationNV = (NavigationView) findViewById(R.id.Activity_Main_NavigationView_Navigation);
-        navigationNV.setNavigationItemSelectedListener(new mainNavigationItemListener());
+        navigationNV.setNavigationItemSelectedListener(new navDrawerItemListener());  //set listener
+        //Navigation Drawer Items
+        View headerView = navigationNV.getHeaderView(0);
+        navigationDisplayPictureIV = (ImageView) headerView.findViewById(R.id.Navigation_ImageView_DisplayPicture);
+        navigationDisplayPictureIV.setOnClickListener(this); //set listener
+        navigationUsernameTV = (TextView) headerView.findViewById(R.id.Navigation_TextView_Username);
+        navigationUsernameTV.setOnLongClickListener(new usernameLongClickListener());  //set listener
+        navigationLoginTimeTV = (TextView) headerView.findViewById(R.id.Navigation_TextView_LoginTime);
+        navigationLoginTimeTV.append(Global.dateformat.format(Calendar.getInstance().getTime()));
 
-        //EditText
+        //home/fragment layout
+        homeLayoutNSV = (NestedScrollView) findViewById(R.id.Activity_Main_NestedScrollView_HomeLayout);
+        fragmentLayoutNSV = (NestedScrollView) findViewById(R.id.Activity_Main_NestedScrollView_FragmentLayout);
+
+        //float menu & buttons
+        fabMainButtonFAM = (FloatingActionsMenu) findViewById(R.id.Activity_Main_FloatingActionsMenu_FabMainButton);
+        buttonA = (FloatingActionButton) findViewById(R.id.Activity_Main_FloatingActionButton_ButtonA);
+        buttonB = (FloatingActionButton) findViewById(R.id.Activity_Main_FloatingActionButton_ButtonB);
+        buttonC = (FloatingActionButton) findViewById(R.id.Activity_Main_FloatingActionButton_ButtonC);
+        buttonC.setOnClickListener(this); //set listener
+
+        //home content
         usernameET = (EditText) findViewById(R.id.Activity_Main_EditText_Username);
         passwordET = (EditText) findViewById(R.id.Activity_Main_EditText_Password);
-
-        //Buttons
         loginB = (Button) findViewById(R.id.Activity_Main_Button_Login);
-        loginB.setOnClickListener(this);
-
-        //TextView
-        navigationUsernameTV = (TextView) navigationNV.getHeaderView(0).findViewById(R.id.Navigation_TextView_Username);
-        navigationUsernameTV.setOnLongClickListener(new userNameLongClickListener());
-
-        //ImageView
-        navigationDisplayPictureIV = (ImageView) navigationNV.getHeaderView(0).findViewById(R.id.Navigation_ImageView_DisplayPicture);
-        navigationDisplayPictureIV.setOnClickListener(this);
-        Global.loadImageIntoImageView(mContext, navigationDisplayPictureIV, Global.profilePicImgName);
-        toolBarImageIV = (ImageView) findViewById(R.id.Activity_Main_ImageView_ToolbarImage);
-        toolBarImageIV.setOnLongClickListener(new toolBarImageLongClickListener());
-        Global.loadImageIntoImageView(mContext, toolBarImageIV, Global.profileBgPicImgName);
+        loginB.setOnClickListener(this); //set listener
     }
 
     private void otherInitializations() {
         username = Global.loadSavedPreferences(mActivity, Global.sharedPref_Username, Global.username_default);
-        uiUpdateUsername(username);
-
+        Global.loadImageIntoImageView(mContext, navigationDisplayPictureIV, Global.profilePicImgName);
+        Global.loadImageIntoImageView(mContext, mToolBarImageIV, Global.profileBgPicImgName);
+        updateUsernameViews(username);
         exitToast = Toast.makeText(mActivity, getString(R.string.toast_press_again_to_exit), Toast.LENGTH_LONG);
     }
 
@@ -204,7 +209,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main_activity_settings, menu);
         return true;
     }
@@ -214,16 +218,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        Fragment mFragment;
-        switch (item.getItemId()) {
+
+        switch (item.getItemId()) { //option items
             case R.id.main_menu_item_about:
+                ////TODO: 16/12/15 create method for about infos
                 String description = getString(R.string.about_description_app);
                 String extra = getString(R.string.about_description_extra_info);
                 LibsFragment aboutPageFragment = new LibsBuilder()
-                        //get the fragment
                         .withAboutIconShown(true)
                         .withAboutVersionShown(true)
                         .withAboutDescription(description)
@@ -231,13 +232,14 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                 startFragment(aboutPageFragment, getString(R.string.about));
                 break;
             case R.id.main_menu_item_settings:
-                mFragment = new UnderConstructionFragment();
+                Fragment mFragment = new UnderConstructionFragment();
                 startFragment(mFragment, getString(R.string.settings));
                 break;
             case R.id.main_menu_item_logout:
                 logout();
                 break;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -246,7 +248,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         super.onResume();
         mActivity.getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN); //hide android keyboard
-        uiUpdateUsername(username);
+        updateUsernameViews(username);
+
+        //broadcast receivers
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -262,7 +266,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                 }
             }
         };
-
         LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, new IntentFilter(Intents.FRAGMENT_ITEM_CANCELLED.toString()));
         LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, new IntentFilter(Intents.PICK_CONTACT.toString()));
     }
@@ -279,7 +282,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         } else {
             if (exitToast.getView().isShown()) {
                 exitToast.cancel();
-                this.finish();
+                this.finish(); //pressing "Back" when toast is showing
             } else {
                 exitToast.show();
             }
@@ -290,45 +293,48 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.Activity_Main_Button_Login:
+                //username and password updater ////TODO: 16/12/15 move to own page/fragment
                 //username
+                ////TODO: 16/12/15- method for snackbar
                 final String previousUsername = Global.loadSavedPreferences(mActivity, Global.sharedPref_Username, Global.EMPTY_STRING);
                 username = usernameET.getText().toString();
                 Log.d(TAG, "Username is: " + username);
                 Global.savePreferences(mActivity, Global.sharedPref_Username, username);
-                uiUpdateUsername(username);
-                Snackbar usernameSB = Snackbar.make(rootLayoutCCL, "Hello " + username, Snackbar.LENGTH_LONG);
+                updateUsernameViews(username);
+                Snackbar usernameSB = Snackbar.make(mCustomCoordinatorLayout, "Hello " + username, Snackbar.LENGTH_LONG);
                 if (!previousUsername.equals(Global.EMPTY_STRING) && !previousUsername.equals(username)) {
                     usernameSB.setAction("Undo", new OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             username = previousUsername;
                             Global.savePreferences(mActivity, Global.sharedPref_Username, username);
-                            uiUpdateUsername(username);
+                            updateUsernameViews(username);
                         }
                     });
                     usernameSB.show();
                 }
                 //password
+                ////TODO: 16/12/15- method for snackbar
                 final String previousPassword = Global.loadSavedPreferences(mActivity, Global.sharedPref_Password, Global.EMPTY_STRING);
                 password = passwordET.getText().toString();
                 Log.d(TAG, "Password is: " + password);
                 Global.savePreferences(mActivity, Global.sharedPref_Password, password);
-                Snackbar passwordSB = Snackbar.make(rootLayoutCCL, "Updated password to: " + password, Snackbar.LENGTH_SHORT);
+                Snackbar passwordSB = Snackbar.make(mCustomCoordinatorLayout, "Updated password to: " + password, Snackbar.LENGTH_SHORT);
                 if (!previousPassword.equals(Global.EMPTY_STRING) && !previousPassword.equals(password)) {
                     passwordSB.setAction("Undo", new OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             password = previousPassword;
                             Global.savePreferences(mActivity, Global.sharedPref_Password, password);
-                            uiUpdateUsername(password);
+                            updateUsernameViews(password);
                         }
                     });
                     passwordSB.show();
                 }
-
                 hideKeyboard(mActivity);
                 break;
             case R.id.Navigation_ImageView_DisplayPicture:
+                //start activity to pick gallery picture
                 Intent gallery_Intent = new Intent(getApplicationContext(), GalleryUtil.class);
                 startActivityForResult(gallery_Intent, Global.GALLERY_ACTIVITY_CODE);
                 cropGalleryImage = true;
@@ -351,26 +357,25 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                         Intent intent = new Intent(Intents.PICKED_CONTACT_INFO.toString());
                         intent.putExtra(Intents.PICKED_CONTACT_INFO_EXTRA_NAME.toString(), nameAndPhoneNumber[0]);
                         intent.putExtra(Intents.PICKED_CONTACT_INFO_EXTRA_PHONE_NUMBER.toString(), nameAndPhoneNumber[1]);
-                        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
-                        Log.d(TAG, "Sending Intent: " + intent.getAction() + " with extra: " + intent.getStringExtra(Intents.PICKED_CONTACT_INFO_EXTRA_PHONE_NUMBER.toString()));
+                        LocalBroadcastManager.getInstance(this).sendBroadcast(intent); //Send picked contact as intent
+                        Log.d(TAG, "Sending Intent: " + intent.getAction() + " with extra: " +
+                                intent.getStringExtra(Intents.PICKED_CONTACT_INFO_EXTRA_PHONE_NUMBER.toString()));
                         break;
                     case Global.GALLERY_ACTIVITY_CODE:
                         final String picturePath = data.getStringExtra("picturePath");
-                        //perform Crop on the Image Selected from Gallery
-                        if (cropGalleryImage) {
+                        if (cropGalleryImage) { //perform crop on the Image Selected from Gallery
                             Intent cropIntent = DisplayPictureUtil.performCrop(picturePath, Global.display_picture_crop_size);
-
                             if (cropIntent != null) {
                                 startActivityForResult(cropIntent, Global.RESULT_CROP);
                             } else {
                                 Global.createAndShowToast(mActivity, getString(R.string.toast_error_message_crop_support), Toast.LENGTH_SHORT);
                             }
                             cropGalleryImage = false;
-                        } else {
+                        } else { //else save as background picture
                             BitmapFactory.Options options = new BitmapFactory.Options();
                             options.inSampleSize = 2;
                             final Bitmap bitmap = BitmapFactory.decodeFile(picturePath, options);
-                            toolBarImageIV.setImageBitmap(bitmap);
+                            mToolBarImageIV.setImageBitmap(bitmap);
 
                             AsyncTask.execute(new Runnable() {
                                 @Override
@@ -384,13 +389,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                         break;
                     case Global.RESULT_CROP:
                         final ContextWrapper cw = new ContextWrapper(getApplicationContext());
-                        //back up
-                        DisplayPictureUtil.backUpDisplayPictureFromStorage(cw);
+                        DisplayPictureUtil.backUpDisplayPictureFromStorage(cw); //back up
                         //crop result
                         Bundle extras = data.getExtras();
                         Bitmap imageBitmap = extras.getParcelable("data");
-                        //circle crop
-                        Bitmap circleCroppedBitmap = DisplayPictureUtil.performCircleCrop(imageBitmap);
+                        Bitmap circleCroppedBitmap = DisplayPictureUtil.performCircleCrop(imageBitmap);//circle crop
                         //save final to internal
                         DisplayPictureUtil.saveToInternalStorage(cw, circleCroppedBitmap, Global.profilePicImgName);
 
@@ -399,10 +402,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                         navigationDisplayPictureIV.setScaleType(ImageView.ScaleType.FIT_XY);
 
                         //undo if prev_profile_pic exist
+                        ////TODO: 16/12/15- method for snackbar
                         Log.d(TAG, "undo if prev_profile_pic exist");
                         File directory = cw.getDir(Global.profileImgDirName, Context.MODE_PRIVATE);
                         final Bitmap prev_bitmapImage = DisplayPictureUtil.getDisplayPictureFromStorage(directory.getPath(), Global.prevProfileImgName);
-                        Snackbar displayPicSB = Snackbar.make(rootLayoutCCL, "Revert display picture? ", Snackbar.LENGTH_INDEFINITE);
+                        Snackbar displayPicSB = Snackbar.make(mCustomCoordinatorLayout, "Revert display picture? ", Snackbar.LENGTH_INDEFINITE);
                         if (prev_bitmapImage != null) {
                             displayPicSB.setAction("Undo", new OnClickListener() {
                                 @Override
@@ -463,7 +467,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     }
 
     //listeners
-    private class mainDrawerListener implements DrawerListener {
+    private class mDrawerListener implements DrawerListener {
         @Override
         public void onDrawerSlide(View drawerView, float slideOffset) {
             drawerToggle.onDrawerSlide(drawerView, slideOffset);
@@ -486,7 +490,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         }
     }
 
-    private class mainNavigationItemListener implements OnNavigationItemSelectedListener {
+    private class navDrawerItemListener implements OnNavigationItemSelectedListener {
 
         @Override
         public boolean onNavigationItemSelected(MenuItem menuItem) {
@@ -501,7 +505,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             switch (id) {
                 case R.id.nav_drawer_home:
                     closeFragmentLayout();
-                    uiUpdateUsername(username);
+                    updateUsernameViews(username);
                     break;
                 case R.id.nav_drawer_sms_service:
                     mFragment = new SmsFragment();
@@ -520,10 +524,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                     startFragment(mFragment, getString(R.string.contact));
                     break;
                 case R.id.nav_drawer_about:
+                    ////TODO: 16/12/15- about page
                     String description = getString(R.string.about_description_app);
                     String extra = getString(R.string.about_description_extra_info);
                     LibsFragment aboutPageFragment = new LibsBuilder()
-                            //get the fragment
                             .withAboutIconShown(true)
                             .withAboutVersionShown(true)
                             .withAboutDescription(description)
@@ -542,7 +546,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         }
     }
 
-    private class userNameLongClickListener implements OnLongClickListener {
+    private class usernameLongClickListener implements OnLongClickListener {
         @Override
         public boolean onLongClick(View v) {
             Log.d(TAG, "Long pressed username");
@@ -563,7 +567,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     //public ui methods
     public static Snackbar createSnackBar(String message, int length) {
-        Snackbar sb = Snackbar.make(rootLayoutCCL, message, length);
+        Snackbar sb = Snackbar.make(mCustomCoordinatorLayout, message, length);
         sb.show();
         return sb;
     }
@@ -591,32 +595,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     }
 
     //private ui methods
-    private void uiUpdateUsername(String name) {
+    private void updateUsernameViews(String name) {
         updateTitle("Hello " + name);
         navigationUsernameTV.setText(name);
     }
 
     private void updateTitle(String title) {
         mCollapsingToolbarLayout.setTitle(title);
-    }
-
-    private void collapseToolbar() {
-        LayoutParams params = (LayoutParams) mAppBarLayout.getLayoutParams();
-        behavior = (Behavior) params.getBehavior();
-        if (behavior != null) {
-            behavior.onNestedFling(rootLayoutCCL, mAppBarLayout, null, 0, 10000, true);
-        }
-        rootLayoutCCL.setAllowForScroll(false);
-    }
-
-    private void expandToolbar() {
-        LayoutParams params = (LayoutParams) mAppBarLayout.getLayoutParams();
-        behavior = (Behavior) params.getBehavior();
-        if (behavior != null) {
-            behavior.setTopAndBottomOffset(0);
-            behavior.onNestedPreScroll(rootLayoutCCL, mAppBarLayout, null, 0, 1, new int[2]);
-        }
-        rootLayoutCCL.setAllowForScroll(true);
     }
 
     private void startFragment(Fragment mFragment, String title) {
@@ -639,7 +624,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     private void closeFragmentLayout() {
         getFragmentManager().popBackStack();
         setFunctionLayout(View.GONE);
-        uiUpdateUsername(username);
+        updateUsernameViews(username);
     }
 
     private void setFunctionLayout(int status) {
@@ -654,6 +639,25 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             fabMainButtonFAM.setVisibility(View.VISIBLE);
             expandToolbar();
         }
+    }
+
+    private void collapseToolbar() {
+        LayoutParams params = (LayoutParams) mAppBarLayout.getLayoutParams();
+        behavior = (Behavior) params.getBehavior();
+        if (behavior != null) {
+            behavior.onNestedFling(mCustomCoordinatorLayout, mAppBarLayout, null, 0, 10000, true);
+        }
+        mCustomCoordinatorLayout.setAllowForScroll(false);
+    }
+
+    private void expandToolbar() {
+        LayoutParams params = (LayoutParams) mAppBarLayout.getLayoutParams();
+        behavior = (Behavior) params.getBehavior();
+        if (behavior != null) {
+            behavior.setTopAndBottomOffset(0);
+            behavior.onNestedPreScroll(mCustomCoordinatorLayout, mAppBarLayout, null, 0, 1, new int[2]);
+        }
+        mCustomCoordinatorLayout.setAllowForScroll(true);
     }
 
     private void showMerchantIdBox() {
@@ -685,16 +689,14 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         editText.postDelayed(new Runnable() {
             @Override
             public void run() {
-                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                imm.showSoftInput(editText, InputMethodManager.SHOW_FORCED);
+                showKeyboard(mActivity, editText);
             }
         }, 30);
 
         cancelB.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                hideKeyboard(mActivity);
                 merchantIdBoxDialog.dismiss();
             }
         });
@@ -703,28 +705,26 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             @Override
             public void onClick(final View v) {
                 if (editText.getText().toString().isEmpty()) {
-                    //Toast.makeText(v.getContext(), "Please enter more than one character", Toast.LENGTH_SHORT).show();
-                    //Global.createAndShowToast(v.getContext(), getString(R.string.toast_enter_a_character), Toast.LENGTH_SHORT);
                     editText.setError(getString(R.string.toast_enter_a_character));
                     return;
                 }
-                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                hideKeyboard(mActivity);
                 progressBar.setVisibility(View.VISIBLE);
                 try {
+                    ////TODO: 16/12/15- method for snackbar
                     final String previousUsername = Global.loadSavedPreferences(mActivity, Global.sharedPref_Username, Global.EMPTY_STRING);
                     username = editText.getText().toString();
                     Log.d(TAG, "Username is: " + username);
                     Global.savePreferences(mActivity, Global.sharedPref_Username, username);
-                    uiUpdateUsername(username);
-                    Snackbar usernameSB = Snackbar.make(rootLayoutCCL, "Hello " + username, Snackbar.LENGTH_INDEFINITE);
+                    updateUsernameViews(username);
+                    Snackbar usernameSB = Snackbar.make(mCustomCoordinatorLayout, "Hello " + username, Snackbar.LENGTH_INDEFINITE);
                     if (!previousUsername.equals(Global.EMPTY_STRING)) {
                         usernameSB.setAction("Undo", new OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 username = previousUsername;
                                 Global.savePreferences(mActivity, Global.sharedPref_Username, username);
-                                uiUpdateUsername(username);
+                                updateUsernameViews(username);
                             }
                         });
                     }

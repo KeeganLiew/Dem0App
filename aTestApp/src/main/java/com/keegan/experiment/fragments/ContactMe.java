@@ -21,21 +21,20 @@ import com.keegan.experiment.R;
 public class ContactMe extends Fragment implements OnClickListener {
 
     private final String TAG = ContactMe.class.getSimpleName();
-    WebView webView;
-    RelativeLayout progressBar;
+    private WebView webView;
+    private RelativeLayout progressBar;
+    private String url = Global.KEEGAN_LINKEDIN_URL;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_contact_me, container, false);
         progressBar = (RelativeLayout) rootView.findViewById(R.id.Fragment_ContactMe_ProgressBar);
 
-        String url = Global.KEEGAN_LINKEDIN_URL;
         webView = (WebView) rootView.findViewById(R.id.Fragment_ContactMe_WebView);
-
         webView.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView view, int progress) {
                 Log.d(TAG, "progress: " + progress);
-                if (progress >= 100) {
+                if (progress >= 100) { //show webview when something finished loading
                     progressBar.setVisibility(View.GONE);
                     webView.setVisibility(View.VISIBLE);
                 }

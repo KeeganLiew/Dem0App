@@ -58,7 +58,7 @@ public class DeviceInfoFragment extends Fragment implements OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
+            ////TODO: 16/12/15 Copy all info
         }
     }
 

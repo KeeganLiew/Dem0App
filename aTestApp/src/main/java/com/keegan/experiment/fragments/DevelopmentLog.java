@@ -91,11 +91,11 @@ public class DevelopmentLog extends Fragment implements OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
+            ////TODO: 11/12/15 when click on item, go to page of feature
         }
     }
 
-    //Listeners
+    //Listeners ////TODO: 16/12/15 redo listener toasts
     private class expandableLvGroupExpandListener implements OnGroupExpandListener {
         @Override
         public void onGroupExpand(int groupPosition) {
@@ -109,7 +109,6 @@ public class DevelopmentLog extends Fragment implements OnClickListener {
             Toast.makeText(mActivity,
                     expandableListTitle.get(groupPosition) + " List Collapsed.",
                     Toast.LENGTH_SHORT).show();
-
         }
     }
 
