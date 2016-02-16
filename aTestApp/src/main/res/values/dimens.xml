@@ -1,4 +1,7 @@
 <resources>
+    <!--Splash Screen-->
+    <dimen name="splash_screen_logo_size">100dp</dimen>
+    <dimen name="splash_screen_title_size">40sp</dimen>
     <!--Login-->
     <dimen name="login_navigation_drawer_width">150dp</dimen>
     <dimen name="padding_between_login_nav_drawer_items">15dp</dimen>
@@ -46,5 +49,4 @@
     <!--pop up dialog-->
     <dimen name="pop_up_dialog_padding_left_right">20dp</dimen>
     <dimen name="pop_up_dialog">10dp</dimen>
-
 </resources>

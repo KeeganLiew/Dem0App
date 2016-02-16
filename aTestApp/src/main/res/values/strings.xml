@@ -1,6 +1,9 @@
 <resources>
     <!--App-->
     <string name="app_name">Dem0App</string>
+    <!--Splash screen-->
+    <string name="app_logo">App Logo</string>
+    <string name="welcome">Welcome</string>
     <!--Logins-->
     <string name="guest">Guest</string>
     <string name="username">Username</string>
