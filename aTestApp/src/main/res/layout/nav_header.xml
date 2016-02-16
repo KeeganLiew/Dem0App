@@ -1,36 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/home_navigation_header_height"
+    android:layout_height="wrap_content"
+    android:background="@drawable/nav_header_bg"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <ImageView
+    <RelativeLayout
+        android:id="@+id/Navigation_RelativeLayout_Profile"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/nav_header_bg" />
+        android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/Navigation_ImageView_DisplayPicture"
-        android:layout_width="@dimen/home_nav_header_display_picture_size"
-        android:layout_height="@dimen/home_nav_header_display_picture_size"
-        android:layout_marginLeft="@dimen/home_nav_header_display_pic_margin_left"
-        android:layout_marginStart="@dimen/home_nav_header_display_pic_margin_left"
-        android:layout_marginTop="@dimen/home_nav_header_element_margin_from_top"
-        android:scaleType="centerCrop"
-        android:src="@drawable/name"
-        android:contentDescription="@string/display_picture" />
+        <ImageView
+            android:id="@+id/Navigation_ImageView_DisplayPicture"
+            android:layout_width="@dimen/home_nav_header_display_picture_size"
+            android:layout_height="@dimen/home_nav_header_display_picture_size"
+            android:layout_marginLeft="@dimen/home_nav_header_display_pic_margin_left"
+            android:layout_marginStart="@dimen/home_nav_header_display_pic_margin_left"
+            android:layout_marginTop="@dimen/home_nav_header_element_margin_from_top"
+            android:contentDescription="@string/display_picture"
+            android:scaleType="centerCrop"
+            android:src="@drawable/name" />
+
+        <TextView
+            android:id="@+id/Navigation_TextView_Username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/home_nav_header_gap_between_display_pic_and_username"
+            android:layout_marginLeft="@dimen/home_nav_header_gap_between_display_pic_and_username"
+            android:layout_marginRight="@dimen/home_nav_header_gap_between_display_pic_and_username"
+            android:layout_marginStart="@dimen/home_nav_header_gap_between_display_pic_and_username"
+            android:layout_marginTop="@dimen/home_nav_header_element_margin_from_top"
+            android:layout_toEndOf="@+id/Navigation_ImageView_DisplayPicture"
+            android:layout_toRightOf="@+id/Navigation_ImageView_DisplayPicture"
+            android:text="@string/username"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="@dimen/home_nav_header_username_text_size" />
+    </RelativeLayout>
 
     <TextView
-        android:id="@+id/Navigation_TextView_Username"
-        android:layout_width="match_parent"
+        android:id="@+id/Navigation_TextView_LoginTime"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/home_nav_header_gap_between_display_pic_and_username"
-        android:layout_marginStart="@dimen/home_nav_header_gap_between_display_pic_and_username"
-        android:layout_marginTop="@dimen/home_nav_header_element_margin_from_top"
-        android:layout_toEndOf="@+id/Navigation_ImageView_DisplayPicture"
-        android:layout_toRightOf="@+id/Navigation_ImageView_DisplayPicture"
-        android:text="@string/username"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/Navigation_RelativeLayout_Profile"
+        android:paddingBottom="@dimen/bottom_margin_for_last_elements"
+        android:paddingLeft="@dimen/home_nav_header_gap_between_display_pic_and_username"
+        android:paddingRight="@dimen/home_nav_header_gap_between_display_pic_and_username"
+        android:paddingTop="@dimen/margin_between_elements"
+        android:text="@string/login_time"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="@dimen/home_nav_header_username_text_size" />
+        android:textSize="@dimen/home_nav_header_login_time_text_size" />
+
 </RelativeLayout>

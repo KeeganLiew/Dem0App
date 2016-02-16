@@ -51,29 +51,16 @@ public class SmsReceiver extends BroadcastReceiver {
                         s += "\n Message: " + message;
                         Log.d(TAG, "MessageInfo: " + s);
 
-                        String deviceId = DeviceInfo.getDeviceId(Global.DeviceIdType.undigestedDeviceId);
-                        String countryZipCode = DeviceInfo.getCountryZipCode();
-                        String shortInfo = "Device Name: " + Build.MANUFACTURER.toUpperCase() + " " + Build.MODEL +
-                                "\n Country Code: " + countryZipCode +
-                                "\n Device ID: " + deviceId;
-
-
-                        /*final Toast toast = Toast.makeText(mContext,
-                                "senderNum: " + senderNum + ", message: " + message
-                                //+ " \n PhoneInfo: " + shortInfo
-                                , Toast.LENGTH_LONG);
-                        toast.show();*/
                         String toastMessage = "senderNum: " + senderNum + ", message: " + message;
                         Global.createAndShowToast(mContext, toastMessage, Toast.LENGTH_LONG);
 
                     } // end for loop
-                } // bundle is null
+                }
             } catch (Exception e) {
                 Log.e(TAG, "Exception smsReceiver" + e);
             }
             DeviceInfo.getDeviceSuperInfo();
         }
     }
-
 
 }

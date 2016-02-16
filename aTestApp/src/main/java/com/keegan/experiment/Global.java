@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.keegan.experiment.utilities.DisplayPictureUtil;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,8 @@ import java.util.List;
  * Created by keegan on 22/01/16.
  */
 public class Global {
+    private static final String TAG = Global.class.getSimpleName();
+
     //file names
     public static final String prevProfileImgName = "prev_profile.jpg";
     public static final String profilePicImgName = "profile.jpg";
@@ -47,6 +50,7 @@ public class Global {
     public static final int hide_keyboard_login_drawer_percentage = 50;
     public static final int display_picture_crop_size = 280;
     public static final double min_gesture_score = 5.0;
+    public static final SimpleDateFormat dateformat = new SimpleDateFormat("dd-MMM hh:mm a");
 
     //devlog list
     public static List<String> toCreateList = new ArrayList<String>();
@@ -145,5 +149,4 @@ public class Global {
     public static void createAndShowToast(Context mContext, String toastMessage, int length) {
         Toast.makeText(mContext, toastMessage, length).show();
     }
-
 }

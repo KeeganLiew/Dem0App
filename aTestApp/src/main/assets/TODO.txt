@@ -1,4 +1,5 @@
 [ToCreate]
+SplahScreen
 Home/Hidden Menu
 Home/Ability to update PIN or Password or Gesture
 Dev/Robolectric
@@ -7,7 +8,8 @@ HTTP requests
 API Limitation List (Scrolling, FloatingButton < 21)
 [ToImprove]
 Dev/RoboGuice
-Login/Add auth hint
+Login/Add auth hint (first time)
+Login/Username logic (if guest, then cant edit auth)
 Home/Add something?
 Home/Add long press to remove display picture
 Home/Login time
@@ -74,8 +76,9 @@ Sms/Phone no. and Message are now mandatory fields
 Contact/Created Contact Page
 <Week 5>
 Dev/Refactored to reduce codes
-Dev/Added useful comments
+Dev/Added comments for java files
 Login/Fixed Username not saving bug
 Login/Added Password and Gesture auth options
+Home/Added Login time
 Dev/Update all image assets
 Dev/Post to GitHub
