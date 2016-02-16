@@ -18,7 +18,7 @@
         android:layout_height="@dimen/splash_screen_logo_size"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="-100dp"
-        android:src="@drawable/backspace"
+        android:src="@mipmap/ic_launcher"
         android:contentDescription="@string/app_logo" />
 
     <RelativeLayout
