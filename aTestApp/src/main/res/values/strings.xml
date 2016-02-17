@@ -11,7 +11,7 @@
     <string name="password">Password</string>
     <string name="login">Login</string>
     <!--Login Navigation Drawer-->
-    <string name="new_user">Guest</string>
+    <string name="new_user">New user</string>
     <string name="forgot_pin">Forgot Pin</string>
     <string name="help">Help</string>
     <string name="scroll_error">Scrolling only works for Lollipop or above</string>

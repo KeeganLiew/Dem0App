@@ -193,7 +193,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
     private void viewObjectLogic() {
         //navigation drawer
         LinearLayout[] navMenuList = new LinearLayout[]{navDrawerItemNewUserLL, navDrawerItemForgotPinLL, navDrawerItemHelpLL, navDrawerItemContactLL};
-        int[] navMenuImages = new int[]{R.drawable.name, R.drawable.backspace, R.drawable.nav_header_bg, R.drawable.header};
+        int[] navMenuImages = new int[]{R.drawable.name, R.drawable.ic_backspace_white_small, R.drawable.nav_header_bg, R.drawable.header};
         int[] navMenuTexts = new int[]{R.string.new_user, R.string.forgot_pin, R.string.help, R.string.contact};
 
         for (int i = 0; i < navMenuList.length; i++) {
