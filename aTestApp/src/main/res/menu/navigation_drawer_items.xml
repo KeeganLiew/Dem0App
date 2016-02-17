@@ -38,7 +38,7 @@
         android:checkableBehavior="all">
         <item
             android:id="@+id/nav_drawer_feedback"
-            android:icon="@drawable/ic_backspace_white_48dp"
+            android:icon="@drawable/ic_action_location_found_dark"
             android:title="@string/feedback" />
         <item
             android:id="@+id/nav_drawer_log_out"

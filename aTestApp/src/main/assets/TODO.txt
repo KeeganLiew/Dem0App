@@ -22,7 +22,6 @@ About/Update About Page Info
 Dev/Refactor Intents and its extras
 Contact/Other links
 [ToFix]
-Cooly fooly for now
 Don't save Guest username
 Login/disable input when loggin in
 [Done]
