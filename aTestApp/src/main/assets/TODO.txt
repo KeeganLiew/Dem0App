@@ -18,7 +18,8 @@ Sms/To split into two
 Sms/SMS received with App: in a list (instead of toast)
 DevLog/From DevLog to Page with Feature
 DevLog/Merge Weeks to Months
-About/Update About Page Info
+About/Add info cards
+About/Split credit info
 Dev/Refactor Intents and its extras
 Contact/Other links
 [ToFix]
