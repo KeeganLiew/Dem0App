@@ -32,7 +32,6 @@
                 android:id="@+id/RadioButton_Pin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
                 android:text="@string/button_pin" />
 
             <RadioButton
@@ -53,7 +52,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_between_elements"
-            android:checked="true"
             android:text="@string/show_auth_option"
             android:textSize="@dimen/smaller_text_size" />
 

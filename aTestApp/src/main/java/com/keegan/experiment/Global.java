@@ -15,7 +15,9 @@ import com.keegan.experiment.utilities.DisplayPictureUtil;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by keegan on 22/01/16.
@@ -31,11 +33,15 @@ public class Global {
     //shared preference key names
     public static final String sharedPref_Username = "Username";
     public static final String sharedPref_Password = "Password";
+    public static final String sharedPref_AuthOption = "AuthOption";
+    public static final String sharedPref_ShowAuthOptions = "ShowAuthOptions";
     public static final String sharedPref_SmsReceiverToggle = "SmsReceiverToggle";
     //default values
     public static final String username_default = "Guest1";
     public static final String pin_default = "1234";
     public static final String password_default = "password";
+    public static final boolean showAuthOptions_default = true;
+    public static final LoginInputMethod authOption_default = LoginInputMethod.PIN_INPUT;
     //request codes
     public static final int CONTACT_PICKER_RESULT = 1001;
     public static final int GALLERY_ACTIVITY_CODE = 2002;
@@ -77,7 +83,31 @@ public class Global {
     }
 
     public enum LoginInputMethod {
-        PIN_INPUT, PASSWORD_INPUT, GESTURE_INPUT
+        PIN_INPUT("PIN"),
+        PASSWORD_INPUT("PASSWORD"),
+        GESTURE_INPUT("GESTURE");
+
+        private final String code;
+        private static final Map<String, LoginInputMethod> valuesByCode;
+
+        static {
+            valuesByCode = new HashMap<String, LoginInputMethod>();
+            for (LoginInputMethod vehicleType : LoginInputMethod.values()) {
+                valuesByCode.put(vehicleType.code, vehicleType);
+            }
+        }
+
+        LoginInputMethod(String code) {
+            this.code = code;
+        }
+
+        public static LoginInputMethod lookupByCode(String code) {
+            return valuesByCode.get(code);
+        }
+
+        public String getCode() {
+            return code;
+        }
     }
 
     //component methods
@@ -113,31 +143,40 @@ public class Global {
         DisplayPictureUtil.deleteImageFromStorage(profileImageDirectory.getPath(), fileName);
     }
 
-    //shared preferences methods
+    //shared preferences methods - overloading
+    // string
     public static void savePreferences(Activity mActivity, String key, String value) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(key, value); //string
-        editor.apply();
-    }
-
-    public static void savePreferences(Activity mActivity, String key, Boolean value) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(key, value); //boolean
+        editor.putString(key, value);
         editor.apply();
     }
 
     public static String loadSavedPreferences(Activity mActivity, String key, String defaultValue) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
-        return sharedPreferences.getString(key, defaultValue); //string
+        return sharedPreferences.getString(key, defaultValue);
+    }
+
+    //boolean
+    public static void savePreferences(Activity mActivity, String key, Boolean value) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(key, value);
+        editor.apply();
     }
 
     public static Boolean loadSavedPreferences(Activity mActivity, String key, Boolean defaultValue) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
-        return sharedPreferences.getBoolean(key, defaultValue); //boolean
+        return sharedPreferences.getBoolean(key, defaultValue);
     }
 
+    //check contains
+    public static boolean checkContainsSharedPreferences(Activity mActivity, String key) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
+        return sharedPreferences.contains(key);
+    }
+
+    //clear all
     public static void clearSharedPreferences(Activity mActivity) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
         SharedPreferences.Editor editor = sharedPreferences.edit();
