@@ -16,17 +16,13 @@ import android.gesture.Prediction;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.DrawerLayout.DrawerListener;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -44,7 +40,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -228,7 +223,6 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         for (Button button : authenticationOption) {
             button.setOnTouchListener(new authOptionButtonOnTouchListener()); //set listener
         }
-        authenticationOptionPinB.setSelected(true);
 
         //numpadListener
         numpadList = new TextView[]{num1, num2, num3, num4, num5, num6, num7, num8, num9, numMenu, num0, numBackspace};
@@ -255,6 +249,18 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                     showKeyboard(mActivity, passwordET);
                 }
             }, 30);
+        }
+
+        //auth buttons
+        Global.LoginInputMethod selectedAuthOption = Global.LoginInputMethod.lookupByCode(
+                Global.loadSavedPreferences(mActivity, Global.sharedPref_AuthOption, Global.authOption_default.getCode()));
+
+        if (selectedAuthOption == Global.LoginInputMethod.PIN_INPUT) {
+            authenticationOptionPinB.setSelected(true);
+        } else if (selectedAuthOption == Global.LoginInputMethod.PASSWORD_INPUT) {
+            authenticationOptionPasswordB.setSelected(true);
+        } else if (selectedAuthOption == Global.LoginInputMethod.GESTURE_INPUT) {
+            authenticationOptionGestureB.setSelected(true);
         }
 
         //broadcast receiver
@@ -317,7 +323,11 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        if (mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
+            closeDrawer();
+        } else {
+            this.finish();
+        }
     }
 
     @Override
@@ -370,10 +380,24 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
             if (v * 100 > Global.hide_keyboard_login_drawer_percentage) { //hide input when opening
                 if (pinET.hasFocus()) {
                     clearCurrencyPressedKeyColour();
+                    changeToCustomNumpad(false);
                     lastFocused = pinET;
-                } else if (usernameET.hasFocus() || passwordET.hasFocus()) {
+                } else if (usernameET.hasFocus()) {
                     hideKeyboard(mActivity);
                     lastFocused = usernameET;
+                } else if (passwordET.hasFocus()) {
+                    hideKeyboard(mActivity);
+                    lastFocused = passwordET;
+                } else if (authenticationOptionGestureB.hasFocus()) {
+                    lastFocused = authenticationOptionGestureB;
+                }
+            }
+
+            if (v * 100 == 0) { //show input when closed
+                usernameET.requestFocus();
+                if (lastFocused != null) {
+                    Log.d(TAG, lastFocused.toString() + " requestFocus()");
+                    lastFocused.requestFocus();
                 }
             }
         }
@@ -383,12 +407,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         }
 
         @Override
-        public void onDrawerClosed(View view) { //resume previous input
-            ////TODO: 16/12/15 fix with other inputs
-            if (lastFocused != null) {
-                Log.d(TAG, lastFocused.toString());
-                lastFocused.requestFocus();
-            }
+        public void onDrawerClosed(View view) {
         }
 
         @Override
@@ -458,22 +477,24 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         int visibility = numericKeypad.getVisibility();
         if (numpad && visibility == View.GONE) {
             hideKeyboard(mActivity);
-            numericKeypad.postDelayed(new Runnable() {
+            /*numericKeypad.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     numericKeypad.setVisibility(View.VISIBLE);
                 }
-            }, 222);
+            }, 222);*/
+            numericKeypad.setVisibility(View.VISIBLE);
         } else if (!numpad) {
             if (visibility == View.VISIBLE) {
                 numericKeypad.setVisibility(View.GONE);
             }
-            usernameET.postDelayed(new Runnable() {
+            /*usernameET.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     showKeyboard(mActivity, usernameET);
                 }
-            }, 30);
+            }, 30);*/
+            showKeyboard(mActivity, usernameET);
         }
     }
 
@@ -510,7 +531,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         }
     }
 
-    private void setAuthenticationOption(Button selectedButton) {
+    private void setAuthenticationOption(Button selectedButton) { ////TODO: 22/02/15 refactor parameters
         currentAuthenticationOption = selectedButton.getId();
         for (Button button : authenticationOption) {
             button.setSelected(false);
@@ -524,15 +545,18 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         hideKeyboard(mActivity);
         switch (selectedButton.getId()) {
             case R.id.InputOption_Button_Pin:
+                Global.savePreferences(mActivity, Global.sharedPref_AuthOption, Global.LoginInputMethod.PIN_INPUT.getCode());
                 pinET.setVisibility(View.VISIBLE);
                 pinET.requestFocus();
                 break;
             case R.id.InputOption_Button_Password:
+                Global.savePreferences(mActivity, Global.sharedPref_AuthOption, Global.LoginInputMethod.PASSWORD_INPUT.getCode());
                 passwordRL.setVisibility(View.VISIBLE);
                 passwordET.requestFocus();
                 showKeyboard(mActivity, passwordET);
                 break;
             case R.id.InputOption_Button_Gesture:
+                Global.savePreferences(mActivity, Global.sharedPref_AuthOption, Global.LoginInputMethod.GESTURE_INPUT.getCode());
                 selectedButton.setFocusableInTouchMode(true);
                 selectedButton.requestFocus();
                 loginGestureGOV.setVisibility(View.VISIBLE);
@@ -569,11 +593,32 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         final Dialog authOptionDialog = new Dialog(this);
         authOptionDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         authOptionDialog.setContentView(R.layout.dialog_auth_option);
+
         final RadioGroup authOptionRG = (RadioGroup) authOptionDialog.findViewById(R.id.RadioGroup_AuthOption);
+        final RadioButton pinRB = (RadioButton) authOptionDialog.findViewById(R.id.RadioButton_Pin);
+        final RadioButton passwordRB = (RadioButton) authOptionDialog.findViewById(R.id.RadioButton_Password);
+        final RadioButton gestureRB = (RadioButton) authOptionDialog.findViewById(R.id.RadioButton_Gesture);
+
         final CheckBox authOptionCB = (CheckBox) authOptionDialog.findViewById(R.id.CheckBox_AuthOption);
         final Button okB = (Button) authOptionDialog.findViewById(R.id.Dialog_Button_Ok);
         final Button cancelB = (Button) authOptionDialog.findViewById(R.id.Dialog_Button_Cancel);
         final LinearLayout authOptionLL = (LinearLayout) findViewById(R.id.Activity_Login_InputOption);
+
+        Global.LoginInputMethod selectedAuthOption = Global.LoginInputMethod.lookupByCode(
+                Global.loadSavedPreferences(mActivity, Global.sharedPref_AuthOption, Global.authOption_default.getCode()));
+
+        if (selectedAuthOption == Global.LoginInputMethod.PIN_INPUT) {
+            pinRB.setChecked(true);
+        } else if (selectedAuthOption == Global.LoginInputMethod.PASSWORD_INPUT) {
+            passwordRB.setChecked(true);
+        } else if (selectedAuthOption == Global.LoginInputMethod.GESTURE_INPUT) {
+            gestureRB.setChecked(true);
+        }
+
+        if (!Global.checkContainsSharedPreferences(mActivity, Global.sharedPref_ShowAuthOptions)) {
+            Global.savePreferences(mActivity, Global.sharedPref_ShowAuthOptions, Global.showAuthOptions_default);
+        }
+        authOptionCB.setChecked(Global.loadSavedPreferences(mActivity, Global.sharedPref_ShowAuthOptions, Global.showAuthOptions_default));
 
         cancelB.setOnClickListener(new OnClickListener() {
             @Override
@@ -586,9 +631,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
             @Override
             public void onClick(final View v) {
                 int authOptionRB = authOptionRG.getCheckedRadioButtonId();
-                ////TODO: 21/02/15 combine authOption
-                ////TODO: 21/02/15 use sharedpref for get/set checks
-                ////TODO: 21/02/15 use sharedpref for password/pin/gesture
+                ////TODO: 21/02/15 combine radioButtons and buttons for authOption
 
                 switch (authOptionRB) {
                     case R.id.RadioButton_Pin:
@@ -607,6 +650,8 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                 } else {
                     authOptionLL.setVisibility(View.GONE);
                 }
+                Global.savePreferences(mActivity, Global.sharedPref_ShowAuthOptions, authOptionCB.isChecked());
+
                 authOptionDialog.dismiss();
                 closeDrawer();
             }
