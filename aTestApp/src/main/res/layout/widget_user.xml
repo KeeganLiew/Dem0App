@@ -39,7 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/refresh"
-                android:src="@drawable/refresh"
+                android:src="@drawable/ic_autorenew_white_48dp"
                 android:visibility="visible"/>
             <include
                 android:id="@+id/Widget_User_ProgressBar_Refresh"

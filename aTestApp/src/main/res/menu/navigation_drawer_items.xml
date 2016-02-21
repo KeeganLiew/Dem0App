@@ -4,21 +4,21 @@
     <group android:checkableBehavior="all">
         <item
             android:id="@+id/nav_drawer_home"
-            android:icon="@drawable/ic_action_location_found_dark"
+            android:icon="@drawable/ic_home_white_48dp"
             android:title="@string/home" />
         <item
             android:id="@+id/nav_drawer_sms_service"
-            android:icon="@drawable/ic_action_location_found_dark"
+            android:icon="@drawable/ic_textsms_white_48dp"
             android:title="@string/sms_service" />
 
         <item
             android:id="@+id/nav_drawer_device_info"
-            android:icon="@drawable/ic_action_location_found_dark"
+            android:icon="@drawable/ic_perm_device_information_white_48dp"
             android:title="@string/device_info" />
 
         <item
             android:id="@+id/nav_drawer_development"
-            android:icon="@drawable/ic_action_location_found_dark"
+            android:icon="@drawable/ic_format_list_bulleted_white_48dp"
             android:title="@string/development_log" />
 
         <item
@@ -28,9 +28,8 @@
 
         <item
             android:id="@+id/nav_drawer_about"
-            android:icon="@drawable/ic_action_location_found_dark"
+            android:icon="@drawable/ic_info_white_48dp"
             android:title="@string/about" />
-
     </group>
 
     <group
@@ -38,11 +37,11 @@
         android:checkableBehavior="all">
         <item
             android:id="@+id/nav_drawer_feedback"
-            android:icon="@drawable/ic_action_location_found_dark"
+            android:icon="@drawable/ic_feedback_white_48dp"
             android:title="@string/feedback" />
         <item
             android:id="@+id/nav_drawer_log_out"
-            android:icon="@drawable/ic_action_location_found_dark"
+            android:icon="@drawable/ic_power_white_48dp"
             android:title="@string/log_out" />
     </group>
 </menu>
