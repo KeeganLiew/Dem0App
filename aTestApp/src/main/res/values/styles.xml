@@ -19,6 +19,7 @@
         <item name="android:itemTextAppearance">@style/MyActionBar.MenuTextStyle</item>
         <!--To change the background of options menu-->
         <item name="android:itemBackground">@color/app_main_theme_color</item>
+        <item name="android:actionOverflowButtonStyle">@style/MyActionButtonOverflow</item>
     </style>
 
     <style name="MyActionBar.MenuTextStyle" parent="style/TextAppearance.AppCompat.Widget.ActionBar.Title">
@@ -29,6 +30,13 @@
 
     <style name="PopupMenu" parent="@android:style/Widget.PopupMenu">
         <item name="android:popupBackground">@color/app_main_theme_color</item>
+    </style>
+
+    <!-- Style to replace actionbar overflow icon. set item 'android:actionOverflowButtonStyle' in AppTheme -->
+    <style name="MyActionButtonOverflow" parent="Widget.AppCompat.Light.ActionButton.Overflow">
+        <item name="android:src">@drawable/backspace</item>
+        <!--<item name="android:background">?android:attr/actionBarItemBackground</item>
+        <item name="android:contentDescription">"Lala"</item>-->
     </style>
 
     <style name="MyTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -45,6 +53,7 @@
         <item name="colorAccent">#FF4081</item>
         <!-- You can also set colorControlNormal, colorControlActivated
            colorControlHighlight and colorSwitchThumbNormal. -->
+        <item name="android:actionOverflowButtonStyle">@style/MyActionButtonOverflow</item>
     </style>
 
     <style name="AppTheme.WithoutActionBar">
