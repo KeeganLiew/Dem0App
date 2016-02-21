@@ -19,17 +19,6 @@
         android:theme="@style/AppTheme.WithoutActionBar">
 
         <activity
-            android:name=".activities.MainActivity"
-            android:theme="@style/AppTheme">
-            <!--<intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
-        </activity>
-
-        <activity android:name=".utilities.GalleryUtil"></activity>
-
-        <activity
             android:name=".activities.SplashActivity"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme">
@@ -42,8 +31,18 @@
         <activity
             android:name=".activities.LoginActivity"
             android:launchMode="singleTask"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".activities.MainActivity"
             android:theme="@style/AppTheme">
+            <!--<intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>-->
         </activity>
+
+        <activity android:name=".utilities.GalleryUtil" />
 
         <receiver
             android:name=".utilities.SimpleWidgetProvider"
