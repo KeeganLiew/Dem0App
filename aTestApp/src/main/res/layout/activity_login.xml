@@ -85,8 +85,7 @@
                             android:paddingLeft="@dimen/edit_text_padding_left_right"
                             android:paddingRight="@dimen/edit_text_padding_left_right"
                             android:textColorHint="@color/edit_text_hint_text_color"
-                            android:textSize="@dimen/edit_text_size"
-                            android:visibility="visible" />
+                            android:textSize="@dimen/edit_text_size" />
 
                         <ImageView
                             android:id="@+id/Activity_Login_ImageView_PasswordLogin"
@@ -97,7 +96,7 @@
                             android:layout_marginEnd="10dp"
                             android:layout_marginRight="10dp"
                             android:layout_marginTop="5dp"
-                            android:background="@drawable/down" />
+                            android:background="@drawable/ic_login_white_48dp" />
                     </RelativeLayout>
 
 

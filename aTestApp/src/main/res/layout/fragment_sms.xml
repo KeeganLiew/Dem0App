@@ -88,7 +88,7 @@
                     android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="5dp"
-                    android:background="@drawable/name" />
+                    android:background="@drawable/ic_contact_phone_white_48dp" />
             </RelativeLayout>
 
             <android.support.design.widget.TextInputLayout
