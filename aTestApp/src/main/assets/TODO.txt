@@ -83,4 +83,8 @@ Splash/Added Splash screen
 Login/Fixed Username not saving bug
 Login/Added Password and Gesture auth options
 Home/Added Login time
+Login/Added Auth option selection in NavDrawer
+
+Dev/Update all image assets
+
 <Week 6>

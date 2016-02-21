@@ -188,6 +188,13 @@
                 android:layout_marginBottom="@dimen/padding_between_login_nav_drawer_items" />
 
             <include
+                android:id="@+id/Activity_Login_AuthenticationOption"
+                layout="@layout/login_navigation_drawer_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/padding_between_login_nav_drawer_items" />
+
+            <include
                 android:id="@+id/Activity_Login_Help"
                 layout="@layout/login_navigation_drawer_item"
                 android:layout_width="match_parent"

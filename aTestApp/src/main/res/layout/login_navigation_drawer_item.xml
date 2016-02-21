@@ -14,10 +14,10 @@
 
     <TextView
         android:id="@+id/login_navigation_text"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="New User"
+        android:gravity="center_horizontal"
         android:textColor="@color/pure_white"
         android:textSize="@dimen/login_navigation_text_size" />
     <!--android:drawableTop="@drawable/name"-->

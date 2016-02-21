@@ -27,6 +27,7 @@
     <dimen name="margin_between_elements">10dp</dimen>
     <dimen name="bottom_margin_for_last_elements">5dp</dimen>
     <dimen name="standard_text_size">15sp</dimen>
+    <dimen name="smaller_text_size">13sp</dimen>
     <dimen name="edit_text_size">15sp</dimen>
     <dimen name="edit_text_height">40dp</dimen>
     <dimen name="edit_text_padding_left_right">20dp</dimen>
@@ -44,9 +45,11 @@
     <dimen name="spinner_padding_left">10dp</dimen>
     <dimen name="spinner_padding_right">20dp</dimen>
     <dimen name="login_screen_display_picture_size">120dp</dimen>
-    <dimen name="pop_up_dialog_width">210dp</dimen>
-    <dimen name="pop_up_dialog_height">100dp</dimen>
     <!--pop up dialog-->
     <dimen name="pop_up_dialog_padding_left_right">20dp</dimen>
     <dimen name="pop_up_dialog">10dp</dimen>
+    <dimen name="pop_up_dialog_width">210dp</dimen>
+    <dimen name="pop_up_dialog_height">100dp</dimen>
+    <dimen name="dialog_auth_option_width">250dp</dimen>
+    <dimen name="dialog_auth_option_height">210dp</dimen>
 </resources>

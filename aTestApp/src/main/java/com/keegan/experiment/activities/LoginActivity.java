@@ -2,6 +2,7 @@ package com.keegan.experiment.activities;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.ContextWrapper;
@@ -15,13 +16,17 @@ import android.gesture.Prediction;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.DrawerLayout.DrawerListener;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -30,13 +35,18 @@ import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
@@ -59,6 +69,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
     private DrawerLayout mDrawerLayout;
     //navigation drawer items
     private LinearLayout navDrawerItemNewUserLL;
+    private LinearLayout navDrawerItemAuthOptionLL;
     private LinearLayout navDrawerItemForgotPinLL;
     private LinearLayout navDrawerItemHelpLL;
     private LinearLayout navDrawerItemContactLL;
@@ -134,6 +145,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         //navigation drawer items
         navDrawerItemNewUserLL = (LinearLayout) findViewById(R.id.Activity_Login_NewUser);
         navDrawerItemForgotPinLL = (LinearLayout) findViewById(R.id.Activity_Login_ForgotPin);
+        navDrawerItemAuthOptionLL = (LinearLayout) findViewById(R.id.Activity_Login_AuthenticationOption);
         navDrawerItemHelpLL = (LinearLayout) findViewById(R.id.Activity_Login_Help);
         navDrawerItemContactLL = (LinearLayout) findViewById(R.id.Activity_Login_Contact);
 
@@ -277,11 +289,15 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
     @Override
     public void onClick(View view) {
         switch (view.getId()) { ////TODO: 16/12/15 implement nav drawer item functions
+            //navigation drawer items
             case R.id.Activity_Login_NewUser:
                 closeDrawer();
                 break;
             case R.id.Activity_Login_ForgotPin:
                 closeDrawer();
+                break;
+            case R.id.Activity_Login_AuthenticationOption:
+                showAuthOption();
                 break;
             case R.id.Activity_Login_Help:
                 closeDrawer();
@@ -289,6 +305,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
             case R.id.Activity_Login_Contact:
                 closeDrawer();
                 break;
+            //others
             case R.id.Pop_Up_Button_Dialog_Button:
                 enableAndShowViews(true);
                 break;
@@ -306,11 +323,13 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
     @Override
     protected void onPause() {
         super.onPause();
+        hideKeyboard(mActivity);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        hideKeyboard(mActivity);
         LocalBroadcastManager.getInstance(mActivity).unregisterReceiver(broadcastReceiver);
     }
 
@@ -544,6 +563,55 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         } else {
             Global.loadImageIntoImageView(mContext, displayPictureIV, Global.profilePicImgName);
         }
+    }
+
+    private void showAuthOption() {
+        final Dialog authOptionDialog = new Dialog(this);
+        authOptionDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        authOptionDialog.setContentView(R.layout.dialog_auth_option);
+        final RadioGroup authOptionRG = (RadioGroup) authOptionDialog.findViewById(R.id.RadioGroup_AuthOption);
+        final CheckBox authOptionCB = (CheckBox) authOptionDialog.findViewById(R.id.CheckBox_AuthOption);
+        final Button okB = (Button) authOptionDialog.findViewById(R.id.Dialog_Button_Ok);
+        final Button cancelB = (Button) authOptionDialog.findViewById(R.id.Dialog_Button_Cancel);
+        final LinearLayout authOptionLL = (LinearLayout) findViewById(R.id.Activity_Login_InputOption);
+
+        cancelB.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                authOptionDialog.dismiss();
+            }
+        });
+
+        okB.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                int authOptionRB = authOptionRG.getCheckedRadioButtonId();
+                ////TODO: 21/02/15 combine authOption
+                ////TODO: 21/02/15 use sharedpref for get/set checks
+                ////TODO: 21/02/15 use sharedpref for password/pin/gesture
+
+                switch (authOptionRB) {
+                    case R.id.RadioButton_Pin:
+                        setAuthenticationOption(authenticationOptionPinB);
+                        break;
+                    case R.id.RadioButton_Password:
+                        setAuthenticationOption(authenticationOptionPasswordB);
+                        break;
+                    case R.id.RadioButton_Gesture:
+                        setAuthenticationOption(authenticationOptionGestureB);
+                        break;
+                }
+
+                if (authOptionCB.isChecked()) {
+                    authOptionLL.setVisibility(View.VISIBLE);
+                } else {
+                    authOptionLL.setVisibility(View.GONE);
+                }
+                authOptionDialog.dismiss();
+                closeDrawer();
+            }
+        });
+        authOptionDialog.show();
     }
 
     private void pinLoginChecker(EditText pin_EditText) {

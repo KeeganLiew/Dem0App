@@ -13,6 +13,7 @@
     <!--Login Navigation Drawer-->
     <string name="new_user">New user</string>
     <string name="forgot_pin">Forgot Pin</string>
+    <string name="auth_option">Authentication Option</string>
     <string name="help">Help</string>
     <string name="scroll_error">Scrolling only works for Lollipop or above</string>
     <string name="display_picture">Display Picture</string>
@@ -72,6 +73,8 @@
     <string name="login_gesture_incorrect">Your gesture is incorrect. Please try again.</string>
     <string name="login_password_incorrect">Your password is incorrect. Please try again.</string>
     <string name="login_login_in">Logging in…</string>
+    <string name="select_auth_option">Select Authentication Option:</string>
+    <string name="show_auth_option">Show auth. options</string>
     <!--Mandatory fields-->
     <string name="phone_number_is_mandatory">Phone number is mandatory</string>
     <string name="message_is_mandatory">Message is mandatory</string>
