@@ -144,7 +144,7 @@
 
         <include
             android:id="@+id/Activity_Login_PopUpButtonDialog"
-            layout="@layout/dialog_button"
+            layout="@layout/dialog_login_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone" />
