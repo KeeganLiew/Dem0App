@@ -24,7 +24,6 @@ Dev/Refactor Intents and its extras
 Contact/Other links
 [ToFix]
 Don't save Guest username
-Login/disable input when loggin in
 [Done]
 <Week 1>
 Home/Added Toolbar
@@ -86,3 +85,4 @@ Home/Added Login time
 <Week 6>
 Dev/Updated all image assets
 Login/Added Auth option selection in NavDrawer
+Login/Inputs are now disabled when logging in
