@@ -34,7 +34,7 @@
 
     <!-- Style to replace actionbar overflow icon. set item 'android:actionOverflowButtonStyle' in AppTheme -->
     <style name="MyActionButtonOverflow" parent="Widget.AppCompat.Light.ActionButton.Overflow">
-        <item name="android:src">@drawable/backspace</item>
+        <!--<item name="android:src">@drawable/backspace</item>-->
         <!--<item name="android:background">?android:attr/actionBarItemBackground</item>
         <item name="android:contentDescription">"Lala"</item>-->
     </style>

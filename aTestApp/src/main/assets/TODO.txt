@@ -78,13 +78,11 @@ Dev/Refactored to reduce codes
 Dev/Added comments for java files
 Dev/Uploaded to GitHub
 Dev/Updated README.md
-Dev/Update image assets
+Dev/Updated majority of icons
 Splash/Added Splash screen
 Login/Fixed Username not saving bug
 Login/Added Password and Gesture auth options
 Home/Added Login time
-Login/Added Auth option selection in NavDrawer
-
-Dev/Update all image assets
-
 <Week 6>
+Dev/Updated all image assets
+Login/Added Auth option selection in NavDrawer
