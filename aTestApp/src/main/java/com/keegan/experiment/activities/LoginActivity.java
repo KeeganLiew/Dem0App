@@ -321,7 +321,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                 enableAndShowViews(true);
                 break;
             case R.id.Activity_Login_ImageView_PasswordLogin:
-                startLoginProcess(Global.LoginInputMethod.PASSWORD_INPUT);
+                startLogInProcess(Global.LoginInputMethod.PASSWORD_INPUT);
                 break;
         }
     }
@@ -382,7 +382,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         @Override
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
             if (actionId == EditorInfo.IME_ACTION_DONE) { //if pressed Done key
-                startLoginProcess(Global.LoginInputMethod.PASSWORD_INPUT); //log in
+                startLogInProcess(Global.LoginInputMethod.PASSWORD_INPUT); //log in
             }
             return false;
         }
@@ -477,7 +477,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         public void onGesturePerformed(GestureOverlayView overlay, Gesture gesture) {
             ArrayList<Prediction> predictions = loginGestureLibrary.recognize(gesture);
             loginGestureScore = predictions.get(0).score;
-            startLoginProcess(Global.LoginInputMethod.GESTURE_INPUT);
+            startLogInProcess(Global.LoginInputMethod.GESTURE_INPUT);
             /*Log.d(TAG, "loginGestureScore: " + loginGestureScore);
             if (predictions.size() > 0 && predictions.get(0).score > Global.min_gesture_score) {
                 String action = predictions.get(0).name;
@@ -628,7 +628,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
     private void showAuthOption() {
         final Dialog authOptionDialog = new Dialog(this);
         authOptionDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        authOptionDialog.setContentView(R.layout.dialog_auth_option);
+        authOptionDialog.setContentView(R.layout.dialog_login_auth_option);
 
         final RadioGroup authOptionRG = (RadioGroup) authOptionDialog.findViewById(R.id.RadioGroup_AuthOption);
         final RadioButton pinRB = (RadioButton) authOptionDialog.findViewById(R.id.RadioButton_Pin);
@@ -697,11 +697,11 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         if (pin.length() >= Global.pin_text_limit) {
             finalPin = pin;
             //start logging in
-            startLoginProcess(Global.LoginInputMethod.PIN_INPUT);
+            startLogInProcess(Global.LoginInputMethod.PIN_INPUT);
         }
     }
 
-    private void startLoginProcess(final Global.LoginInputMethod loginInputMethod) {
+    private void startLogInProcess(final Global.LoginInputMethod loginInputMethod) {
         enableAndShowViews(false);
         Thread thread = new Thread() {
             @Override
@@ -727,7 +727,9 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                 if (youShallPass) {
                     //save username
                     finalUsername = usernameET.getText().toString();
-                    Global.savePreferences(mActivity, Global.sharedPref_Username, finalUsername);
+                    if(!finalUsername.equals(Global.username_default)){
+                        Global.savePreferences(mActivity, Global.sharedPref_Username, finalUsername);
+                    }
                     //start main activity with extra info
                     intent = new Intent(LoginActivity.this, MainActivity.class);
                     Bundle b = new Bundle();
