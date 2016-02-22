@@ -307,7 +307,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                         @Override
                         public void onClick(View v) {
                             username = previousUsername;
-                            Global.savePreferences(mActivity, Global.sharedPref_Username, username);
+                            if (!previousUsername.equals(Global.username_default)) {
+                                Global.savePreferences(mActivity, Global.sharedPref_Username, username);
+                            }
                             updateUsernameViews(username);
                         }
                     });
@@ -723,7 +725,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                             @Override
                             public void onClick(View v) {
                                 username = previousUsername;
-                                Global.savePreferences(mActivity, Global.sharedPref_Username, username);
+                                if (!previousUsername.equals(Global.username_default)) {
+                                    Global.savePreferences(mActivity, Global.sharedPref_Username, username);
+                                }
                                 updateUsernameViews(username);
                             }
                         });
