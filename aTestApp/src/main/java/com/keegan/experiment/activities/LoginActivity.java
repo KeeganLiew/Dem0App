@@ -527,6 +527,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
             loginResultDialogRL.setVisibility(View.GONE);
             loginProgressDialogRL.setVisibility(View.GONE);
             clearPinAndPassword();
+            setEnabledInputs(true);
             if (passwordET.hasFocus()) {
                 showKeyboard(mActivity, passwordET);
             }
@@ -534,8 +535,21 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
             hideKeyboard(mActivity);
             loginProgressDialogRL.setVisibility(View.VISIBLE);
             loginProgressDialogTextTV.setText(getString(R.string.login_login_in));
+            setEnabledInputs(false);
         }
         setEnabledNumpad(bool);
+    }
+
+    private void setEnabledInputs(boolean enable) {
+        for (Button button : authenticationOption) {
+            button.setEnabled(enable);
+        }
+        pinET.setEnabled(enable);
+        passwordET.setEnabled(enable);
+        usernameET.setEnabled(enable);
+        passwordET.setEnabled(enable);
+        passwordLoginButtonIV.setEnabled(enable);
+        loginGestureGOV.setEnabled(enable);
     }
 
     private void clearPinAndPassword() {
@@ -553,8 +567,8 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         for (Button button : authenticationOption) {
             button.setSelected(false);
         }
-        clearPinAndPassword();
         selectedButton.setSelected(true);
+
         numericKeypad.setVisibility(View.GONE);
         pinET.setVisibility(View.GONE);
         passwordRL.setVisibility(View.GONE);
@@ -562,17 +576,21 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         hideKeyboard(mActivity);
         switch (selectedButton.getId()) {
             case R.id.InputOption_Button_Pin:
+                passwordET.setText(Global.EMPTY_STRING); //clear password
                 Global.savePreferences(mActivity, Global.sharedPref_AuthOption, Global.LoginInputMethod.PIN_INPUT.getCode());
                 pinET.setVisibility(View.VISIBLE);
                 pinET.requestFocus();
                 break;
             case R.id.InputOption_Button_Password:
+                pinET.setText(Global.EMPTY_STRING); //clear pin
                 Global.savePreferences(mActivity, Global.sharedPref_AuthOption, Global.LoginInputMethod.PASSWORD_INPUT.getCode());
                 passwordRL.setVisibility(View.VISIBLE);
                 passwordET.requestFocus();
                 showKeyboard(mActivity, passwordET);
                 break;
             case R.id.InputOption_Button_Gesture:
+                pinET.setText(Global.EMPTY_STRING); //clear pin
+                passwordET.setText(Global.EMPTY_STRING); //clear password
                 Global.savePreferences(mActivity, Global.sharedPref_AuthOption, Global.LoginInputMethod.GESTURE_INPUT.getCode());
                 selectedButton.setFocusableInTouchMode(true);
                 selectedButton.requestFocus();
