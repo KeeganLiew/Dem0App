@@ -1,4 +1,8 @@
 [ToCreate]
+Login/Default password show
+Login/Reset password
+Login/3 user profiles and clear
+Login/contact
 Home/Hidden Menu
 Home/Ability to update PIN or Password or Gesture
 Dev/Robolectric
@@ -9,6 +13,7 @@ API Limitation List (Scrolling, FloatingButton < 21)
 Dev/RoboGuice
 Login/Add auth hint (first time)
 Login/Username logic (if guest, then cant edit auth)
+Login/Skip login button checkbox
 Home/Add something?
 Home/Add long press to remove display picture
 Home/Login time
@@ -23,7 +28,6 @@ About/Split credit info
 Dev/Refactor Intents and its extras
 Contact/Other links
 [ToFix]
-Don't save Guest username
 [Done]
 <Week 1>
 Home/Added Toolbar
@@ -86,3 +90,4 @@ Home/Added Login time
 Dev/Updated all image assets
 Login/Added Auth option selection in NavDrawer
 Login/Inputs are now disabled when logging in
+Login/No longer saves default username
