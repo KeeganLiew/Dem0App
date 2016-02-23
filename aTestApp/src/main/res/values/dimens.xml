@@ -33,6 +33,7 @@
     <dimen name="edit_text_padding_left_right">20dp</dimen>
     <dimen name="element_left_right_margins">30dp</dimen>
     <dimen name="text_input_layout_error_text_size">11sp</dimen>
+    <dimen name="row_size">40dp</dimen>
     <!--Home-->
     <dimen name="home_title_text_size">25sp</dimen>
     <!--Fragment-->
@@ -47,9 +48,11 @@
     <dimen name="login_screen_display_picture_size">120dp</dimen>
     <!--pop up dialog-->
     <dimen name="pop_up_dialog_padding_left_right">20dp</dimen>
+    <dimen name="pop_up_dialog_checkbox_padding_left_right">15dp</dimen>
     <dimen name="pop_up_dialog">10dp</dimen>
     <dimen name="pop_up_dialog_width">210dp</dimen>
     <dimen name="pop_up_dialog_height">100dp</dimen>
     <dimen name="dialog_auth_option_width">250dp</dimen>
     <dimen name="dialog_auth_option_height">210dp</dimen>
+    <dimen name="dialog_login_users_listview_height">180dp</dimen>
 </resources>

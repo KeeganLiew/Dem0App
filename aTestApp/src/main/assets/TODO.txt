@@ -1,12 +1,14 @@
 [ToCreate]
-Login/Default password show
-Login/Reset password
-Login/3 user profiles and clear
-Login/contact
+Login/Help - Default password show
+Login/Forgot - Reset password
+Login/Users - 3 user profiles and clear
+Login/Contact -
 Home/Hidden Menu
 Home/Ability to update PIN or Password or Gesture
 Dev/Robolectric
+Add users
 MMS Function
+Export customize to XML
 HTTP requests
 API Limitation List (Scrolling, FloatingButton < 21)
 [ToImprove]
