@@ -35,21 +35,25 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
+import android.widget.Toast;
 
 import com.keegan.experiment.Global;
 import com.keegan.experiment.Intents;
 import com.keegan.experiment.R;
+import com.keegan.experiment.customs.CustomListAdapter;
 import com.keegan.experiment.utilities.DisplayPictureUtil;
 
 import java.util.ArrayList;
@@ -137,7 +141,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         mDrawerLayout.setDrawerListener(new loginDrawerListener()); //set listener
         navigationNV = (NavigationView) findViewById(R.id.Activity_Login_NavigationView_Navigation);
         //navigation drawer items
-        navDrawerItemNewUserLL = (LinearLayout) findViewById(R.id.Activity_Login_NewUser);
+        navDrawerItemNewUserLL = (LinearLayout) findViewById(R.id.Activity_Login_Users);
         navDrawerItemForgotPinLL = (LinearLayout) findViewById(R.id.Activity_Login_ForgotPin);
         navDrawerItemAuthOptionLL = (LinearLayout) findViewById(R.id.Activity_Login_AuthenticationOption);
         navDrawerItemHelpLL = (LinearLayout) findViewById(R.id.Activity_Login_Help);
@@ -200,7 +204,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         //navigation drawer
         LinearLayout[] navMenuList = new LinearLayout[]{navDrawerItemNewUserLL, navDrawerItemForgotPinLL, navDrawerItemAuthOptionLL, navDrawerItemHelpLL, navDrawerItemContactLL};
         int[] navMenuImages = new int[]{R.drawable.ic_person_add_white_48dp, R.drawable.ic_backspace_white_small, R.drawable.ic_plus, R.drawable.ic_help_white_48dp, R.drawable.header};
-        int[] navMenuTexts = new int[]{R.string.new_user, R.string.forgot_pin, R.string.auth_option, R.string.help, R.string.contact};
+        int[] navMenuTexts = new int[]{R.string.users, R.string.forgot_pin, R.string.auth_option, R.string.help, R.string.contact};
 
         for (int i = 0; i < navMenuList.length; i++) {
             ImageView tempIV = (ImageView) navMenuList[i].findViewById(R.id.login_navigation_icon);
@@ -299,16 +303,17 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) { ////TODO: 16/12/15 implement nav drawer item functions
+        switch (view.getId()) {
+            ////TODO: 16/12/15 implement nav drawer item functions
             //navigation drawer items
-            case R.id.Activity_Login_NewUser:
-                closeDrawer();
+            case R.id.Activity_Login_Users:
+                showUsersDiag();
                 break;
             case R.id.Activity_Login_ForgotPin:
                 closeDrawer();
                 break;
             case R.id.Activity_Login_AuthenticationOption:
-                showAuthOption();
+                showAuthOptionDiag();
                 break;
             case R.id.Activity_Login_Help:
                 closeDrawer();
@@ -316,6 +321,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
             case R.id.Activity_Login_Contact:
                 closeDrawer();
                 break;
+
             //others
             case R.id.Pop_Up_Button_Dialog_Button:
                 enableAndShowViews(true);
@@ -625,7 +631,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         }
     }
 
-    private void showAuthOption() {
+    private void showAuthOptionDiag() {
         final Dialog authOptionDialog = new Dialog(this);
         authOptionDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         authOptionDialog.setContentView(R.layout.dialog_login_auth_option);
@@ -692,6 +698,118 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         authOptionDialog.show();
     }
 
+    private void showUsersDiag() {
+        final Dialog usersDialog = new Dialog(this);
+        usersDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        usersDialog.setContentView(R.layout.dialog_login_users);
+
+        ListView list;
+        final String[] itemname = {
+                Global.username_default,
+                "Adam",
+                "Bob",
+                "Code",
+                "Derek",
+                "English Man",
+                "Fank yu",
+                "Goodbai"
+        };
+
+        Integer[] imgid = {
+                R.drawable.name,
+                R.drawable.ic_person_add_white_48dp,
+                R.drawable.ic_person_add_white_48dp,
+                R.drawable.ic_person_add_white_48dp,
+                R.drawable.ic_person_add_white_48dp,
+                R.drawable.ic_person_add_white_48dp,
+                R.drawable.ic_person_add_white_48dp,
+                R.drawable.ic_person_add_white_48dp,
+        };
+
+        CustomListAdapter adapter = new CustomListAdapter(mActivity, itemname, imgid);
+        list = (ListView) usersDialog.findViewById(R.id.Dialog_Login_Users_ListView_UserList);
+        list.setAdapter(adapter);
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String selectedUser = itemname[+position];
+                usernameET.setText(selectedUser);
+                usersDialog.dismiss();
+                closeDrawer();
+            }
+        });
+
+        final RelativeLayout authOptionLL = (RelativeLayout) usersDialog.findViewById(R.id.Dialog_Login_Users_RelativeLayout_ClearProfiles);
+        authOptionLL.setOnClickListener((new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        }));
+        ////TODO: 23/02/15 finish user profiles
+        /*final RadioGroup authOptionRG = (RadioGroup) authOptionDialog.findViewById(R.id.RadioGroup_AuthOption);
+        final RadioButton pinRB = (RadioButton) authOptionDialog.findViewById(R.id.RadioButton_Pin);
+        final RadioButton passwordRB = (RadioButton) authOptionDialog.findViewById(R.id.RadioButton_Password);
+        final RadioButton gestureRB = (RadioButton) authOptionDialog.findViewById(R.id.RadioButton_Gesture);
+
+        final CheckBox authOptionCB = (CheckBox) authOptionDialog.findViewById(R.id.CheckBox_AuthOption);
+        final Button okB = (Button) authOptionDialog.findViewById(R.id.Dialog_Button_Ok);
+        final Button cancelB = (Button) authOptionDialog.findViewById(R.id.Dialog_Button_Cancel);
+        final LinearLayout authOptionLL = (LinearLayout) findViewById(R.id.Activity_Login_InputOption);
+
+        Global.LoginInputMethod selectedAuthOption = Global.LoginInputMethod.lookupByCode(
+                Global.loadSavedPreferences(mActivity, Global.sharedPref_AuthOption, Global.authOption_default.getCode()));
+
+        if (selectedAuthOption == Global.LoginInputMethod.PIN_INPUT) {
+            pinRB.setChecked(true);
+        } else if (selectedAuthOption == Global.LoginInputMethod.PASSWORD_INPUT) {
+            passwordRB.setChecked(true);
+        } else if (selectedAuthOption == Global.LoginInputMethod.GESTURE_INPUT) {
+            gestureRB.setChecked(true);
+        }
+
+        if (!Global.checkContainsSharedPreferences(mActivity, Global.sharedPref_ShowAuthOptions)) {
+            Global.savePreferences(mActivity, Global.sharedPref_ShowAuthOptions, Global.showAuthOptions_default);
+        }
+        authOptionCB.setChecked(Global.loadSavedPreferences(mActivity, Global.sharedPref_ShowAuthOptions, Global.showAuthOptions_default));
+
+        cancelB.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                authOptionDialog.dismiss();
+            }
+        });
+
+        okB.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                switch (authOptionRG.getCheckedRadioButtonId()) {
+                    case R.id.RadioButton_Pin:
+                        setAuthenticationOption(authenticationOptionPinB);
+                        break;
+                    case R.id.RadioButton_Password:
+                        setAuthenticationOption(authenticationOptionPasswordB);
+                        break;
+                    case R.id.RadioButton_Gesture:
+                        setAuthenticationOption(authenticationOptionGestureB);
+                        break;
+                }
+
+                if (authOptionCB.isChecked()) {
+                    authOptionLL.setVisibility(View.VISIBLE);
+                } else {
+                    authOptionLL.setVisibility(View.GONE);
+                }
+                Global.savePreferences(mActivity, Global.sharedPref_ShowAuthOptions, authOptionCB.isChecked());
+
+                authOptionDialog.dismiss();
+                closeDrawer();
+            }
+        });*/
+        usersDialog.show();
+    }
+
     private void pinLoginChecker(EditText pin_EditText) {
         String pin = pin_EditText.getText().toString();
         if (pin.length() >= Global.pin_text_limit) {
@@ -727,7 +845,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                 if (youShallPass) {
                     //save username
                     finalUsername = usernameET.getText().toString();
-                    if(!finalUsername.equals(Global.username_default)){
+                    if (!finalUsername.equals(Global.username_default)) {
                         Global.savePreferences(mActivity, Global.sharedPref_Username, finalUsername);
                     }
                     //start main activity with extra info

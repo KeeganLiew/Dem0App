@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/eighty_percent_black">
+
+    <LinearLayout
+        android:layout_width="@dimen/dialog_auth_option_width"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="@color/grey"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="@dimen/pop_up_dialog_padding_left_right"
+            android:layout_marginRight="@dimen/pop_up_dialog_padding_left_right"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                android:id="@+id/Dialog_Login_Users_TextView_Profiles"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/profiles"
+                android:textSize="@dimen/standard_text_size" />
+
+            <ImageView
+                android:id="@+id/Dialog_Login_Users_ImageView_Add"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:contentDescription="@string/add_profile"
+                android:src="@drawable/ic_plus" />
+        </RelativeLayout>
+
+        <ListView
+            android:id="@+id/Dialog_Login_Users_ListView_UserList"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dialog_login_users_listview_height" />
+
+        <Switch
+            android:id="@+id/Dialog_Login_Users_Switch_OfflineProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/pop_up_dialog_padding_left_right"
+            android:layout_marginLeft="@dimen/pop_up_dialog_padding_left_right"
+            android:layout_marginRight="@dimen/pop_up_dialog_padding_left_right"
+            android:layout_marginStart="@dimen/pop_up_dialog_padding_left_right"
+            android:text="@string/profile_sync"
+            android:layout_marginBottom="@dimen/bottom_margin_for_last_elements"
+            android:textSize="@dimen/smaller_text_size" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/black_semi_transparent" />
+
+        <RelativeLayout
+            android:id="@+id/Dialog_Login_Users_RelativeLayout_ClearProfiles"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/row_size"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/pop_up_dialog_padding_left_right"
+                android:layout_marginStart="@dimen/pop_up_dialog_padding_left_right"
+                android:text="@string/clear_profiles" />
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>

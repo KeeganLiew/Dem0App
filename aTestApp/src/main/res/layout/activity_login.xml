@@ -174,7 +174,7 @@
                 android:visibility="invisible" />
 
             <include
-                android:id="@+id/Activity_Login_NewUser"
+                android:id="@+id/Activity_Login_Users"
                 layout="@layout/login_navigation_drawer_item"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
