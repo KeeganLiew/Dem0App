@@ -1,13 +1,12 @@
 [ToCreate]
-Login/Help - Default password show
-Login/Forgot - Reset password
+Login/Help - Default password show, link to slideshow tutorial
+Login/Forgot - Remove?
 Login/Users - 3 user profiles and clear
 Login/Users - Add new user dialog
-Login/Contact -
-Home/Hidden Menu
+Login/Contact - 4 boxes - quick http link - external browser
+Home/Settings
 Home/Ability to update PIN or Password or Gesture
 Dev/Robolectric
-Add users
 MMS Function
 Export customize to XML
 HTTP requests
@@ -30,6 +29,7 @@ About/Add info cards
 About/Split credit info
 Dev/Refactor Intents and its extras
 Contact/Other links
+Change colour
 [ToFix]
 [Done]
 <Week 1>
