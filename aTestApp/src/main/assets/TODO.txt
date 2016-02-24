@@ -2,6 +2,7 @@
 Login/Help - Default password show
 Login/Forgot - Reset password
 Login/Users - 3 user profiles and clear
+Login/Users - Add new user dialog
 Login/Contact -
 Home/Hidden Menu
 Home/Ability to update PIN or Password or Gesture
