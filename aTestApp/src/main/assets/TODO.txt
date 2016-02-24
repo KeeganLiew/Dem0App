@@ -8,6 +8,8 @@ Home/Settings
 Home/Ability to update PIN or Password or Gesture
 Dev/Robolectric
 MMS Function
+Touch
+QR code
 Export customize to XML
 HTTP requests
 API Limitation List (Scrolling, FloatingButton < 21)

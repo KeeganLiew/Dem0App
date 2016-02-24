@@ -34,6 +34,7 @@
     <dimen name="element_left_right_margins">30dp</dimen>
     <dimen name="text_input_layout_error_text_size">11sp</dimen>
     <dimen name="row_size">40dp</dimen>
+    <dimen name="margin_between_label_and_text">10dp</dimen>
     <!--Home-->
     <dimen name="home_title_text_size">25sp</dimen>
     <!--Fragment-->
