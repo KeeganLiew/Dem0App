@@ -69,7 +69,6 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
     //navigation drawer items
     private LinearLayout navDrawerItemNewUserLL;
     private LinearLayout navDrawerItemAuthOptionLL;
-    private LinearLayout navDrawerItemForgotPinLL;
     private LinearLayout navDrawerItemHelpLL;
     private LinearLayout navDrawerItemContactLL;
 
@@ -142,7 +141,6 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         navigationNV = (NavigationView) findViewById(R.id.Activity_Login_NavigationView_Navigation);
         //navigation drawer items
         navDrawerItemNewUserLL = (LinearLayout) findViewById(R.id.Activity_Login_Users);
-        navDrawerItemForgotPinLL = (LinearLayout) findViewById(R.id.Activity_Login_ForgotPin);
         navDrawerItemAuthOptionLL = (LinearLayout) findViewById(R.id.Activity_Login_AuthenticationOption);
         navDrawerItemHelpLL = (LinearLayout) findViewById(R.id.Activity_Login_Help);
         navDrawerItemContactLL = (LinearLayout) findViewById(R.id.Activity_Login_Contact);
@@ -202,9 +200,9 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
 
     private void viewObjectLogic() {
         //navigation drawer
-        LinearLayout[] navMenuList = new LinearLayout[]{navDrawerItemNewUserLL, navDrawerItemForgotPinLL, navDrawerItemAuthOptionLL, navDrawerItemHelpLL, navDrawerItemContactLL};
-        int[] navMenuImages = new int[]{R.drawable.ic_person_add_white_48dp, R.drawable.ic_backspace_white_small, R.drawable.ic_plus, R.drawable.ic_help_white_48dp, R.drawable.header};
-        int[] navMenuTexts = new int[]{R.string.users, R.string.forgot_pin, R.string.auth_option, R.string.help, R.string.contact};
+        LinearLayout[] navMenuList = new LinearLayout[]{navDrawerItemNewUserLL, navDrawerItemAuthOptionLL, navDrawerItemHelpLL, navDrawerItemContactLL};
+        int[] navMenuImages = new int[]{R.drawable.ic_person_add_white_48dp, R.drawable.ic_vpn_key_white_48dp, R.drawable.ic_help_white_48dp, R.drawable.header};
+        int[] navMenuTexts = new int[]{R.string.users, R.string.auth_option, R.string.help, R.string.contact};
 
         for (int i = 0; i < navMenuList.length; i++) {
             ImageView tempIV = (ImageView) navMenuList[i].findViewById(R.id.login_navigation_icon);
@@ -309,14 +307,11 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
             case R.id.Activity_Login_Users:
                 showUsersDiag();
                 break;
-            case R.id.Activity_Login_ForgotPin:
-                closeDrawer();
-                break;
             case R.id.Activity_Login_AuthenticationOption:
                 showAuthOptionDiag();
                 break;
             case R.id.Activity_Login_Help:
-                closeDrawer();
+                showHelpDiag();
                 break;
             case R.id.Activity_Login_Contact:
                 closeDrawer();
@@ -629,6 +624,14 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         } else {
             Global.loadImageIntoImageView(mContext, displayPictureIV, Global.profilePicImgName);
         }
+    }
+
+    private void showHelpDiag() {
+        final Dialog helpDialog = new Dialog(this);
+        helpDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        helpDialog.setContentView(R.layout.dialog_login_help);
+
+        helpDialog.show();
     }
 
     private void showAuthOptionDiag() {
