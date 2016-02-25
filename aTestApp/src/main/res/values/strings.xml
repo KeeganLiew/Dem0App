@@ -15,7 +15,7 @@
     <string name="login">Login</string>
     <string name="show_gesture">Show Gesture</string>
     <!--Login Navigation Drawer-->
-    <string name="users">Users</string>
+    <string name="profiles">Profiles</string>
     <string name="forgot_pin">Forgot Pin</string>
     <string name="auth_option">Auth. Option</string>
     <string name="help">Help</string>
@@ -79,14 +79,13 @@
     <string name="login_login_in">Logging in…</string>
     <string name="authentication_option">Authentication Options</string>
     <string name="show_auth_option">Show auth. options</string>
-    <string name="profiles">Profiles</string>
     <string name="add_profile">Add profile</string>
     <string name="clear_profiles">Clear profiles</string>
     <string name="profile_sync">Sync profiles online</string>
     <string name="label_pin">"PIN: "</string>
     <string name="label_password">"Password: "</string>
     <string name="label_gesture">"Gesture: "</string>
-    <string name="label_default">Default</string>
+    <string name="label_default_credentials">Default credentials</string>
     <string name="default_gesture_image">Default gesture image</string>
     <string name="desc_contact_imagebutton_linkedin">LinkedIn Profile</string>
     <string name="desc_contact_imagebutton_google_play">Google Play App</string>

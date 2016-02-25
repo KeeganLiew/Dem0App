@@ -15,7 +15,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginLeft="@dimen/pop_up_dialog_padding_left_right"
             android:layout_marginRight="@dimen/pop_up_dialog_padding_left_right"
             android:layout_marginTop="15dp">
@@ -39,16 +39,18 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/pop_up_dialog_padding_left_right"
+            android:layout_marginLeft="@dimen/pop_up_dialog_padding_left_right"
+            android:layout_marginRight="@dimen/pop_up_dialog_padding_left_right"
+            android:layout_marginStart="@dimen/pop_up_dialog_padding_left_right">
 
             <TextView
                 android:id="@+id/Dialog_Login_Help_TextView_Default"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="@dimen/pop_up_dialog_padding_left_right"
-                android:layout_marginStart="@dimen/pop_up_dialog_padding_left_right"
-                android:text="@string/label_default" />
+                android:text="@string/label_default_credentials"
+                android:textStyle="italic" />
 
             <TextView
                 android:id="@+id/Dialog_Login_Help_TextView_PinLabel"
@@ -56,8 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/Dialog_Login_Help_TextView_Default"
                 android:layout_marginBottom="5dp"
-                android:layout_marginLeft="@dimen/pop_up_dialog_padding_left_right"
-                android:layout_marginStart="@dimen/pop_up_dialog_padding_left_right"
+                android:layout_marginTop="5dp"
                 android:text="@string/label_pin" />
 
             <TextView
@@ -65,11 +66,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/Dialog_Login_Help_TextView_Default"
-                android:layout_marginLeft="@dimen/margin_between_label_and_text"
-                android:layout_marginStart="@dimen/margin_between_label_and_text"
+                android:layout_marginTop="5dp"
                 android:layout_toEndOf="@+id/Dialog_Login_Help_TextView_PinLabel"
                 android:layout_toRightOf="@+id/Dialog_Login_Help_TextView_PinLabel"
-                android:text="@string/debug_text" />
+                android:text="@string/debug_text"
+                android:textColor="@color/credential_text_colour"
+                android:textStyle="italic" />
 
             <TextView
                 android:id="@+id/Dialog_Login_Help_TextView_PasswordLabel"
@@ -77,8 +79,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/Dialog_Login_Help_TextView_PinLabel"
                 android:layout_marginBottom="5dp"
-                android:layout_marginLeft="@dimen/pop_up_dialog_padding_left_right"
-                android:layout_marginStart="@dimen/pop_up_dialog_padding_left_right"
                 android:text="@string/label_password" />
 
             <TextView
@@ -86,19 +86,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/Dialog_Login_Help_TextView_PinLabel"
-                android:layout_marginLeft="@dimen/margin_between_label_and_text"
-                android:layout_marginStart="@dimen/margin_between_label_and_text"
                 android:layout_toEndOf="@+id/Dialog_Login_Help_TextView_PasswordLabel"
                 android:layout_toRightOf="@+id/Dialog_Login_Help_TextView_PasswordLabel"
-                android:text="@string/debug_text" />
+                android:text="@string/debug_text"
+                android:textColor="@color/credential_text_colour"
+                android:textStyle="italic" />
 
             <TextView
                 android:id="@+id/Dialog_Login_Help_TextView_GestureLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/Dialog_Login_Help_TextView_PasswordLabel"
-                android:layout_marginLeft="@dimen/pop_up_dialog_padding_left_right"
-                android:layout_marginStart="@dimen/pop_up_dialog_padding_left_right"
+                android:layout_marginRight="5dp"
                 android:text="@string/label_gesture" />
 
             <ImageView
@@ -106,14 +105,13 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_below="@+id/Dialog_Login_Help_TextView_PasswordLabel"
-                android:layout_marginLeft="@dimen/margin_between_label_and_image"
-                android:layout_marginStart="@dimen/margin_between_label_and_image"
                 android:layout_toEndOf="@+id/Dialog_Login_Help_TextView_GestureLabel"
                 android:layout_toRightOf="@+id/Dialog_Login_Help_TextView_GestureLabel"
+                android:alpha="0.5"
                 android:contentDescription="@string/label_gesture"
                 android:paddingTop="5dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/wallpaper1" />
+                android:src="@drawable/gesture_tick" />
 
         </RelativeLayout>
 

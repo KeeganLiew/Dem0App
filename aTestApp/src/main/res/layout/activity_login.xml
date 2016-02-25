@@ -139,6 +139,7 @@
                 android:layout_marginRight="@dimen/element_left_right_margins"
                 android:layout_marginTop="@dimen/margin_between_elements"
                 android:layout_weight="0.6"
+                android:alwaysDrawnWithCache="true"
                 android:background="@color/black_semi_transparent"
                 android:eventsInterceptionEnabled="true"
                 android:fadeEnabled="false"
@@ -177,7 +178,6 @@
     </RelativeLayout>
 
 
-
     <android.support.design.widget.NavigationView
         android:id="@+id/Activity_Login_NavigationView_Navigation"
         android:layout_width="@dimen/login_navigation_drawer_width"
@@ -202,7 +202,7 @@
                 android:visibility="invisible" />
 
             <include
-                android:id="@+id/Activity_Login_Users"
+                android:id="@+id/Activity_Login_Profiles"
                 layout="@layout/login_navigation_drawer_item"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

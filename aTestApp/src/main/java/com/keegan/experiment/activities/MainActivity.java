@@ -57,6 +57,7 @@ import com.keegan.experiment.Global;
 import com.keegan.experiment.Intents;
 import com.keegan.experiment.R;
 import com.keegan.experiment.fragments.ContactMe;
+import com.keegan.experiment.fragments.CustomPresentationPagerFragment;
 import com.keegan.experiment.fragments.DevelopmentLog;
 import com.keegan.experiment.fragments.DeviceInfoFragment;
 import com.keegan.experiment.fragments.SmsFragment;
@@ -236,6 +237,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                 startFragment(mFragment, getString(R.string.settings));
                 break;
             case R.id.main_menu_item_logout:
+                /*android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.Activity_Main_FragmentLayout_FragmentContainer, new CustomPresentationPagerFragment());
+                fragmentTransaction.commit();*/
                 logout();
                 break;
         }

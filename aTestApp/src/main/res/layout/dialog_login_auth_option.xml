@@ -29,10 +29,11 @@
 
             <ImageView
                 android:id="@+id/Dialog_Login_AuthOption_ImageView_Close"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="@dimen/dialog_title_icon_size"
+                android:layout_height="@dimen/dialog_title_icon_size"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:contentDescription="@string/close_dialog"
                 android:src="@drawable/ic_close_white_48dp" />
         </RelativeLayout>

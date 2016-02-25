@@ -56,6 +56,7 @@
     <dimen name="pop_up_dialog_height">100dp</dimen>
     <dimen name="dialog_auth_option_width">250dp</dimen>
     <dimen name="dialog_auth_option_height">210dp</dimen>
-    <dimen name="dialog_login_users_listview_height">180dp</dimen>
-    <dimen name="login_contact_imagebutton_size">75dp</dimen>
+    <dimen name="dialog_login_profiles_listview_height">180dp</dimen>
+    <dimen name="login_contact_imagebutton_size">65dp</dimen>
+    <dimen name="dialog_title_icon_size">18dp</dimen>
 </resources>
