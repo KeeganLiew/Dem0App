@@ -314,9 +314,8 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                 showHelpDiag();
                 break;
             case R.id.Activity_Login_Contact:
-                closeDrawer();
+                showContactDiag();
                 break;
-
             //others
             case R.id.Pop_Up_Button_Dialog_Button:
                 enableAndShowViews(true);
@@ -632,6 +631,14 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         helpDialog.setContentView(R.layout.dialog_login_help);
 
         helpDialog.show();
+    }
+
+    private void showContactDiag() {
+        final Dialog contactDialog = new Dialog(this);
+        contactDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        contactDialog.setContentView(R.layout.dialog_login_contact);
+
+        contactDialog.show();
     }
 
     private void showAuthOptionDiag() {
