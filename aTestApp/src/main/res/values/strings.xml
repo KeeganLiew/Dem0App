@@ -13,6 +13,7 @@
     <string name="pin">PIN</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
+    <string name="show_gesture">Show Gesture</string>
     <!--Login Navigation Drawer-->
     <string name="users">Users</string>
     <string name="forgot_pin">Forgot Pin</string>
@@ -82,14 +83,15 @@
     <string name="add_profile">Add profile</string>
     <string name="clear_profiles">Clear profiles</string>
     <string name="profile_sync">Sync profiles online</string>
-    <string name="label_pin">PIN:</string>
-    <string name="label_password">Password:</string>
-    <string name="label_gesture">Gesture:</string>
+    <string name="label_pin">"PIN: "</string>
+    <string name="label_password">"Password: "</string>
+    <string name="label_gesture">"Gesture: "</string>
     <string name="label_default">Default</string>
     <string name="default_gesture_image">Default gesture image</string>
     <string name="desc_contact_imagebutton_linkedin">LinkedIn Profile</string>
     <string name="desc_contact_imagebutton_google_play">Google Play App</string>
     <string name="desc_contact_imagebutton_github">GitHub profile</string>
+    <string name="close_dialog">Close dialog</string>
     <!--Mandatory fields-->
     <string name="phone_number_is_mandatory">Phone number is mandatory</string>
     <string name="message_is_mandatory">Message is mandatory</string>

@@ -36,11 +36,13 @@ public class Global {
     public static final String sharedPref_AuthOption = "AuthOption";
     public static final String sharedPref_ShowAuthOptions = "ShowAuthOptions";
     public static final String sharedPref_SmsReceiverToggle = "SmsReceiverToggle";
+    public static final String sharedPref_GestureVisibleToggle = "GestureVisibleToggle";
     //default values
     public static final String username_default = "Guest";
     public static final String pin_default = "1234";
     public static final String password_default = "password";
     public static final boolean showAuthOptions_default = true;
+    public static final boolean gestureVisibleToggle_default = true;
     public static final LoginInputMethod authOption_default = LoginInputMethod.PIN_INPUT;
     //request codes
     public static final int CONTACT_PICKER_RESULT = 1001;

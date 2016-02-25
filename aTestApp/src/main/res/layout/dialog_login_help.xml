@@ -33,8 +33,8 @@
                 android:layout_height="16dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:contentDescription="@string/add_profile"
-                android:src="@drawable/ic_plus" />
+                android:contentDescription="@string/close_dialog"
+                android:src="@drawable/ic_close_white_48dp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -106,8 +106,8 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_below="@+id/Dialog_Login_Help_TextView_PasswordLabel"
-                android:layout_marginLeft="@dimen/margin_between_label_and_text"
-                android:layout_marginStart="@dimen/margin_between_label_and_text"
+                android:layout_marginLeft="@dimen/margin_between_label_and_image"
+                android:layout_marginStart="@dimen/margin_between_label_and_image"
                 android:layout_toEndOf="@+id/Dialog_Login_Help_TextView_GestureLabel"
                 android:layout_toRightOf="@+id/Dialog_Login_Help_TextView_GestureLabel"
                 android:contentDescription="@string/label_gesture"
