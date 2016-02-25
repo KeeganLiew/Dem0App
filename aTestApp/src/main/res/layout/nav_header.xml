@@ -44,7 +44,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/Navigation_RelativeLayout_Profile"
-        android:paddingBottom="@dimen/bottom_margin_for_last_elements"
+        android:paddingBottom="@dimen/top_bottom_margin_for_last_elements"
         android:paddingLeft="@dimen/home_nav_header_gap_between_display_pic_and_username"
         android:paddingRight="@dimen/home_nav_header_gap_between_display_pic_and_username"
         android:paddingTop="@dimen/margin_between_elements"

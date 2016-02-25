@@ -34,7 +34,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:contentDescription="@string/add_profile"
-                android:src="@drawable/ic_plus" />
+                android:src="@drawable/ic_plus_white_48dp" />
         </RelativeLayout>
 
         <ListView
@@ -51,7 +51,7 @@
             android:layout_marginRight="@dimen/pop_up_dialog_padding_left_right"
             android:layout_marginStart="@dimen/pop_up_dialog_padding_left_right"
             android:text="@string/profile_sync"
-            android:layout_marginBottom="@dimen/bottom_margin_for_last_elements"
+            android:layout_marginBottom="@dimen/top_bottom_margin_for_last_elements"
             android:textSize="@dimen/smaller_text_size" />
 
         <TextView

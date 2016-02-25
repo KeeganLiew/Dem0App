@@ -23,6 +23,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.DrawerLayout.DrawerListener;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -38,13 +39,16 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
@@ -54,6 +58,7 @@ import com.keegan.experiment.Global;
 import com.keegan.experiment.Intents;
 import com.keegan.experiment.R;
 import com.keegan.experiment.customs.CustomListAdapter;
+import com.keegan.experiment.services.SmsReceiver;
 import com.keegan.experiment.utilities.DisplayPictureUtil;
 
 import java.util.ArrayList;
@@ -84,11 +89,13 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
     private ImageView passwordLoginButtonIV;
     //gesture authentication
     private GestureOverlayView loginGestureGOV;
+    private Switch loginGestureS;
 
     //authentication option
     private Button authenticationOptionPinB;
     private Button authenticationOptionPasswordB;
     private Button authenticationOptionGestureB;
+    private ImageView authenticationOptionSettingsIV;
 
     //login pop up dialog
     private RelativeLayout loginProgressDialogRL;
@@ -165,11 +172,15 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         //gesture authentication
         loginGestureGOV = (GestureOverlayView) findViewById(R.id.Activity_Login_InputOption_Gesture);
         loginGestureGOV.addOnGesturePerformedListener(new loginGestureOnGesturePerformedListener()); //set listener
+        loginGestureS = (Switch) findViewById(R.id.Activity_Login_Switch_Gesture);
+        loginGestureS.setOnCheckedChangeListener(new showGestureSwitchListener()); //set listener
 
         //authentication option
         authenticationOptionPinB = (Button) findViewById(R.id.InputOption_Button_Pin);
         authenticationOptionPasswordB = (Button) findViewById(R.id.InputOption_Button_Password);
         authenticationOptionGestureB = (Button) findViewById(R.id.InputOption_Button_Gesture);
+        authenticationOptionSettingsIV = (ImageView) findViewById(R.id.InputOption_ImageView_Settings);
+        authenticationOptionSettingsIV.setOnClickListener(this); //set listener
 
         //login pop up dialog
         loginProgressDialogRL = (RelativeLayout) findViewById(R.id.Activity_Login_PopUpProgressBarDialog);
@@ -243,15 +254,13 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         //load profile
         loadUserProfile();
 
+        //sharedPref view objects
         //auth buttons
         Global.LoginInputMethod selectedAuthOption = Global.LoginInputMethod.lookupByCode(
                 Global.loadSavedPreferences(mActivity, Global.sharedPref_AuthOption, Global.authOption_default.getCode()));
-
         Button selectedButton = null;
         if (selectedAuthOption == Global.LoginInputMethod.PIN_INPUT) {
             selectedButton = authenticationOptionPinB;
-            //authenticationOptionPinB.setSelected(true);
-            //setAuthenticationOption(authenticationOptionPinB);
         } else if (selectedAuthOption == Global.LoginInputMethod.PASSWORD_INPUT) {
             selectedButton = authenticationOptionPasswordB;
             passwordET.postDelayed(new Runnable() {
@@ -260,15 +269,14 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                     showKeyboard(mActivity, passwordET);
                 }
             }, 30);
-            //authenticationOptionPasswordB.setSelected(true);
-            //setAuthenticationOption(authenticationOptionPasswordB);
         } else if (selectedAuthOption == Global.LoginInputMethod.GESTURE_INPUT) {
             selectedButton = authenticationOptionGestureB;
-            //authenticationOptionGestureB.setSelected(true);
-            //setAuthenticationOption(authenticationOptionGestureB);
         }
         selectedButton.setSelected(true);
         setAuthenticationOption(selectedButton);
+        //loginGesture siwtch
+        loginGestureS.setChecked(Global.loadSavedPreferences(
+                mActivity, Global.sharedPref_GestureVisibleToggle, Global.gestureVisibleToggle_default));
 
         //broadcast receiver
         broadcastReceiver = new BroadcastReceiver() {
@@ -300,6 +308,28 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
     }
 
     @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            //numpad height
+            DisplayMetrics displayMetrics = mContext.getResources().getDisplayMetrics();
+            int numpadMaxHeight = displayMetrics.heightPixels / 4;
+            Log.d(TAG, "displayMetrics: " + displayMetrics);
+            Log.d(TAG, "numpadMaxHeight: " + numpadMaxHeight);
+            Log.d(TAG, "numericKeypad.getMeasuredHeight(): " + numericKeypad.getMeasuredHeight());
+            Log.d(TAG, "numericKeypad.getHeight(): " + numericKeypad.getHeight());
+            Log.d(TAG, "numericKeypad.getMinimumHeight(): " + numericKeypad.getMinimumHeight());
+            if (numericKeypad.getMeasuredHeight() > numpadMaxHeight) {
+                //numericKeypad.setLayoutParams(new TableLayout.LayoutParams(numpadMaxHeight, displayMetrics.widthPixels));
+                //numericKeypad.getLayoutParams().height = numpadMaxHeight;
+                //numericKeypad.requestLayout();
+                Log.d(TAG, "numericKeypad.getHeight(): " + numericKeypad.getHeight());
+                //TODO keegan resume from here - height not applying
+            }
+        }
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             ////TODO: 16/12/15 implement nav drawer item functions
@@ -322,6 +352,9 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                 break;
             case R.id.Activity_Login_ImageView_PasswordLogin:
                 startLogInProcess(Global.LoginInputMethod.PASSWORD_INPUT);
+                break;
+            case R.id.InputOption_ImageView_Settings:
+                showAuthOptionDiag();
                 break;
         }
     }
@@ -385,6 +418,21 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                 startLogInProcess(Global.LoginInputMethod.PASSWORD_INPUT); //log in
             }
             return false;
+        }
+    }
+
+    private class showGestureSwitchListener implements CompoundButton.OnCheckedChangeListener {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            Global.savePreferences(mActivity, Global.sharedPref_GestureVisibleToggle, isChecked);
+            Log.d(TAG, "isChecked: " + isChecked);
+            if (isChecked) {
+                loginGestureGOV.setGestureColor(ContextCompat.getColor(mContext, R.color.gesture_color));
+                loginGestureGOV.setUncertainGestureColor(ContextCompat.getColor(mContext, R.color.uncertain_gesture_color));
+            } else {
+                loginGestureGOV.setGestureColor(ContextCompat.getColor(mContext, R.color.transparent));
+                loginGestureGOV.setUncertainGestureColor(ContextCompat.getColor(mContext, R.color.transparent));
+            }
         }
     }
 
@@ -573,6 +621,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         pinET.setVisibility(View.GONE);
         passwordRL.setVisibility(View.GONE);
         loginGestureGOV.setVisibility(View.GONE);
+        loginGestureS.setVisibility(View.GONE);
         hideKeyboard(mActivity);
         switch (selectedButton.getId()) {
             case R.id.InputOption_Button_Pin:
@@ -595,6 +644,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                 selectedButton.setFocusableInTouchMode(true);
                 selectedButton.requestFocus();
                 loginGestureGOV.setVisibility(View.VISIBLE);
+                loginGestureS.setVisibility(View.VISIBLE);
                 hideKeyboard(mActivity);
                 break;
         }
