@@ -56,4 +56,5 @@
     <dimen name="dialog_auth_option_width">250dp</dimen>
     <dimen name="dialog_auth_option_height">210dp</dimen>
     <dimen name="dialog_login_users_listview_height">180dp</dimen>
+    <dimen name="login_contact_imagebutton_size">75dp</dimen>
 </resources>
