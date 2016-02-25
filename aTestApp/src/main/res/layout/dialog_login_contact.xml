@@ -21,18 +21,19 @@
             android:layout_marginTop="15dp">
 
             <TextView
-                android:id="@+id/Dialog_Login_Help_TextView_Help"
+                android:id="@+id/Dialog_Login_Contact_TextView_Contact"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/contact"
                 android:textSize="@dimen/standard_text_size" />
 
             <ImageView
-                android:id="@+id/Dialog_Login_Help_ImageView_Close"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:id="@+id/Dialog_Login_Contact_ImageView_Close"
+                android:layout_width="@dimen/dialog_title_icon_size"
+                android:layout_height="@dimen/dialog_title_icon_size"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:contentDescription="@string/close_dialog"
                 android:src="@drawable/ic_close_white_48dp" />
         </RelativeLayout>
@@ -41,6 +42,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_between_elements"
+            android:layout_marginLeft="@dimen/pop_up_dialog_padding_left_right"
+            android:layout_marginRight="@dimen/pop_up_dialog_padding_left_right"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -71,6 +74,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
+            android:layout_marginLeft="@dimen/pop_up_dialog_padding_left_right"
+            android:layout_marginRight="@dimen/pop_up_dialog_padding_left_right"
             android:gravity="center"
             android:orientation="vertical">
 

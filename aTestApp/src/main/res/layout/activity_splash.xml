@@ -9,8 +9,8 @@
         android:id="@+id/Activity_Splash_KenBurnsView_Background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/wallpaper1" />
+        android:scaleType="fitCenter"
+        android:src="@drawable/wallpaper0" />
 
     <ImageView
         android:id="@+id/Activity_Splash_ImageView_Logo"

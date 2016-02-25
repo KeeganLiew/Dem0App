@@ -1,6 +1,4 @@
 [ToCreate]
-Login/Help - Default password show, link to slideshow tutorial
-Login/Forgot - Remove?
 Login/Users - 3 user profiles and clear
 Login/Users - Add new user dialog
 Login/Contact - 4 boxes - quick http link - external browser
@@ -18,6 +16,7 @@ Dev/RoboGuice
 Login/Add auth hint (first time)
 Login/Username logic (if guest, then cant edit auth)
 Login/Skip login button checkbox
+Login/link to slideshow tutorial in Help
 Home/Add something?
 Home/Add long press to remove display picture
 Home/Login time
@@ -96,3 +95,5 @@ Dev/Updated all image assets
 Login/Added Auth option selection in NavDrawer
 Login/Inputs are now disabled when logging in
 Login/No longer saves default username
+Login/Removed Forgot Pin
+Login/Now shows default credentials in Help
