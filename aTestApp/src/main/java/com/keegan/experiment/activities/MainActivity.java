@@ -60,6 +60,7 @@ import com.keegan.experiment.fragments.ContactMe;
 import com.keegan.experiment.fragments.CustomPresentationPagerFragment;
 import com.keegan.experiment.fragments.DevelopmentLog;
 import com.keegan.experiment.fragments.DeviceInfoFragment;
+import com.keegan.experiment.fragments.SettingsFragment;
 import com.keegan.experiment.fragments.SmsFragment;
 import com.keegan.experiment.fragments.UnderConstructionFragment;
 import com.keegan.experiment.utilities.ContactUtil;
@@ -106,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     //non-view object variables
     private boolean cropGalleryImage = false;
-    private static String username;
+    //private static String username;
     private String password;
     private Behavior behavior;
     private Toast exitToast;
@@ -143,12 +144,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         mToolBarImageIV.setOnLongClickListener(new toolBarImageLongClickListener()); //set listener
         //ActionBar
         drawerToggle = new ActionBarDrawerToggle(MainActivity.this, mDrawerLayout,
-                R.string.hello_world, R.string.hello_world); ////TODO: 16/12/15 replace string titles
+                R.string.hello_world, R.string.hello_world); ////TODO: 16/02/16 replace string titles
         setSupportActionBar(mToolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setHomeButtonEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        } ////TODO: 16/12/15 fix - hamburger somehow turned black
+        } ////TODO: 16/02/16 fix - hamburger somehow turned black
         //TabLayout
         /*tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         tabLayout.addTab(tabLayout.newTab().setText("Tab 1"));
@@ -189,10 +190,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     }
 
     private void otherInitializations() {
-        username = Global.loadSavedPreferences(mActivity, Global.sharedPref_Username, Global.username_default);
+        //username = Global.loadSavedPreferences(mActivity, Global.sharedPref_Username, Global.username_default);
         Global.loadImageIntoImageView(mContext, navigationDisplayPictureIV, Global.profilePicImgName);
         Global.loadImageIntoImageView(mContext, mToolBarImageIV, Global.profileBgPicImgName);
-        updateUsernameViews(username);
+        updateUsernameViews();
         exitToast = Toast.makeText(mActivity, getString(R.string.toast_press_again_to_exit), Toast.LENGTH_LONG);
     }
 
@@ -222,7 +223,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
         switch (item.getItemId()) { //option items
             case R.id.main_menu_item_about:
-                ////TODO: 16/12/15 create method for about infos
+                ////TODO: 16/02/16 create method for about infos
                 String description = getString(R.string.about_description_app);
                 String extra = getString(R.string.about_description_extra_info);
                 LibsFragment aboutPageFragment = new LibsBuilder()
@@ -233,7 +234,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                 startFragment(aboutPageFragment, getString(R.string.about));
                 break;
             case R.id.main_menu_item_settings:
-                Fragment mFragment = new UnderConstructionFragment();
+                Fragment mFragment = new SettingsFragment();
                 startFragment(mFragment, getString(R.string.settings));
                 break;
             case R.id.main_menu_item_logout:
@@ -252,7 +253,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         super.onResume();
         mActivity.getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN); //hide android keyboard
-        updateUsernameViews(username);
+        updateUsernameViews();
 
         //broadcast receivers
         broadcastReceiver = new BroadcastReceiver() {
@@ -297,30 +298,29 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.Activity_Main_Button_Login:
-                //username and password updater ////TODO: 16/12/15 move to own page/fragment
+                //username and password updater ////TODO: 16/02/16 move to own page/fragment
                 //username
-                ////TODO: 16/12/15- method for snackbar
+                ////TODO: 16/02/16- method for snackbar
                 final String previousUsername = Global.loadSavedPreferences(mActivity, Global.sharedPref_Username, Global.EMPTY_STRING);
-                username = usernameET.getText().toString();
+                final String username = usernameET.getText().toString();
                 Log.d(TAG, "Username is: " + username);
                 Global.savePreferences(mActivity, Global.sharedPref_Username, username);
-                updateUsernameViews(username);
+                updateUsernameViews();
                 Snackbar usernameSB = Snackbar.make(mCustomCoordinatorLayout, "Hello " + username, Snackbar.LENGTH_LONG);
                 if (!previousUsername.equals(Global.EMPTY_STRING) && !previousUsername.equals(username)) {
                     usernameSB.setAction("Undo", new OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            username = previousUsername;
                             if (!previousUsername.equals(Global.username_default)) {
-                                Global.savePreferences(mActivity, Global.sharedPref_Username, username);
+                                Global.savePreferences(mActivity, Global.sharedPref_Username, previousUsername);
                             }
-                            updateUsernameViews(username);
+                            updateUsernameViews();
                         }
                     });
                     usernameSB.show();
                 }
                 //password
-                ////TODO: 16/12/15- method for snackbar
+                ////TODO: 16/02/16- method for snackbar
                 final String previousPassword = Global.loadSavedPreferences(mActivity, Global.sharedPref_Password, Global.EMPTY_STRING);
                 password = passwordET.getText().toString();
                 Log.d(TAG, "Password is: " + password);
@@ -332,7 +332,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                         public void onClick(View v) {
                             password = previousPassword;
                             Global.savePreferences(mActivity, Global.sharedPref_Password, password);
-                            updateUsernameViews(password);
+                            //updateUsernameViews(password);
                         }
                     });
                     passwordSB.show();
@@ -408,7 +408,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                         navigationDisplayPictureIV.setScaleType(ImageView.ScaleType.FIT_XY);
 
                         //undo if prev_profile_pic exist
-                        ////TODO: 16/12/15- method for snackbar
+                        ////TODO: 16/02/16- method for snackbar
                         Log.d(TAG, "undo if prev_profile_pic exist");
                         File directory = cw.getDir(Global.profileImgDirName, Context.MODE_PRIVATE);
                         final Bitmap prev_bitmapImage = DisplayPictureUtil.getDisplayPictureFromStorage(directory.getPath(), Global.prevProfileImgName);
@@ -468,9 +468,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         return mActivity;
     }
 
-    public static String getUsername() {
+    /*public static String getUsername() {
         return username;
-    }
+    }*/
 
     //listeners
     private class mDrawerListener implements DrawerListener {
@@ -511,7 +511,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             switch (id) {
                 case R.id.nav_drawer_home:
                     closeFragmentLayout();
-                    updateUsernameViews(username);
+                    updateUsernameViews();
                     break;
                 case R.id.nav_drawer_sms_service:
                     mFragment = new SmsFragment();
@@ -529,8 +529,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                     mFragment = new ContactMe();
                     startFragment(mFragment, getString(R.string.contact));
                     break;
+                case R.id.nav_drawer_feedback:
+                    mFragment = new UnderConstructionFragment();
+                    startFragment(mFragment, getString(R.string.feedback));
+                    break;
                 case R.id.nav_drawer_about:
-                    ////TODO: 16/12/15- about page
+                    ////TODO: 16/02/16- about page
                     String description = getString(R.string.about_description_app);
                     String extra = getString(R.string.about_description_extra_info);
                     LibsFragment aboutPageFragment = new LibsBuilder()
@@ -540,9 +544,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                             .fragment();
                     startFragment(aboutPageFragment, getString(R.string.about));
                     break;
-                case R.id.nav_drawer_feedback:
-                    mFragment = new UnderConstructionFragment();
-                    startFragment(mFragment, getString(R.string.feedback));
+                case R.id.nav_drawer_settings:
+                    mFragment = new SettingsFragment();
+                    startFragment(mFragment, getString(R.string.settings));
                     break;
                 case R.id.nav_drawer_log_out:
                     logout();
@@ -601,7 +605,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     }
 
     //private ui methods
-    private void updateUsernameViews(String name) {
+    private void updateUsernameViews() {
+        String name = Global.loadSavedPreferences(mActivity, Global.sharedPref_Username, Global.username_default);
         updateTitle("Hello " + name);
         navigationUsernameTV.setText(name);
     }
@@ -630,7 +635,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     private void closeFragmentLayout() {
         getFragmentManager().popBackStack();
         setFunctionLayout(View.GONE);
-        updateUsernameViews(username);
+        updateUsernameViews();
     }
 
     private void setFunctionLayout(int status) {
@@ -717,22 +722,21 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                 hideKeyboard(mActivity);
                 progressBar.setVisibility(View.VISIBLE);
                 try {
-                    ////TODO: 16/12/15- method for snackbar
+                    ////TODO: 16/02/16 - method for snackbar
                     final String previousUsername = Global.loadSavedPreferences(mActivity, Global.sharedPref_Username, Global.EMPTY_STRING);
-                    username = editText.getText().toString();
+                    final String username = editText.getText().toString();
                     Log.d(TAG, "Username is: " + username);
                     Global.savePreferences(mActivity, Global.sharedPref_Username, username);
-                    updateUsernameViews(username);
+                    updateUsernameViews();
                     Snackbar usernameSB = Snackbar.make(mCustomCoordinatorLayout, "Hello " + username, Snackbar.LENGTH_INDEFINITE);
                     if (!previousUsername.equals(Global.EMPTY_STRING)) {
                         usernameSB.setAction("Undo", new OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                username = previousUsername;
                                 if (!previousUsername.equals(Global.username_default)) {
-                                    Global.savePreferences(mActivity, Global.sharedPref_Username, username);
+                                    Global.savePreferences(mActivity, Global.sharedPref_Username, previousUsername);
                                 }
-                                updateUsernameViews(username);
+                                updateUsernameViews();
                             }
                         });
                     }

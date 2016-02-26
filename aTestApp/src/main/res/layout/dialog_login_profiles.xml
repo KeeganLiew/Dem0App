@@ -59,7 +59,7 @@
             android:id="@+id/Dialog_Login_Profiles_Switch_OfflineProfile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/top_bottom_margin_for_last_elements"
+            android:layout_marginBottom="@dimen/top_bottom_margin_for_elements"
             android:layout_marginEnd="@dimen/pop_up_dialog_padding_left_right"
             android:layout_marginLeft="@dimen/pop_up_dialog_padding_left_right"
             android:layout_marginRight="@dimen/pop_up_dialog_padding_left_right"

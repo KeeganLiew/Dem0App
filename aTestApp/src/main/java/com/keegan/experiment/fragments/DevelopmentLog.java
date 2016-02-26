@@ -91,11 +91,11 @@ public class DevelopmentLog extends Fragment implements OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            ////TODO: 11/12/15 when click on item, go to page of feature
+            ////TODO: 11/02/16 when click on item, go to page of feature
         }
     }
 
-    //Listeners ////TODO: 16/12/15 redo listener toasts
+    //Listeners ////TODO: 16/12/16 redo listener toasts
     private class expandableLvGroupExpandListener implements OnGroupExpandListener {
         @Override
         public void onGroupExpand(int groupPosition) {

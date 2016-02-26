@@ -32,7 +32,7 @@
             android:layout_marginTop="@dimen/home_nav_header_element_margin_from_top"
             android:layout_toEndOf="@+id/Navigation_ImageView_DisplayPicture"
             android:layout_toRightOf="@+id/Navigation_ImageView_DisplayPicture"
-            android:text="@string/username"
+            android:text="@string/debug_text"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textSize="@dimen/home_nav_header_username_text_size" />
     </RelativeLayout>
@@ -44,7 +44,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/Navigation_RelativeLayout_Profile"
-        android:paddingBottom="@dimen/top_bottom_margin_for_last_elements"
+        android:paddingBottom="@dimen/top_bottom_margin_for_elements"
         android:paddingLeft="@dimen/home_nav_header_gap_between_display_pic_and_username"
         android:paddingRight="@dimen/home_nav_header_gap_between_display_pic_and_username"
         android:paddingTop="@dimen/margin_between_elements"

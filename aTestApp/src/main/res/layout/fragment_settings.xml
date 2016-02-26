@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/Fragment_Settings_RelativeLayout_WholeScreen"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    tools:context=".activities.LoginActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/app_fragment_background_color"
+        android:paddingLeft="@dimen/settings_left_right_margins"
+        android:paddingRight="@dimen/settings_left_right_margins"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/top_bottom_margin_for_elements"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/Fragment_Settings_LinearLayout_Username"
+                layout="@layout/edit_text_editor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                android:id="@+id/Fragment_Settings_LinearLayout_Pin"
+                layout="@layout/edit_text_editor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                android:id="@+id/Fragment_Settings_LinearLayout_Password"
+                layout="@layout/edit_text_editor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+
+            <Button
+                android:id="@+id/Activity_Main_Button_Login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="50dp"
+                android:paddingRight="50dp"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/save_all" />
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

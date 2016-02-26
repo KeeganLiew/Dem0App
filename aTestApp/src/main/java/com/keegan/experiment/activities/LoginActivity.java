@@ -14,6 +14,7 @@ import android.gesture.GestureLibrary;
 import android.gesture.GestureOverlayView;
 import android.gesture.Prediction;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -23,7 +24,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.DrawerLayout.DrawerListener;
 import android.support.v7.app.AppCompatActivity;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -41,6 +41,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -184,8 +185,8 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         loginProgressDialogTextTV = (TextView) findViewById(R.id.Pop_Up_Progress_Bar_Dialog_TextView_Label);
         //login error pop up dialog
         loginResultDialogRL = (RelativeLayout) findViewById(R.id.Activity_Login_PopUpButtonDialog);
-        loginResultDialogTextTV = (TextView) findViewById(R.id.Pop_Up_Button_Dialog_TextView_Label);
-        loginResultDialogB = (Button) findViewById(R.id.Pop_Up_Button_Dialog_Button);
+        loginResultDialogTextTV = (TextView) findViewById(R.id.Dialog_Login_Message_TextView_Label);
+        loginResultDialogB = (Button) findViewById(R.id.Dialog_Login_Message_Button_Ok);
         loginResultDialogB.setOnClickListener(this); //set listener
 
         //custom numpad
@@ -318,7 +319,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            ////TODO: 16/12/15 implement nav drawer item functions
+            ////TODO: 16/12/16 implement nav drawer item functions
             //navigation drawer items
             case R.id.Activity_Login_Profiles:
                 showProfilesDiag();
@@ -333,9 +334,10 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                 showContactDiag();
                 break;
             //others
-            case R.id.Pop_Up_Button_Dialog_Button:
+            case R.id.Dialog_Login_Message_Button_Ok:
                 enableAndShowViews(true);
                 break;
+            //extra icons
             case R.id.Activity_Login_ImageView_PasswordLogin:
                 startLogInProcess(Global.LoginInputMethod.PASSWORD_INPUT);
                 break;
@@ -685,10 +687,19 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         contactDialog.setContentView(R.layout.dialog_login_contact);
         final ImageView closeIV = (ImageView) contactDialog.findViewById(R.id.Dialog_Login_Contact_ImageView_Close);
         closeIV.setOnClickListener(new closeDiag(contactDialog));
+
+        final ImageButton linkedInIB = (ImageButton) contactDialog.findViewById(R.id.Dialog_Login_Contact_ImageButton_LinkedIn);
+        final ImageButton googlePlayIB = (ImageButton) contactDialog.findViewById(R.id.Dialog_Login_Contact_ImageButton_GooglePlay);
+        final ImageButton gitHubIB = (ImageButton) contactDialog.findViewById(R.id.Dialog_Login_Contact_ImageButton_GitHub);
+
+        linkedInIB.setOnClickListener(new openUrlExternally(Global.KEEGAN_LINKEDIN_URL));
+        googlePlayIB.setOnClickListener(new openUrlExternally(Global.KEEGAN_GOOGLEPLAY_URL));
+        gitHubIB.setOnClickListener(new openUrlExternally(Global.KEEGAN_GITHUB_URL));
+
         contactDialog.show();
     }
 
-    //listener for dialogs
+    //listener for closing dialogs
     private class closeDiag implements OnClickListener {
         Dialog dialog;
 
@@ -699,20 +710,22 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         @Override
         public void onClick(View v) {
             dialog.dismiss();
-            /*switch (v.getId()) {
-                case R.id.Dialog_Login_AuthOption_ImageView_Close:
-                    dialog.dismiss();
-                    break;
-                case R.id.Dialog_Login_Profiles_ImageView_Close:
-                    dialog.dismiss();
-                    break;
-                case R.id.Dialog_Login_Help_ImageView_Close:
-                    dialog.dismiss();
-                    break;
-                case R.id.Dialog_Login_Contact_ImageView_Close:
-                    dialog.dismiss();
-                    break;
-            }*/
+        }
+    }
+
+    //listener for external urls
+    private class openUrlExternally implements OnClickListener {
+        String url;
+
+        public openUrlExternally(String url) {
+            this.url = url;
+        }
+
+        @Override
+        public void onClick(View v) {
+            Uri uri = Uri.parse(url);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
         }
     }
 
@@ -835,7 +848,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
 
         closeIV.setOnClickListener(new closeDiag(profilesDialog));
 
-        ////TODO: 23/02/15 finish user profiles
+        ////TODO: 23/02/16 finish user profiles
         /*final RadioGroup authOptionRG = (RadioGroup) authOptionDialog.findViewById(R.id.RadioGroup_AuthOption);
         final RadioButton pinRB = (RadioButton) authOptionDialog.findViewById(R.id.RadioButton_Pin);
         final RadioButton passwordRB = (RadioButton) authOptionDialog.findViewById(R.id.RadioButton_Password);
