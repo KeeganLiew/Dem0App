@@ -36,11 +36,15 @@ public class Global {
     public static final String sharedPref_AuthOption = "AuthOption";
     public static final String sharedPref_ShowAuthOptions = "ShowAuthOptions";
     public static final String sharedPref_SmsReceiverToggle = "SmsReceiverToggle";
+    public static final String sharedPref_GestureVisibleToggle = "GestureVisibleToggle";
+    public static final String sharedPref_LoginFirstRun = "LoginFirstRun";
     //default values
-    public static final String username_default = "Guest1";
+    public static final String username_default = "Guest";
     public static final String pin_default = "1234";
     public static final String password_default = "password";
     public static final boolean showAuthOptions_default = true;
+    public static final boolean gestureVisibleToggle_default = true;
+    public static final boolean loginFirstRun = true;
     public static final LoginInputMethod authOption_default = LoginInputMethod.PIN_INPUT;
     //request codes
     public static final int CONTACT_PICKER_RESULT = 1001;
@@ -50,9 +54,12 @@ public class Global {
     public static final int sms_text_limit = 160;
     public static final int pin_text_limit = 4;
     //times
-    public static final int animationTime = 3000; //3 seconds
-    public static final int afterAnimationWaitTime = 1000; //1 second
-    public static final int totalSplashScreenTime = animationTime + afterAnimationWaitTime; //4 seconds
+    public static final double totalSplashScreenSeconds = 2.5;
+    public static final double animationPropotion = 0.75;
+    ////TODO: 23/02/16 Move following lines
+    public static final int animationTime = (int) (totalSplashScreenSeconds * 1000 * animationPropotion);
+    public static final int afterAnimationWaitTime = (int) (totalSplashScreenSeconds * 1000 * (1 - animationPropotion));
+    public static final int actualTotalSplashScreenTime = animationTime + afterAnimationWaitTime;
     //others
     public static final String KEEGAN_LINKEDIN_URL = "http://www.linkedin.com/in/keeganliew";
     public static final String EMPTY_STRING = "";

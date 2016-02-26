@@ -54,7 +54,7 @@ public class SplashActivity extends Activity implements OnClickListener {
     }
 
     private void otherInitializations() {
-        RandomTransitionGenerator generator = new RandomTransitionGenerator(Global.totalSplashScreenTime, new DecelerateInterpolator());
+        RandomTransitionGenerator generator = new RandomTransitionGenerator(Global.actualTotalSplashScreenTime, new DecelerateInterpolator());
         backgroundKBV.setTransitionGenerator(generator);
     }
 

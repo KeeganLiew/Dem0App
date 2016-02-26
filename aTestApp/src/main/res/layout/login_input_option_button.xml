@@ -13,7 +13,8 @@
         android:layout_marginTop="@dimen/margin_between_elements"
         android:layout_weight="1"
         android:background="@drawable/button_selector"
-        android:text="@string/button_pin" />
+        android:text="@string/button_pin"
+        android:textSize="@dimen/smaller_text_size" />
 
     <Button
         android:id="@+id/InputOption_Button_Password"
@@ -24,7 +25,8 @@
         android:layout_marginTop="@dimen/margin_between_elements"
         android:layout_weight="1"
         android:background="@drawable/button_selector"
-        android:text="@string/button_password" />
+        android:text="@string/button_password"
+        android:textSize="@dimen/smaller_text_size" />
 
     <Button
         android:id="@+id/InputOption_Button_Gesture"
@@ -35,5 +37,15 @@
         android:layout_marginTop="@dimen/margin_between_elements"
         android:layout_weight="1"
         android:background="@drawable/button_selector"
-        android:text="@string/button_gesture" />
+        android:text="@string/button_gesture"
+        android:textSize="@dimen/smaller_text_size" />
+
+    <ImageView
+        android:id="@+id/InputOption_ImageView_Settings"
+        android:layout_width="40dp"
+        android:layout_height="@dimen/fragment_button_height"
+        android:layout_marginTop="@dimen/margin_between_elements"
+        android:contentDescription="@string/settings"
+        android:src="@drawable/ic_settings_white_48dp" />
+
 </LinearLayout>

@@ -12,6 +12,7 @@
     <color name="twenty_percent_black">#35000000</color>
     <color name="ten_percent_black">#22000000</color>
     <color name="pink">#e91e63</color>
+    <color name="light_green">#33CC33</color>
 
     <color name="fab_white_normal">#fafafa</color>
     <color name="fab_white_pressed">#f1f1f1</color>
@@ -41,6 +42,10 @@
     <color name="app_text_color_for_white_background">@color/app_main_background_color</color>
     <color name="edit_text_hint_text_color">@android:color/darker_gray</color>
     <color name="error_text_color">@color/pink</color>
+    <color name="credential_text_colour">@color/light_green</color>
+
+    <color name="gesture_color">@color/colorAccent</color>
+    <color name="uncertain_gesture_color">@color/pure_white</color>
 
     <!--Unused-->
     <color name="nav_item_icon_tint_color">#333</color>

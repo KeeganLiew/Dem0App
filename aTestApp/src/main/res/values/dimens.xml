@@ -25,14 +25,17 @@
     <dimen name="widget_element_paddings">10dp</dimen>
     <!--general-->
     <dimen name="margin_between_elements">10dp</dimen>
-    <dimen name="bottom_margin_for_last_elements">5dp</dimen>
+    <dimen name="top_bottom_margin_for_last_elements">5dp</dimen>
     <dimen name="standard_text_size">15sp</dimen>
-    <dimen name="smaller_text_size">13sp</dimen>
+    <dimen name="smaller_text_size">12sp</dimen>
     <dimen name="edit_text_size">15sp</dimen>
     <dimen name="edit_text_height">40dp</dimen>
     <dimen name="edit_text_padding_left_right">20dp</dimen>
     <dimen name="element_left_right_margins">30dp</dimen>
     <dimen name="text_input_layout_error_text_size">11sp</dimen>
+    <dimen name="row_size">40dp</dimen>
+    <dimen name="margin_between_label_and_text">0dp</dimen>
+    <dimen name="margin_between_label_and_image">8dp</dimen>
     <!--Home-->
     <dimen name="home_title_text_size">25sp</dimen>
     <!--Fragment-->
@@ -47,9 +50,13 @@
     <dimen name="login_screen_display_picture_size">120dp</dimen>
     <!--pop up dialog-->
     <dimen name="pop_up_dialog_padding_left_right">20dp</dimen>
+    <dimen name="pop_up_dialog_checkbox_padding_left_right">15dp</dimen>
     <dimen name="pop_up_dialog">10dp</dimen>
     <dimen name="pop_up_dialog_width">210dp</dimen>
     <dimen name="pop_up_dialog_height">100dp</dimen>
     <dimen name="dialog_auth_option_width">250dp</dimen>
     <dimen name="dialog_auth_option_height">210dp</dimen>
+    <dimen name="dialog_login_profiles_listview_height">180dp</dimen>
+    <dimen name="login_contact_imagebutton_size">65dp</dimen>
+    <dimen name="dialog_title_icon_size">18dp</dimen>
 </resources>

@@ -21,7 +21,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:design:23.1.1'
+    compile 'com.android.support:design:23.2.0'
     compile 'com.flaviofaria:kenburnsview:1.0.7'
     /*compile 'com.android.support:recyclerview-v7:23.1.1'*/
     /*compile 'com.android.support:appcompat-v7:23.1.1'*/
@@ -29,6 +29,8 @@ dependencies {
     compile 'org.roboguice:roboguice:3.0.1'
     testCompile "org.robolectric:robolectric:3.0"
     provided 'org.roboguice:roboblender:3.0.1'
+    compile 'com.cleveroad:slidingtutorial:0.9.3'
+    compile 'com.android.support:percent:23.2.0'
     /*compile 'com.squareup.picasso:picasso:2.5.2'*/
     compile('com.mikepenz:aboutlibraries:5.5.0@aar') {
         transitive = true
