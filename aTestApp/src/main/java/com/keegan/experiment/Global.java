@@ -32,6 +32,7 @@ public class Global {
     public static final String profileImgDirName = "imageDir";
     //shared preference key names
     public static final String sharedPref_Username = "Username";
+    public static final String sharedPref_Pin = "Pin";
     public static final String sharedPref_Password = "Password";
     public static final String sharedPref_AuthOption = "AuthOption";
     public static final String sharedPref_ShowAuthOptions = "ShowAuthOptions";
@@ -61,8 +62,11 @@ public class Global {
     public static final int afterAnimationWaitTime = (int) (totalSplashScreenSeconds * 1000 * (1 - animationPropotion));
     public static final int actualTotalSplashScreenTime = animationTime + afterAnimationWaitTime;
     //others
-    public static final String KEEGAN_LINKEDIN_URL = "http://www.linkedin.com/in/keeganliew";
+    public static final String KEEGAN_LINKEDIN_URL = "http://www.linkedin.com/in/KeeganLiew";
+    public static final String KEEGAN_GOOGLEPLAY_URL = "https://github.com/KeeganLiew";
+    public static final String KEEGAN_GITHUB_URL = "https://github.com/KeeganLiew/Dem0App";
     public static final String EMPTY_STRING = "";
+    public static final String ERROR_RETRIEVING = "-- Error retrieving --";
     public static final Boolean SMS_SWITCH_DEFAULT = false;
     public static final int hide_keyboard_login_drawer_percentage = 50;
     public static final int display_picture_crop_size = 280;

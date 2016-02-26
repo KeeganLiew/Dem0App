@@ -48,12 +48,14 @@
             android:orientation="horizontal">
 
             <ImageButton
+                android:id="@+id/Dialog_Login_Contact_ImageButton_LinkedIn"
                 android:layout_width="@dimen/login_contact_imagebutton_size"
                 android:layout_height="@dimen/login_contact_imagebutton_size"
                 android:contentDescription="@string/desc_contact_imagebutton_linkedin"
                 android:src="@drawable/wallpaper1" />
 
             <ImageButton
+                android:id="@+id/Dialog_Login_Contact_ImageButton_GooglePlay"
                 android:layout_width="@dimen/login_contact_imagebutton_size"
                 android:layout_height="@dimen/login_contact_imagebutton_size"
                 android:layout_marginLeft="5dp"
@@ -62,6 +64,7 @@
                 android:src="@drawable/wallpaper2" />
 
             <ImageButton
+                android:id="@+id/Dialog_Login_Contact_ImageButton_GitHub"
                 android:layout_width="@dimen/login_contact_imagebutton_size"
                 android:layout_height="@dimen/login_contact_imagebutton_size"
                 android:contentDescription="@string/desc_contact_imagebutton_github"

@@ -12,7 +12,7 @@
         android:background="@color/grey">
 
         <TextView
-            android:id="@+id/Pop_Up_Button_Dialog_TextView_Label"
+            android:id="@+id/Dialog_Login_Message_TextView_Label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:indeterminateDrawable="@drawable/progress_style"
@@ -23,7 +23,7 @@
             android:text="@string/login_pin_incorrect" />
 
         <Button
-            android:id="@+id/Pop_Up_Button_Dialog_Button"
+            android:id="@+id/Dialog_Login_Message_Button_Ok"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
