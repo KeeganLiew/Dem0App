@@ -2,7 +2,6 @@
 Login/Users - 3 user profiles and clear
 Login/Users - Add new user dialog
 Login/Contact - 4 boxes - quick http link - external browser
-Home/Settings
 Home/Ability to update PIN or Password or Gesture
 Dev/Robolectric
 MMS Function
@@ -20,6 +19,7 @@ Login/link to slideshow tutorial in Help
 Home/Add something?
 Home/Add long press to remove display picture
 Home/Login time
+Home/Add advanced Settings options
 Android/Widget Sizes
 Android/Widget Progress Bar
 Sms/To split into two
@@ -97,3 +97,5 @@ Login/Inputs are now disabled when logging in
 Login/No longer saves default username
 Login/Removed Forgot Pin
 Login/Now shows default credentials in Help
+Home/Added basic Settings page
+<Week 7>
