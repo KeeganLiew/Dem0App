@@ -1,6 +1,9 @@
 <resources>
     <!--App-->
     <string name="app_name">Dem0App</string>
+    <string name="by">by</string>
+    <string name="author_name">Keegan Liew</string>
+    <string name="author_email">keeganliew@hotmail.com</string>
     <!--Splash screen-->
     <string name="app_logo">App Logo</string>
     <string name="welcome">Welcome</string>
@@ -10,10 +13,11 @@
     <string name="pin">PIN</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
+    <string name="show_gesture">Show Gesture</string>
     <!--Login Navigation Drawer-->
-    <string name="new_user">New user</string>
+    <string name="profiles">Profiles</string>
     <string name="forgot_pin">Forgot Pin</string>
-    <string name="auth_option">Authentication Option</string>
+    <string name="auth_option">Auth. Option</string>
     <string name="help">Help</string>
     <string name="scroll_error">Scrolling only works for Lollipop or above</string>
     <string name="display_picture">Display Picture</string>
@@ -73,8 +77,20 @@
     <string name="login_gesture_incorrect">Your gesture is incorrect. Please try again.</string>
     <string name="login_password_incorrect">Your password is incorrect. Please try again.</string>
     <string name="login_login_in">Logging in…</string>
-    <string name="select_auth_option">Select Authentication Option:</string>
+    <string name="authentication_option">Authentication Options</string>
     <string name="show_auth_option">Show auth. options</string>
+    <string name="add_profile">Add profile</string>
+    <string name="clear_profiles">Clear profiles</string>
+    <string name="profile_sync">Sync profiles online</string>
+    <string name="label_pin">"PIN: "</string>
+    <string name="label_password">"Password: "</string>
+    <string name="label_gesture">"Gesture: "</string>
+    <string name="label_default_credentials">Default credentials</string>
+    <string name="default_gesture_image">Default gesture image</string>
+    <string name="desc_contact_imagebutton_linkedin">LinkedIn Profile</string>
+    <string name="desc_contact_imagebutton_google_play">Google Play App</string>
+    <string name="desc_contact_imagebutton_github">GitHub profile</string>
+    <string name="close_dialog">Close dialog</string>
     <!--Mandatory fields-->
     <string name="phone_number_is_mandatory">Phone number is mandatory</string>
     <string name="message_is_mandatory">Message is mandatory</string>
@@ -88,4 +104,6 @@
     <string name="toast_not_sending_full_message">Not sending full message</string>
     <string name="toast_sms_sent_success">SMS sent</string>
     <string name="toast_sms_sent_fail">SMS failed, please try again</string>
+    <!--For debugging xml views-->
+    <string name="debug_text">TextHolder123</string>
 </resources>

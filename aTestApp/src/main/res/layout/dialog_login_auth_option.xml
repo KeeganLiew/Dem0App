@@ -14,19 +14,35 @@
         android:paddingLeft="@dimen/pop_up_dialog_padding_left_right"
         android:paddingRight="@dimen/pop_up_dialog_padding_left_right">
 
-        <TextView
-            android:id="@+id/Dialog_TextView_Label"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/edit_text_padding_left_right"
-            android:indeterminateDrawable="@drawable/progress_style"
-            android:text="@string/select_auth_option" />
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                android:id="@+id/Dialog_Login_AuthOption_TextView_AuthOption"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/authentication_option"
+                android:textSize="@dimen/standard_text_size" />
+
+            <ImageView
+                android:id="@+id/Dialog_Login_AuthOption_ImageView_Close"
+                android:layout_width="@dimen/dialog_title_icon_size"
+                android:layout_height="@dimen/dialog_title_icon_size"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/close_dialog"
+                android:src="@drawable/ic_close_white_48dp" />
+        </RelativeLayout>
+
 
         <RadioGroup
             android:id="@+id/RadioGroup_AuthOption"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_between_elements">
+            android:layout_height="wrap_content">
 
             <RadioButton
                 android:id="@+id/RadioButton_Pin"

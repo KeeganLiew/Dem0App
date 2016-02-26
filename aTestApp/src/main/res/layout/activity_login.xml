@@ -18,6 +18,7 @@
             android:orientation="vertical">
 
             <ScrollView
+                android:id="@+id/Activity_Login_ScrollView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="0.6">
@@ -29,100 +30,125 @@
                     android:layout_marginRight="@dimen/element_left_right_margins"
                     android:orientation="vertical">
 
-                    <ImageView
-                        android:id="@+id/Activity_Login_ImageView_DisplayPicture"
-                        android:layout_width="@dimen/login_screen_display_picture_size"
-                        android:layout_height="@dimen/login_screen_display_picture_size"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="@dimen/margin_between_elements"
-                        android:contentDescription="@string/display_picture"
-                        android:src="@drawable/name" />
-
-                    <EditText
-                        android:id="@+id/Activity_Login_EditText_Name"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/edit_text_height"
-                        android:layout_marginTop="@dimen/margin_between_elements"
-                        android:background="@drawable/background_send_money_linear"
-                        android:hint="@string/username"
-                        android:inputType="textPersonName"
-                        android:paddingLeft="@dimen/edit_text_padding_left_right"
-                        android:paddingRight="@dimen/edit_text_padding_left_right"
-                        android:text="@string/guest"
-                        android:textColorHint="@color/edit_text_hint_text_color"
-                        android:textSize="@dimen/edit_text_size" />
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
 
-                    <EditText
-                        android:id="@+id/Activity_Login_EditText_Pin"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/edit_text_height"
-                        android:layout_marginTop="@dimen/margin_between_elements"
-                        android:background="@drawable/background_send_money_linear"
-                        android:hint="@string/pin"
-                        android:inputType="numberPassword"
-                        android:longClickable="false"
-                        android:paddingLeft="@dimen/edit_text_padding_left_right"
-                        android:paddingRight="@dimen/edit_text_padding_left_right"
-                        android:textColorHint="@color/edit_text_hint_text_color"
-                        android:textSize="@dimen/edit_text_size" />
-
-                    <RelativeLayout
-                        android:id="@+id/Activity_Login_RelativeLayout_Password"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_between_elements"
-                        android:visibility="gone">
+                        <ImageView
+                            android:id="@+id/Activity_Login_ImageView_DisplayPicture"
+                            android:layout_width="@dimen/login_screen_display_picture_size"
+                            android:layout_height="@dimen/login_screen_display_picture_size"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="@dimen/top_bottom_margin_for_last_elements"
+                            android:contentDescription="@string/display_picture"
+                            android:src="@drawable/name" />
 
                         <EditText
-                            android:id="@+id/Activity_Login_EditText_Password"
+                            android:id="@+id/Activity_Login_EditText_Name"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/edit_text_height"
+                            android:layout_marginTop="@dimen/margin_between_elements"
                             android:background="@drawable/background_send_money_linear"
-                            android:hint="@string/password"
-                            android:imeOptions="actionDone"
-                            android:inputType="textPassword"
+                            android:hint="@string/username"
+                            android:inputType="textPersonName"
+                            android:paddingLeft="@dimen/edit_text_padding_left_right"
+                            android:paddingRight="@dimen/edit_text_padding_left_right"
+                            android:text="@string/guest"
+                            android:textColorHint="@color/edit_text_hint_text_color"
+                            android:textSize="@dimen/edit_text_size" />
+
+                        <EditText
+                            android:id="@+id/Activity_Login_EditText_Pin"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/edit_text_height"
+                            android:layout_marginTop="@dimen/margin_between_elements"
+                            android:background="@drawable/background_send_money_linear"
+                            android:hint="@string/pin"
+                            android:inputType="numberPassword"
                             android:longClickable="false"
                             android:paddingLeft="@dimen/edit_text_padding_left_right"
                             android:paddingRight="@dimen/edit_text_padding_left_right"
                             android:textColorHint="@color/edit_text_hint_text_color"
                             android:textSize="@dimen/edit_text_size" />
 
-                        <ImageView
-                            android:id="@+id/Activity_Login_ImageView_PasswordLogin"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginTop="5dp"
-                            android:background="@drawable/ic_login_white_48dp" />
-                    </RelativeLayout>
+                        <RelativeLayout
+                            android:id="@+id/Activity_Login_RelativeLayout_Password"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_between_elements"
+                            android:visibility="gone">
 
+                            <EditText
+                                android:id="@+id/Activity_Login_EditText_Password"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/edit_text_height"
+                                android:background="@drawable/background_send_money_linear"
+                                android:hint="@string/password"
+                                android:imeOptions="actionDone"
+                                android:inputType="textPassword"
+                                android:longClickable="false"
+                                android:paddingLeft="@dimen/edit_text_padding_left_right"
+                                android:paddingRight="@dimen/edit_text_padding_left_right"
+                                android:textColorHint="@color/edit_text_hint_text_color"
+                                android:textSize="@dimen/edit_text_size" />
 
-                    <include
-                        android:id="@+id/Activity_Login_InputOption"
-                        layout="@layout/login_input_option_button"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:visibility="visible" />
+                            <ImageView
+                                android:id="@+id/Activity_Login_ImageView_PasswordLogin"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginEnd="10dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_marginTop="5dp"
+                                android:background="@drawable/ic_login_white_48dp" />
+                        </RelativeLayout>
 
-                    <android.gesture.GestureOverlayView
-                        android:id="@+id/Activity_Login_InputOption_Gesture"
-                        android:layout_width="match_parent"
-                        android:layout_height="250dp"
-                        android:layout_marginTop="@dimen/margin_between_elements"
-                        android:background="@color/black_semi_transparent"
-                        android:eventsInterceptionEnabled="true"
-                        android:fadeEnabled="false"
-                        android:gestureColor="@color/pure_white"
-                        android:gestureStrokeLengthThreshold="0.1"
-                        android:gestureStrokeType="multiple"
-                        android:orientation="vertical"
-                        android:visibility="gone" />
+                        <Switch
+                            android:id="@+id/Activity_Login_Switch_Gesture"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/edit_text_height"
+                            android:layout_marginTop="@dimen/margin_between_elements"
+                            android:background="@drawable/background_send_money_linear"
+                            android:checked="true"
+                            android:paddingLeft="@dimen/edit_text_padding_left_right"
+                            android:paddingRight="@dimen/edit_text_padding_left_right"
+                            android:text="@string/show_gesture"
+                            android:textColor="@color/app_main_text_color"
+                            android:textSize="@dimen/edit_text_size"
+                            android:visibility="gone" />
+
+                        <include
+                            android:id="@+id/Activity_Login_InputOption"
+                            layout="@layout/login_input_option_button"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:visibility="visible" />
+                    </LinearLayout>
 
                 </LinearLayout>
             </ScrollView>
+
+            <android.gesture.GestureOverlayView
+                android:id="@+id/Activity_Login_InputOption_Gesture"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="@dimen/top_bottom_margin_for_last_elements"
+                android:layout_marginLeft="@dimen/element_left_right_margins"
+                android:layout_marginRight="@dimen/element_left_right_margins"
+                android:layout_marginTop="@dimen/margin_between_elements"
+                android:layout_weight="0.6"
+                android:alwaysDrawnWithCache="true"
+                android:background="@color/black_semi_transparent"
+                android:eventsInterceptionEnabled="true"
+                android:fadeEnabled="false"
+                android:gestureColor="@color/gesture_color"
+                android:gestureStrokeLengthThreshold="0.1"
+                android:gestureStrokeType="multiple"
+                android:orientation="vertical"
+                android:uncertainGestureColor="@color/uncertain_gesture_color"
+                android:visibility="gone" />
 
             <include
                 android:id="@+id/Activity_Login_NumericKeypad"
@@ -130,8 +156,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_gravity="bottom"
+                android:layout_marginTop="@dimen/margin_between_elements"
                 android:layout_weight="0.4"
-                android:gravity="center_horizontal|bottom"
+                android:gravity="bottom"
                 android:visibility="gone" />
         </LinearLayout>
 
@@ -149,6 +176,7 @@
             android:layout_height="match_parent"
             android:visibility="gone" />
     </RelativeLayout>
+
 
     <android.support.design.widget.NavigationView
         android:id="@+id/Activity_Login_NavigationView_Navigation"
@@ -174,14 +202,7 @@
                 android:visibility="invisible" />
 
             <include
-                android:id="@+id/Activity_Login_NewUser"
-                layout="@layout/login_navigation_drawer_item"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/padding_between_login_nav_drawer_items" />
-
-            <include
-                android:id="@+id/Activity_Login_ForgotPin"
+                android:id="@+id/Activity_Login_Profiles"
                 layout="@layout/login_navigation_drawer_item"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -1,12 +1,14 @@
 [ToCreate]
-Login/Default password show
-Login/Reset password
-Login/3 user profiles and clear
-Login/contact
-Home/Hidden Menu
+Login/Users - 3 user profiles and clear
+Login/Users - Add new user dialog
+Login/Contact - 4 boxes - quick http link - external browser
+Home/Settings
 Home/Ability to update PIN or Password or Gesture
 Dev/Robolectric
 MMS Function
+Touch
+QR code
+Export customize to XML
 HTTP requests
 API Limitation List (Scrolling, FloatingButton < 21)
 [ToImprove]
@@ -14,6 +16,7 @@ Dev/RoboGuice
 Login/Add auth hint (first time)
 Login/Username logic (if guest, then cant edit auth)
 Login/Skip login button checkbox
+Login/link to slideshow tutorial in Help
 Home/Add something?
 Home/Add long press to remove display picture
 Home/Login time
@@ -27,6 +30,7 @@ About/Add info cards
 About/Split credit info
 Dev/Refactor Intents and its extras
 Contact/Other links
+Change colour
 [ToFix]
 [Done]
 <Week 1>
@@ -91,3 +95,5 @@ Dev/Updated all image assets
 Login/Added Auth option selection in NavDrawer
 Login/Inputs are now disabled when logging in
 Login/No longer saves default username
+Login/Removed Forgot Pin
+Login/Now shows default credentials in Help
