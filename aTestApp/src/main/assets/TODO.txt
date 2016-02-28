@@ -89,7 +89,7 @@ Dev/Updated majority of icons
 Splash/Added Splash screen
 Login/Fixed Username not saving bug
 Login/Added Password and Gesture auth options
-Home/Added Login time
+Home/Added Login time in NavigationDrawer
 <Week 6>
 Dev/Updated all image assets
 Login/Added Auth option selection in NavDrawer
