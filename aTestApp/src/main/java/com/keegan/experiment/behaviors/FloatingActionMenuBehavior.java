@@ -12,7 +12,7 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
  * Created by keegan on 20/01/16.
  */
 public class FloatingActionMenuBehavior extends CoordinatorLayout.Behavior<FloatingActionsMenu> {
-    ////TODO: 16/12/15 Figure out if <21 api can use this or delete it
+    ////TODO: 16/02/16 Figure out if <21 api can use this or delete it
     public FloatingActionMenuBehavior(Context context, AttributeSet attrs) {
     }
 
