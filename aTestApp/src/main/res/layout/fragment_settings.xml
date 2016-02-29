@@ -24,6 +24,20 @@
             android:orientation="vertical">
 
             <include
+                android:id="@+id/Fragment_Settings_LinearLayout_BackgroundImage"
+                layout="@layout/image_view_editor"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="@dimen/margin_between_elements"
+                android:layout_height="wrap_content" />
+
+            <include
+                android:id="@+id/Fragment_Settings_LinearLayout_ProfileImage"
+                layout="@layout/image_view_editor"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="@dimen/margin_between_elements"
+                android:layout_height="wrap_content" />
+
+            <include
                 android:id="@+id/Fragment_Settings_LinearLayout_Username"
                 layout="@layout/edit_text_editor"
                 android:layout_width="match_parent"
@@ -41,7 +55,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-
+            <Switch
+                android:id="@+id/Fragment_Sms_Switch_receiverToggle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="20dp"
+                android:text="@string/sms_switch" />
 
             <Button
                 android:id="@+id/Activity_Main_Button_Login"

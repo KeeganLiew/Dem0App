@@ -2,6 +2,7 @@ package com.keegan.experiment.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
@@ -30,6 +31,24 @@ public class SettingsFragment extends Fragment implements OnClickListener {
     private Activity mActivity;
 
     private RelativeLayout wholeScreenRL;
+
+    private LinearLayout backgroundImgEditorLL;
+    private ImageView backgroundImgOriginalIV;
+    private ImageView backgroundImgNewIV;
+    private TextView backgroundImgTV;
+    private ImageView backgroundImgChangeIV;
+    private ImageView backgroundImgDeleteIV;
+    private ImageView backgroundImgSaveIV;
+    private ImageView backgroundImgRevertIV;
+    
+    private LinearLayout profilePicEditorLL;
+    private ImageView profilePicOriginalIV;
+    private ImageView profilePicNewIV;
+    private TextView profilePicTV;
+    private ImageView profilePicChangeIV;
+    private ImageView profilePicDeleteIV;
+    private ImageView profilePicSaveIV;
+    private ImageView profilePicRevertIV;
 
     private LinearLayout usernameEditorLL;
     private EditText usernameET;
@@ -114,11 +133,39 @@ public class SettingsFragment extends Fragment implements OnClickListener {
         passwordSaveIV.setOnClickListener(new SaveIVOnClick(passwordET, passwordEditIV, passwordRevertIV, Global.sharedPref_Password));
         passwordRevertIV.setOnClickListener(new RevertIVOnClick(passwordET, passwordEditIV, passwordSaveIV, passwordET.getText().toString()));
 
+        //images
+        backgroundImgEditorLL = (LinearLayout) rootView.findViewById(R.id.Fragment_Settings_LinearLayout_BackgroundImage);
+        backgroundImgOriginalIV = (ImageView) backgroundImgEditorLL.findViewById(R.id.Editor_ImageView_Original);
+        backgroundImgNewIV = (ImageView) backgroundImgEditorLL.findViewById(R.id.Editor_ImageView_New);
+        backgroundImgTV = (TextView) backgroundImgEditorLL.findViewById(R.id.Editor_TextView_Label);
+        backgroundImgChangeIV = (ImageView) backgroundImgEditorLL.findViewById(R.id.Editor_ImageView_Change);
+        backgroundImgDeleteIV = (ImageView) backgroundImgEditorLL.findViewById(R.id.Editor_ImageView_Delete);
+        backgroundImgSaveIV = (ImageView) backgroundImgEditorLL.findViewById(R.id.Editor_ImageView_Save);
+        backgroundImgRevertIV = (ImageView) backgroundImgEditorLL.findViewById(R.id.Editor_ImageView_Revert);
+
+        backgroundImgTV.setText(R.string.background_image);
+        //backgroundImgOriginalIV.setImageBitmap();
+
+        //images
+        profilePicEditorLL = (LinearLayout) rootView.findViewById(R.id.Fragment_Settings_LinearLayout_ProfileImage);
+        profilePicOriginalIV = (ImageView) profilePicEditorLL.findViewById(R.id.Editor_ImageView_Original);
+        profilePicNewIV = (ImageView) profilePicEditorLL.findViewById(R.id.Editor_ImageView_New);
+        profilePicTV = (TextView) profilePicEditorLL.findViewById(R.id.Editor_TextView_Label);
+        profilePicChangeIV = (ImageView) profilePicEditorLL.findViewById(R.id.Editor_ImageView_Change);
+        profilePicDeleteIV = (ImageView) profilePicEditorLL.findViewById(R.id.Editor_ImageView_Delete);
+        profilePicSaveIV = (ImageView) profilePicEditorLL.findViewById(R.id.Editor_ImageView_Save);
+        profilePicRevertIV = (ImageView) profilePicEditorLL.findViewById(R.id.Editor_ImageView_Revert);
+
+        profilePicTV.setText(R.string.display_picture);
+        //profilePicOriginalIV.setImageBitmap();
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        mActivity = getActivity();
+        Global.loadImageIntoImageView(mActivity, backgroundImgOriginalIV, Global.profileBgPicImgName);
+        Global.loadImageIntoImageView(mActivity, profilePicOriginalIV, Global.profilePicImgName);
     }
 
 

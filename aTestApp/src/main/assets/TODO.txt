@@ -17,6 +17,7 @@ Login/Username logic (if guest, then cant edit auth)
 Login/Skip login button checkbox
 Login/link to slideshow tutorial in Help
 Home/Add something?
+About/Remove Contact, add as open in internal option
 Home/Add long press to remove display picture
 Home/Login time
 Home/Add advanced Settings options

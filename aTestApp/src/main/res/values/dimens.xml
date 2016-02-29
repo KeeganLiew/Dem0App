@@ -60,5 +60,5 @@
     <dimen name="dialog_login_profiles_listview_height">180dp</dimen>
     <dimen name="login_contact_imagebutton_size">65dp</dimen>
     <dimen name="dialog_title_icon_size">18dp</dimen>
-    <dimen name="edit_text_editor_icon_size">40dp</dimen>
+    <dimen name="editor_icon_size">40dp</dimen>
 </resources>

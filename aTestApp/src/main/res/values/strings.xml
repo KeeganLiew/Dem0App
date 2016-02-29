@@ -39,6 +39,9 @@
     <string name="edit_text">Edit text</string>
     <string name="save_change">Save change</string>
     <string name="revert_change">Revert change</string>
+    <string name="original_image">Original image</string>
+    <string name="new_image">New image</string>
+    <string name="background_image">Background Image</string>
     <!--Sms Fragment-->
     <string name="select_message_type">Select Message Type</string>
     <string name="message_type_sms">SMS Message</string>
