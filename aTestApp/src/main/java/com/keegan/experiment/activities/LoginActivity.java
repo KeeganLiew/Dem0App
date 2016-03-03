@@ -282,7 +282,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                 mActivity, Global.sharedPref_GestureVisibleToggle, Global.gestureVisibleToggle_default));
 
         //show help
-        if(Global.loadSavedPreferences(mActivity, Global.sharedPref_LoginFirstRun, Global.loginFirstRun)){
+        if (Global.loadSavedPreferences(mActivity, Global.sharedPref_LoginFirstRun, Global.loginFirstRun)) {
             showHelpDiag();
             Global.savePreferences(mActivity, Global.sharedPref_LoginFirstRun, false);
         }
@@ -653,14 +653,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         }
 
         //load display picture
-        Bitmap displayPicture = DisplayPictureUtil.getDisplayPictureFromStorage(
-                new ContextWrapper(mContext).getDir(Global.profileImgDirName, Context.MODE_PRIVATE).getPath(),
-                Global.profilePicImgName);
-        if (displayPicture == null) {
-            displayPictureIV.setImageResource(R.drawable.name); //use default picture
-        } else {
-            Global.loadImageIntoImageView(mContext, displayPictureIV, Global.profilePicImgName);
-        }
+        Global.loadImageIntoImageView(mContext, displayPictureIV, Global.profilePicImgName, R.drawable.name);
     }
 
     private void showHelpDiag() {

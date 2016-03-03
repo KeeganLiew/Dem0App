@@ -144,9 +144,12 @@ public class Global {
     }
 
     //images methods
-    public static void loadImageIntoImageView(Context mContext, ImageView pictureIV, String fileName) {
+    public static void loadImageIntoImageView(Context mContext, ImageView pictureIV, String fileName, int defaultImage) {
         File profileImageDirectory = mContext.getDir(profileImgDirName, Context.MODE_PRIVATE);
-        DisplayPictureUtil.loadImageFromStorage(pictureIV, profileImageDirectory.getPath(), fileName);
+        Boolean success = DisplayPictureUtil.loadImageFromStorage(pictureIV, profileImageDirectory.getPath(), fileName);
+        if(!success){
+            pictureIV.setImageResource(defaultImage);
+        }
     }
 
     public static void deleteImage(Context mContext, String fileName) {

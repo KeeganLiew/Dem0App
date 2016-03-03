@@ -124,19 +124,22 @@ public class DisplayPictureUtil {
         }
     }
 
-    public static void loadImageFromStorage(ImageView nav_display_picture, String path, String fileName) {
+    public static boolean loadImageFromStorage(ImageView nav_display_picture, String path, String fileName) {
         try {
             File f = new File(path, fileName);
             Log.d(TAG, "Loading image as: " + f.getAbsolutePath());
             if (f.exists()) {
                 Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
                 nav_display_picture.setImageBitmap(b);
+                return true;
             } else {
                 Log.d(TAG, "No profile picture saved");
+                return false;
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     public static Bitmap getDisplayPictureFromStorage(String path, String fileName) {

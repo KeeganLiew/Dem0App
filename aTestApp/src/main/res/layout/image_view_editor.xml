@@ -25,7 +25,6 @@
             android:adjustViewBounds="true"
             android:contentDescription="@string/original_image"
             android:scaleType="fitStart"
-            android:src="@drawable/wallpaper2"
             android:visibility="visible" />
 
         <ImageView
@@ -35,7 +34,6 @@
             android:layout_weight="1"
             android:contentDescription="@string/new_image"
             android:scaleType="fitStart"
-            android:src="@drawable/wallpaper1"
             android:visibility="gone" />
 
         <LinearLayout

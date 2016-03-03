@@ -3,9 +3,19 @@ package com.keegan.experiment.fragments;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.ContextWrapper;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -18,9 +28,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.keegan.experiment.Global;
+import com.keegan.experiment.Intents;
 import com.keegan.experiment.R;
+import com.keegan.experiment.utilities.DisplayPictureUtil;
+import com.keegan.experiment.utilities.GalleryUtil;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by Keegan on 26/02/16.
@@ -40,7 +56,7 @@ public class SettingsFragment extends Fragment implements OnClickListener {
     private ImageView backgroundImgDeleteIV;
     private ImageView backgroundImgSaveIV;
     private ImageView backgroundImgRevertIV;
-    
+
     private LinearLayout profilePicEditorLL;
     private ImageView profilePicOriginalIV;
     private ImageView profilePicNewIV;
@@ -70,6 +86,8 @@ public class SettingsFragment extends Fragment implements OnClickListener {
     private ImageView passwordEditIV;
     private ImageView passwordSaveIV;
     private ImageView passwordRevertIV;
+
+    private boolean cropGalleryImage = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -144,8 +162,7 @@ public class SettingsFragment extends Fragment implements OnClickListener {
         backgroundImgRevertIV = (ImageView) backgroundImgEditorLL.findViewById(R.id.Editor_ImageView_Revert);
 
         backgroundImgTV.setText(R.string.background_image);
-        //backgroundImgOriginalIV.setImageBitmap();
-
+        backgroundImgChangeIV.setOnClickListener(new ChangeImageOnClickListener(false));
         //images
         profilePicEditorLL = (LinearLayout) rootView.findViewById(R.id.Fragment_Settings_LinearLayout_ProfileImage);
         profilePicOriginalIV = (ImageView) profilePicEditorLL.findViewById(R.id.Editor_ImageView_Original);
@@ -157,17 +174,71 @@ public class SettingsFragment extends Fragment implements OnClickListener {
         profilePicRevertIV = (ImageView) profilePicEditorLL.findViewById(R.id.Editor_ImageView_Revert);
 
         profilePicTV.setText(R.string.display_picture);
-        //profilePicOriginalIV.setImageBitmap();
+        profilePicChangeIV.setOnClickListener(new ChangeImageOnClickListener(true));
+
+        Global.loadImageIntoImageView(mActivity, backgroundImgOriginalIV, Global.profileBgPicImgName, R.drawable.wallpaper2);
+        Global.loadImageIntoImageView(mActivity, profilePicOriginalIV, Global.profilePicImgName, R.drawable.name);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         mActivity = getActivity();
-        Global.loadImageIntoImageView(mActivity, backgroundImgOriginalIV, Global.profileBgPicImgName);
-        Global.loadImageIntoImageView(mActivity, profilePicOriginalIV, Global.profilePicImgName);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (resultCode) {
+            case (RESULT_OK):
+                Log.d(TAG, "requestCode: " + requestCode);
+                switch (requestCode) {
+                    case Global.GALLERY_ACTIVITY_CODE:
+                        final String picturePath = data.getStringExtra("picturePath");
+                        if (cropGalleryImage) { //perform crop on the Image Selected from Gallery
+                            Intent cropIntent = DisplayPictureUtil.performCrop(picturePath, Global.display_picture_crop_size);
+                            if (cropIntent != null) {
+                                startActivityForResult(cropIntent, Global.RESULT_CROP);
+                            } else {
+                                Global.createAndShowToast(mActivity, getString(R.string.toast_error_message_crop_support), Toast.LENGTH_SHORT);
+                            }
+                            cropGalleryImage = false;
+                        } else { //else save as background picture
+                            Log.d(TAG, "picturePath: " + picturePath);
+
+                            BitmapFactory.Options options = new BitmapFactory.Options();
+                            options.inSampleSize = 2;
+                            final Bitmap bmpPic1 = BitmapFactory.decodeFile(picturePath, options);
+                            backgroundImgOriginalIV.setImageBitmap(bmpPic1);
+
+                            AsyncTask.execute(new Runnable() {
+                                @Override
+                                public void run() {
+                                    ContextWrapper cw = new ContextWrapper(mActivity.getApplicationContext());
+                                    DisplayPictureUtil.saveToInternalStorage(cw, bmpPic1, Global.profileBgPicImgName);
+                                }
+                            });
+                            //Global.loadImageIntoImageView(mActivity, backgroundImgOriginalIV, Global.profileBgPicImgName);
+                        }
+
+                        break;
+                    case Global.RESULT_CROP:
+                        final ContextWrapper cw = new ContextWrapper(mActivity.getApplicationContext());
+                        DisplayPictureUtil.backUpDisplayPictureFromStorage(cw); //back up
+                        //crop result
+                        Bundle extras = data.getExtras();
+                        Bitmap imageBitmap = extras.getParcelable("data");
+                        Bitmap circleCroppedBitmap = DisplayPictureUtil.performCircleCrop(imageBitmap);//circle crop
+                        //save final to internal
+                        DisplayPictureUtil.saveToInternalStorage(cw, circleCroppedBitmap, Global.profilePicImgName);
+
+                        // Set The Bitmap Data To ImageView
+                        profilePicOriginalIV.setImageBitmap(circleCroppedBitmap);
+                        break;
+                }
+                break;
+        }
+    }
 
     @Override
     public void onPause() {
@@ -176,6 +247,9 @@ public class SettingsFragment extends Fragment implements OnClickListener {
 
     @Override
     public void onDestroy() {
+        Log.d(TAG, "onDestroy()");
+        Intent successIntent = new Intent(Intents.RELOAD_PROFILE.toString());
+        LocalBroadcastManager.getInstance(mActivity).sendBroadcast(successIntent);
         super.onDestroy();
     }
 
@@ -186,6 +260,21 @@ public class SettingsFragment extends Fragment implements OnClickListener {
     }
 
     //listeners
+    private class ChangeImageOnClickListener implements OnClickListener {
+        boolean crop;
+
+        public ChangeImageOnClickListener(boolean crop) {
+            this.crop = crop;
+        }
+
+        @Override
+        public void onClick(View v) {
+            Intent gallery_Intent = new Intent(mActivity, GalleryUtil.class);
+            startActivityForResult(gallery_Intent, Global.GALLERY_ACTIVITY_CODE);
+            cropGalleryImage = crop;
+        }
+    }
+
     private class SaveIVOnClick implements OnClickListener {
         EditText textET;
         ImageView editIV;
