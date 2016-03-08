@@ -41,8 +41,7 @@
                             android:layout_height="@dimen/login_screen_display_picture_size"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="@dimen/top_bottom_margin_for_elements"
-                            android:contentDescription="@string/display_picture"
-                            android:src="@drawable/name" />
+                            android:contentDescription="@string/display_picture" />
 
                         <EditText
                             android:id="@+id/Activity_Login_EditText_Name"
@@ -223,7 +222,7 @@
                 android:layout_marginBottom="@dimen/padding_between_login_nav_drawer_items" />
 
             <include
-                android:id="@+id/Activity_Login_Contact"
+                android:id="@+id/Activity_Login_About"
                 layout="@layout/login_navigation_drawer_item"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -64,7 +64,7 @@ public class Global {
     //others
     public static final String KEEGAN_LINKEDIN_URL = "http://www.linkedin.com/in/KeeganLiew";
     public static final String KEEGAN_GOOGLEPLAY_URL = "https://github.com/KeeganLiew";
-    public static final String KEEGAN_GITHUB_URL = "https://github.com/KeeganLiew/Dem0App";
+    public static final String KEEGAN_GITHUB_URL = "https://github.com/KeeganLiew/Sandbox-Demo";
     public static final String EMPTY_STRING = "";
     public static final String ERROR_RETRIEVING = "-- Error retrieving --";
     public static final Boolean SMS_SWITCH_DEFAULT = false;
@@ -144,9 +144,12 @@ public class Global {
     }
 
     //images methods
-    public static void loadImageIntoImageView(Context mContext, ImageView pictureIV, String fileName) {
+    public static void loadImageIntoImageView(Context mContext, ImageView pictureIV, String fileName, int defaultImage) {
         File profileImageDirectory = mContext.getDir(profileImgDirName, Context.MODE_PRIVATE);
-        DisplayPictureUtil.loadImageFromStorage(pictureIV, profileImageDirectory.getPath(), fileName);
+        Boolean success = DisplayPictureUtil.loadImageFromStorage(pictureIV, profileImageDirectory.getPath(), fileName);
+        if(!success){
+            pictureIV.setImageResource(defaultImage);
+        }
     }
 
     public static void deleteImage(Context mContext, String fileName) {

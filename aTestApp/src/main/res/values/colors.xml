@@ -13,6 +13,9 @@
     <color name="ten_percent_black">#22000000</color>
     <color name="pink">#e91e63</color>
     <color name="light_green">#33CC33</color>
+    <color name="colorPrimary">#870ca0</color>
+    <color name="colorPrimaryDark">#470259</color>
+    <color name="colorPrimaryLight">#c88ffd</color>
 
     <color name="fab_white_normal">#fafafa</color>
     <color name="fab_white_pressed">#f1f1f1</color>
@@ -22,9 +25,9 @@
     <color name="fab_blue_semi_transparent_pressed">#80738ffe</color>
     <color name="fab_label_background">@color/black_semi_transparent</color>
 
-    <color name="app_fragment_background_color">@color/clean_blue</color>
-    <color name="app_main_background_color">@color/clean_blue</color>
-    <color name="app_main_theme_color">@color/clean_blue</color>
+    <color name="app_fragment_background_color">@color/colorPrimary</color>
+    <color name="app_main_background_color">@color/colorPrimary</color>
+    <color name="app_main_theme_color">@color/colorPrimary</color>
     <color name="button_pressed_color">@color/grey</color>
 
     <color name="progress_bar_head_colour">@color/darker_blue</color>
@@ -33,6 +36,7 @@
 
     <color name="spinner_background_color">#888888</color>
     <color name="login_navigation_background_color">@color/pure_black</color>
+    <color name="main_navigation_background_color">@color/colorPrimaryLight</color>
     <color name="expandablelistview_group_title_text_color">@color/pure_black</color>
     <color name="custom_numpad_color">@color/pure_black</color>
     <color name="custom_numpad_color_pressed">@color/app_main_theme_color</color>

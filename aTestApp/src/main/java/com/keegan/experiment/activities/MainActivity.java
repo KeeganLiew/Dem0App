@@ -13,6 +13,7 @@ import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.provider.ContactsContract;
@@ -57,7 +58,6 @@ import com.keegan.experiment.Global;
 import com.keegan.experiment.Intents;
 import com.keegan.experiment.R;
 import com.keegan.experiment.fragments.ContactMe;
-import com.keegan.experiment.fragments.CustomPresentationPagerFragment;
 import com.keegan.experiment.fragments.DevelopmentLog;
 import com.keegan.experiment.fragments.DeviceInfoFragment;
 import com.keegan.experiment.fragments.SettingsFragment;
@@ -191,9 +191,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     private void otherInitializations() {
         //username = Global.loadSavedPreferences(mActivity, Global.sharedPref_Username, Global.username_default);
-        Global.loadImageIntoImageView(mContext, navigationDisplayPictureIV, Global.profilePicImgName);
-        Global.loadImageIntoImageView(mContext, mToolBarImageIV, Global.profileBgPicImgName);
-        updateUsernameViews();
+        loadProfile();
         exitToast = Toast.makeText(mActivity, getString(R.string.toast_press_again_to_exit), Toast.LENGTH_LONG);
     }
 
@@ -268,10 +266,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                     Intent contactPickerIntent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
                     Log.d(TAG, "Sending Intent: " + contactPickerIntent.getAction());
                     startActivityForResult(contactPickerIntent, Global.CONTACT_PICKER_RESULT);
+                } else if (Intents.RELOAD_PROFILE.equalsName(action)) {
+                    loadProfile();
                 }
             }
         };
         LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, new IntentFilter(Intents.FRAGMENT_ITEM_CANCELLED.toString()));
+        LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, new IntentFilter(Intents.RELOAD_PROFILE.toString()));
         LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, new IntentFilter(Intents.PICK_CONTACT.toString()));
     }
 
@@ -341,8 +342,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                 break;
             case R.id.Navigation_ImageView_DisplayPicture:
                 //start activity to pick gallery picture
-                Intent gallery_Intent = new Intent(getApplicationContext(), GalleryUtil.class);
-                startActivityForResult(gallery_Intent, Global.GALLERY_ACTIVITY_CODE);
+                startGalleryIntent();
                 cropGalleryImage = true;
                 break;
             case R.id.Activity_Main_FloatingActionButton_ButtonC:
@@ -458,9 +458,16 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     }
 
     public void logout() {
+        MediaPlayer mp = MediaPlayer.create(mActivity, R.raw.byebye);
+        mp.start();
         Global.clearSharedPreferences(mActivity);
         clearAllPictures();
         this.finish();
+    }
+
+    public void startGalleryIntent() {
+        Intent gallery_Intent = new Intent(getApplicationContext(), GalleryUtil.class);
+        startActivityForResult(gallery_Intent, Global.GALLERY_ACTIVITY_CODE);
     }
 
     //getters and setters
@@ -569,8 +576,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         @Override
         public boolean onLongClick(View v) {
             Log.d(TAG, "Long pressed background_image");
-            Intent gallery_Intent = new Intent(getApplicationContext(), GalleryUtil.class);
-            startActivityForResult(gallery_Intent, Global.GALLERY_ACTIVITY_CODE);
+            startGalleryIntent();
             return true;
         }
     }
@@ -605,13 +611,27 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     }
 
     //private ui methods
+    private void loadProfile() {
+        loadProfileImages();
+        loadProfileText();
+    }
+
+    private void loadProfileImages() {
+        Global.loadImageIntoImageView(mContext, navigationDisplayPictureIV, Global.profilePicImgName, R.drawable.name);
+        Global.loadImageIntoImageView(mContext, mToolBarImageIV, Global.profileBgPicImgName, R.drawable.wallpaper2);
+    }
+
+    private void loadProfileText() {
+        updateUsernameViews();
+    }
+
     private void updateUsernameViews() {
         String name = Global.loadSavedPreferences(mActivity, Global.sharedPref_Username, Global.username_default);
-        updateTitle("Hello " + name);
+        updateToolBarTitle("Hello " + name);
         navigationUsernameTV.setText(name);
     }
 
-    private void updateTitle(String title) {
+    private void updateToolBarTitle(String title) {
         mCollapsingToolbarLayout.setTitle(title);
     }
 
@@ -624,7 +644,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             ft.addToBackStack(null);
             ft.commit();
             setFunctionLayout(View.VISIBLE);
-            updateTitle(title);
+            updateToolBarTitle(title);
         }
     }
 

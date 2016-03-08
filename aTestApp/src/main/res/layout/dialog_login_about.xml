@@ -24,11 +24,11 @@
                 android:id="@+id/Dialog_Login_Contact_TextView_Contact"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/contact"
+                android:text="@string/about"
                 android:textSize="@dimen/standard_text_size" />
 
             <ImageView
-                android:id="@+id/Dialog_Login_Contact_ImageView_Close"
+                android:id="@+id/Dialog_Login_About_ImageView_Close"
                 android:layout_width="@dimen/dialog_title_icon_size"
                 android:layout_height="@dimen/dialog_title_icon_size"
                 android:layout_alignParentEnd="true"
@@ -47,28 +47,30 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/Dialog_Login_Contact_ImageButton_LinkedIn"
+            <ImageView
+                android:id="@+id/Dialog_Login_About_ImageButton_LinkedIn"
                 android:layout_width="@dimen/login_contact_imagebutton_size"
                 android:layout_height="@dimen/login_contact_imagebutton_size"
                 android:contentDescription="@string/desc_contact_imagebutton_linkedin"
-                android:src="@drawable/wallpaper1" />
+                android:scaleType="centerCrop"
+                android:src="@drawable/linkedin" />
 
-            <ImageButton
-                android:id="@+id/Dialog_Login_Contact_ImageButton_GooglePlay"
+            <ImageView
+                android:id="@+id/Dialog_Login_About_ImageButton_GooglePlay"
                 android:layout_width="@dimen/login_contact_imagebutton_size"
                 android:layout_height="@dimen/login_contact_imagebutton_size"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
+                android:scaleType="centerCrop"
                 android:contentDescription="@string/desc_contact_imagebutton_google_play"
-                android:src="@drawable/wallpaper2" />
+                android:src="@drawable/googleplay" />
 
-            <ImageButton
-                android:id="@+id/Dialog_Login_Contact_ImageButton_GitHub"
+            <ImageView
+                android:id="@+id/Dialog_Login_About_ImageButton_GitHub"
                 android:layout_width="@dimen/login_contact_imagebutton_size"
                 android:layout_height="@dimen/login_contact_imagebutton_size"
                 android:contentDescription="@string/desc_contact_imagebutton_github"
-                android:src="@drawable/wallpaper3" />
+                android:src="@drawable/github" />
 
         </LinearLayout>
 

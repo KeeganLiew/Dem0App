@@ -182,6 +182,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:background="@color/main_navigation_background_color"
         app:headerLayout="@layout/nav_header"
         app:itemIconTint="#333"
         app:itemTextColor="#333"

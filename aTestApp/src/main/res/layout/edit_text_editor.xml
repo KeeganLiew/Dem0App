@@ -27,16 +27,16 @@
 
         <ImageView
             android:id="@+id/Editor_ImageView_Revert"
-            android:layout_width="@dimen/edit_text_editor_icon_size"
-            android:layout_height="@dimen/edit_text_editor_icon_size"
+            android:layout_width="@dimen/editor_icon_size"
+            android:layout_height="@dimen/editor_icon_size"
             android:background="@drawable/ic_close_circle_outline_white_48dp"
             android:contentDescription="@string/save_change"
             android:visibility="gone" />
 
         <ImageView
             android:id="@+id/Editor_ImageView_Save"
-            android:layout_width="@dimen/edit_text_editor_icon_size"
-            android:layout_height="@dimen/edit_text_editor_icon_size"
+            android:layout_width="@dimen/editor_icon_size"
+            android:layout_height="@dimen/editor_icon_size"
             android:background="@drawable/ic_check_circle_outline_white_48dp"
             android:contentDescription="@string/save_change"
             android:visibility="gone" />
@@ -44,8 +44,8 @@
 
     <ImageView
         android:id="@+id/Editor_ImageView_Edit"
-        android:layout_width="@dimen/edit_text_editor_icon_size"
-        android:layout_height="@dimen/edit_text_editor_icon_size"
+        android:layout_width="@dimen/editor_icon_size"
+        android:layout_height="@dimen/editor_icon_size"
         android:layout_gravity="bottom"
         android:background="@drawable/ic_border_color_white_48dp"
         android:contentDescription="@string/edit_text"

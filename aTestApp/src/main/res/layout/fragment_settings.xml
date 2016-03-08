@@ -13,15 +13,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/app_fragment_background_color"
+        android:orientation="vertical"
         android:paddingLeft="@dimen/settings_left_right_margins"
-        android:paddingRight="@dimen/settings_left_right_margins"
-        android:orientation="vertical">
+        android:paddingRight="@dimen/settings_left_right_margins">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/top_bottom_margin_for_elements"
             android:orientation="vertical">
+
+            <include
+                android:id="@+id/Fragment_Settings_LinearLayout_BackgroundImage"
+                layout="@layout/image_view_editor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_between_elements" />
+
+            <include
+                android:id="@+id/Fragment_Settings_LinearLayout_ProfileImage"
+                layout="@layout/image_view_editor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_between_elements" />
 
             <include
                 android:id="@+id/Fragment_Settings_LinearLayout_Username"
@@ -41,15 +55,37 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
 
+                <Switch
+                    android:id="@+id/Fragment_Sms_Switch_receiverToggle"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/editor_icon_size"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0.9"
+                    android:text="@string/sms_switch" />
+
+                <ImageView
+                    android:id="@+id/Editor_ImageView_Save"
+                    android:layout_width="@dimen/editor_icon_size"
+                    android:layout_height="@dimen/editor_icon_size"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/ic_content_save_white_48dp"
+                    android:contentDescription="@string/save_change"
+                    android:visibility="gone" />
+            </LinearLayout>
 
             <Button
                 android:id="@+id/Activity_Main_Button_Login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:paddingLeft="50dp"
                 android:paddingRight="50dp"
-                android:layout_gravity="center_horizontal"
                 android:text="@string/save_all" />
 
         </LinearLayout>

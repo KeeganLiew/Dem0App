@@ -10,6 +10,7 @@ QR code
 Export customize to XML
 HTTP requests
 API Limitation List (Scrolling, FloatingButton < 21)
+Transfer Profile via QR/NFC
 [ToImprove]
 Dev/RoboGuice
 Login/Add auth hint (first time)
@@ -17,6 +18,7 @@ Login/Username logic (if guest, then cant edit auth)
 Login/Skip login button checkbox
 Login/link to slideshow tutorial in Help
 Home/Add something?
+About/Remove Contact, add as open in internal option
 Home/Add long press to remove display picture
 Home/Login time
 Home/Add advanced Settings options
@@ -99,3 +101,4 @@ Login/Removed Forgot Pin
 Login/Now shows default credentials in Help
 Home/Added basic Settings page
 <Week 7>
+Home/Added basic Settings page
