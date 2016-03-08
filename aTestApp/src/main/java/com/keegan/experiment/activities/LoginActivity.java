@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.gesture.Gesture;
@@ -13,7 +12,6 @@ import android.gesture.GestureLibraries;
 import android.gesture.GestureLibrary;
 import android.gesture.GestureOverlayView;
 import android.gesture.Prediction;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -41,7 +39,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -57,7 +54,6 @@ import com.keegan.experiment.Global;
 import com.keegan.experiment.Intents;
 import com.keegan.experiment.R;
 import com.keegan.experiment.customs.CustomListAdapter;
-import com.keegan.experiment.utilities.DisplayPictureUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -73,7 +69,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
     private LinearLayout navDrawerItemNewUserLL;
     private LinearLayout navDrawerItemAuthOptionLL;
     private LinearLayout navDrawerItemHelpLL;
-    private LinearLayout navDrawerItemContactLL;
+    private LinearLayout navDrawerItemAboutLL;
 
     //display picture and username
     private ImageView displayPictureIV;
@@ -148,7 +144,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         navDrawerItemNewUserLL = (LinearLayout) findViewById(R.id.Activity_Login_Profiles);
         navDrawerItemAuthOptionLL = (LinearLayout) findViewById(R.id.Activity_Login_AuthenticationOption);
         navDrawerItemHelpLL = (LinearLayout) findViewById(R.id.Activity_Login_Help);
-        navDrawerItemContactLL = (LinearLayout) findViewById(R.id.Activity_Login_Contact);
+        navDrawerItemAboutLL = (LinearLayout) findViewById(R.id.Activity_Login_About);
 
         //display picture and username
         displayPictureIV = (ImageView) findViewById(R.id.Activity_Login_ImageView_DisplayPicture);
@@ -209,9 +205,9 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
 
     private void viewObjectLogic() {
         //navigation drawer
-        LinearLayout[] navMenuList = new LinearLayout[]{navDrawerItemNewUserLL, navDrawerItemAuthOptionLL, navDrawerItemHelpLL, navDrawerItemContactLL};
-        int[] navMenuImages = new int[]{R.drawable.ic_person_add_white_48dp, R.drawable.ic_vpn_key_white_48dp, R.drawable.ic_help_white_48dp, R.drawable.header};
-        int[] navMenuTexts = new int[]{R.string.profiles, R.string.auth_option, R.string.help, R.string.contact};
+        LinearLayout[] navMenuList = new LinearLayout[]{navDrawerItemNewUserLL, navDrawerItemAuthOptionLL, navDrawerItemHelpLL, navDrawerItemAboutLL};
+        int[] navMenuImages = new int[]{R.drawable.ic_person_add_white_48dp, R.drawable.ic_vpn_key_white_48dp, R.drawable.ic_help_white_48dp, R.drawable.ic_info_white_48dp};
+        int[] navMenuTexts = new int[]{R.string.profiles, R.string.auth_option, R.string.help, R.string.about};
 
         for (int i = 0; i < navMenuList.length; i++) {
             ImageView tempIV = (ImageView) navMenuList[i].findViewById(R.id.login_navigation_icon);
@@ -330,8 +326,8 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
             case R.id.Activity_Login_Help:
                 showHelpDiag();
                 break;
-            case R.id.Activity_Login_Contact:
-                showContactDiag();
+            case R.id.Activity_Login_About:
+                showAboutDiag();
                 break;
             //others
             case R.id.Dialog_Login_Message_Button_Ok:
@@ -674,22 +670,22 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         helpDialog.show();
     }
 
-    private void showContactDiag() {
-        final Dialog contactDialog = new Dialog(this);
-        contactDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        contactDialog.setContentView(R.layout.dialog_login_contact);
-        final ImageView closeIV = (ImageView) contactDialog.findViewById(R.id.Dialog_Login_Contact_ImageView_Close);
-        closeIV.setOnClickListener(new closeDiag(contactDialog));
+    private void showAboutDiag() {
+        final Dialog aboutDialog = new Dialog(this);
+        aboutDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        aboutDialog.setContentView(R.layout.dialog_login_about);
+        final ImageView closeIV = (ImageView) aboutDialog.findViewById(R.id.Dialog_Login_About_ImageView_Close);
+        closeIV.setOnClickListener(new closeDiag(aboutDialog));
 
-        final ImageButton linkedInIB = (ImageButton) contactDialog.findViewById(R.id.Dialog_Login_Contact_ImageButton_LinkedIn);
-        final ImageButton googlePlayIB = (ImageButton) contactDialog.findViewById(R.id.Dialog_Login_Contact_ImageButton_GooglePlay);
-        final ImageButton gitHubIB = (ImageButton) contactDialog.findViewById(R.id.Dialog_Login_Contact_ImageButton_GitHub);
+        final ImageView linkedInIB = (ImageView) aboutDialog.findViewById(R.id.Dialog_Login_About_ImageButton_LinkedIn);
+        final ImageView googlePlayIB = (ImageView) aboutDialog.findViewById(R.id.Dialog_Login_About_ImageButton_GooglePlay);
+        final ImageView gitHubIB = (ImageView) aboutDialog.findViewById(R.id.Dialog_Login_About_ImageButton_GitHub);
 
         linkedInIB.setOnClickListener(new openUrlExternally(Global.KEEGAN_LINKEDIN_URL));
         googlePlayIB.setOnClickListener(new openUrlExternally(Global.KEEGAN_GOOGLEPLAY_URL));
         gitHubIB.setOnClickListener(new openUrlExternally(Global.KEEGAN_GITHUB_URL));
 
-        contactDialog.show();
+        aboutDialog.show();
     }
 
     //listener for closing dialogs

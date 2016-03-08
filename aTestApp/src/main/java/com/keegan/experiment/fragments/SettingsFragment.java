@@ -2,18 +2,13 @@ package com.keegan.experiment.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.media.ExifInterface;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.InputType;
@@ -35,6 +30,8 @@ import com.keegan.experiment.Intents;
 import com.keegan.experiment.R;
 import com.keegan.experiment.utilities.DisplayPictureUtil;
 import com.keegan.experiment.utilities.GalleryUtil;
+
+import java.lang.ref.WeakReference;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -88,6 +85,8 @@ public class SettingsFragment extends Fragment implements OnClickListener {
     private ImageView passwordRevertIV;
 
     private boolean cropGalleryImage = false;
+    private Bitmap backgroundBitmap;
+    private WeakReference<Bitmap> backgroundBitmapWR;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -109,12 +108,10 @@ public class SettingsFragment extends Fragment implements OnClickListener {
         usernameRevertIV = (ImageView) usernameEditorLL.findViewById(R.id.Editor_ImageView_Revert);
 
         usernameET.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
-        usernameET.setText(Global.loadSavedPreferences(mActivity, Global.sharedPref_Username, Global.username_default),
-                TextView.BufferType.EDITABLE);
         usernameTIL.setHint(getString(R.string.username));
-        usernameEditIV.setOnClickListener(new EditIVOnClick(usernameET, usernameSaveIV, usernameRevertIV));
-        usernameSaveIV.setOnClickListener(new SaveIVOnClick(usernameET, usernameEditIV, usernameRevertIV, Global.sharedPref_Username));
-        usernameRevertIV.setOnClickListener(new RevertIVOnClick(usernameET, usernameEditIV, usernameSaveIV, usernameET.getText().toString()));
+        usernameEditIV.setOnClickListener(new TextEditIVOnClick(usernameET, usernameSaveIV, usernameRevertIV));
+        usernameSaveIV.setOnClickListener(new TextSaveIVOnClick(usernameET, usernameEditIV, usernameRevertIV, Global.sharedPref_Username));
+        usernameRevertIV.setOnClickListener(new TextRevertIVOnClick(usernameET, usernameEditIV, usernameSaveIV, usernameET.getText().toString()));
 
         //pin editor
         pinEditorLL = (LinearLayout) rootView.findViewById(R.id.Fragment_Settings_LinearLayout_Pin);
@@ -127,12 +124,10 @@ public class SettingsFragment extends Fragment implements OnClickListener {
         pinET.setInputType(InputType.TYPE_NUMBER_VARIATION_PASSWORD);
         pinET.setRawInputType(Configuration.KEYBOARD_12KEY);
         pinET.setTransformationMethod(PasswordTransformationMethod.getInstance());
-        pinET.setText(Global.loadSavedPreferences(mActivity, Global.sharedPref_Pin, Global.pin_default),
-                TextView.BufferType.EDITABLE);
         pinTIL.setHint(getString(R.string.pin));
-        pinEditIV.setOnClickListener(new EditIVOnClick(pinET, pinSaveIV, pinRevertIV));
-        pinSaveIV.setOnClickListener(new SaveIVOnClick(pinET, pinEditIV, pinRevertIV, Global.sharedPref_Pin));
-        pinRevertIV.setOnClickListener(new RevertIVOnClick(pinET, pinEditIV, pinSaveIV, pinET.getText().toString()));
+        pinEditIV.setOnClickListener(new TextEditIVOnClick(pinET, pinSaveIV, pinRevertIV));
+        pinSaveIV.setOnClickListener(new TextSaveIVOnClick(pinET, pinEditIV, pinRevertIV, Global.sharedPref_Pin));
+        pinRevertIV.setOnClickListener(new TextRevertIVOnClick(pinET, pinEditIV, pinSaveIV, pinET.getText().toString()));
 
         //password editor
         passwordEditorLL = (LinearLayout) rootView.findViewById(R.id.Fragment_Settings_LinearLayout_Password);
@@ -144,29 +139,14 @@ public class SettingsFragment extends Fragment implements OnClickListener {
 
         passwordET.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
         passwordET.setTransformationMethod(PasswordTransformationMethod.getInstance());
-        passwordET.setText(Global.loadSavedPreferences(mActivity, Global.sharedPref_Password, Global.password_default),
-                TextView.BufferType.EDITABLE);
         passwordTIL.setHint(getString(R.string.password));
-        passwordEditIV.setOnClickListener(new EditIVOnClick(passwordET, passwordSaveIV, passwordRevertIV));
-        passwordSaveIV.setOnClickListener(new SaveIVOnClick(passwordET, passwordEditIV, passwordRevertIV, Global.sharedPref_Password));
-        passwordRevertIV.setOnClickListener(new RevertIVOnClick(passwordET, passwordEditIV, passwordSaveIV, passwordET.getText().toString()));
+        passwordEditIV.setOnClickListener(new TextEditIVOnClick(passwordET, passwordSaveIV, passwordRevertIV));
+        passwordSaveIV.setOnClickListener(new TextSaveIVOnClick(passwordET, passwordEditIV, passwordRevertIV, Global.sharedPref_Password));
+        passwordRevertIV.setOnClickListener(new TextRevertIVOnClick(passwordET, passwordEditIV, passwordSaveIV, passwordET.getText().toString()));
 
-        //images
-        backgroundImgEditorLL = (LinearLayout) rootView.findViewById(R.id.Fragment_Settings_LinearLayout_BackgroundImage);
-        backgroundImgOriginalIV = (ImageView) backgroundImgEditorLL.findViewById(R.id.Editor_ImageView_Original);
-        backgroundImgNewIV = (ImageView) backgroundImgEditorLL.findViewById(R.id.Editor_ImageView_New);
-        backgroundImgTV = (TextView) backgroundImgEditorLL.findViewById(R.id.Editor_TextView_Label);
-        backgroundImgChangeIV = (ImageView) backgroundImgEditorLL.findViewById(R.id.Editor_ImageView_Change);
-        backgroundImgDeleteIV = (ImageView) backgroundImgEditorLL.findViewById(R.id.Editor_ImageView_Delete);
-        backgroundImgSaveIV = (ImageView) backgroundImgEditorLL.findViewById(R.id.Editor_ImageView_Save);
-        backgroundImgRevertIV = (ImageView) backgroundImgEditorLL.findViewById(R.id.Editor_ImageView_Revert);
-
-        backgroundImgTV.setText(R.string.background_image);
-        backgroundImgChangeIV.setOnClickListener(new ChangeImageOnClickListener(false));
-        //images
+        //profile images
         profilePicEditorLL = (LinearLayout) rootView.findViewById(R.id.Fragment_Settings_LinearLayout_ProfileImage);
         profilePicOriginalIV = (ImageView) profilePicEditorLL.findViewById(R.id.Editor_ImageView_Original);
-        profilePicNewIV = (ImageView) profilePicEditorLL.findViewById(R.id.Editor_ImageView_New);
         profilePicTV = (TextView) profilePicEditorLL.findViewById(R.id.Editor_TextView_Label);
         profilePicChangeIV = (ImageView) profilePicEditorLL.findViewById(R.id.Editor_ImageView_Change);
         profilePicDeleteIV = (ImageView) profilePicEditorLL.findViewById(R.id.Editor_ImageView_Delete);
@@ -176,8 +156,30 @@ public class SettingsFragment extends Fragment implements OnClickListener {
         profilePicTV.setText(R.string.display_picture);
         profilePicChangeIV.setOnClickListener(new ChangeImageOnClickListener(true));
 
-        Global.loadImageIntoImageView(mActivity, backgroundImgOriginalIV, Global.profileBgPicImgName, R.drawable.wallpaper2);
+        //background images
+        backgroundImgEditorLL = (LinearLayout) rootView.findViewById(R.id.Fragment_Settings_LinearLayout_BackgroundImage);
+        backgroundImgOriginalIV = (ImageView) backgroundImgEditorLL.findViewById(R.id.Editor_ImageView_Original);
+        backgroundImgTV = (TextView) backgroundImgEditorLL.findViewById(R.id.Editor_TextView_Label);
+        backgroundImgChangeIV = (ImageView) backgroundImgEditorLL.findViewById(R.id.Editor_ImageView_Change);
+        backgroundImgDeleteIV = (ImageView) backgroundImgEditorLL.findViewById(R.id.Editor_ImageView_Delete);
+        backgroundImgSaveIV = (ImageView) backgroundImgEditorLL.findViewById(R.id.Editor_ImageView_Save);
+        backgroundImgRevertIV = (ImageView) backgroundImgEditorLL.findViewById(R.id.Editor_ImageView_Revert);
+
+        backgroundImgTV.setText(R.string.background_image);
+        backgroundImgChangeIV.setOnClickListener(new ChangeImageOnClickListener(false));
+        backgroundBitmapWR = new WeakReference<Bitmap>(backgroundBitmap); //weak reference
+        backgroundImgSaveIV.setOnClickListener(new ImageSaveIVOnClick(backgroundImgChangeIV, backgroundImgDeleteIV, backgroundImgRevertIV, backgroundBitmapWR));
+        backgroundImgRevertIV.setOnClickListener(new ImageRevertIVOnClick(backgroundImgChangeIV, backgroundImgDeleteIV, backgroundImgSaveIV, "BACKGROUND_IMG"));
+
+        //reset
         Global.loadImageIntoImageView(mActivity, profilePicOriginalIV, Global.profilePicImgName, R.drawable.name);
+        Global.loadImageIntoImageView(mActivity, backgroundImgOriginalIV, Global.profileBgPicImgName, R.drawable.wallpaper2);
+        pinET.setText(Global.loadSavedPreferences(mActivity, Global.sharedPref_Pin, Global.pin_default),
+                TextView.BufferType.EDITABLE);
+        usernameET.setText(Global.loadSavedPreferences(mActivity, Global.sharedPref_Username, Global.username_default),
+                TextView.BufferType.EDITABLE);
+        passwordET.setText(Global.loadSavedPreferences(mActivity, Global.sharedPref_Password, Global.password_default),
+                TextView.BufferType.EDITABLE);
     }
 
     @Override
@@ -205,20 +207,19 @@ public class SettingsFragment extends Fragment implements OnClickListener {
                             cropGalleryImage = false;
                         } else { //else save as background picture
                             Log.d(TAG, "picturePath: " + picturePath);
-
                             BitmapFactory.Options options = new BitmapFactory.Options();
                             options.inSampleSize = 2;
-                            final Bitmap bmpPic1 = BitmapFactory.decodeFile(picturePath, options);
-                            backgroundImgOriginalIV.setImageBitmap(bmpPic1);
+                            backgroundBitmap = BitmapFactory.decodeFile(picturePath, options);
 
-                            AsyncTask.execute(new Runnable() {
-                                @Override
-                                public void run() {
-                                    ContextWrapper cw = new ContextWrapper(mActivity.getApplicationContext());
-                                    DisplayPictureUtil.saveToInternalStorage(cw, bmpPic1, Global.profileBgPicImgName);
-                                }
-                            });
-                            //Global.loadImageIntoImageView(mActivity, backgroundImgOriginalIV, Global.profileBgPicImgName);
+
+                            new TestAT().execute();
+
+
+
+                            backgroundImgOriginalIV.setImageBitmap(backgroundBitmap);
+                            //show confirm
+                            imageEditorEnableView(true, backgroundImgChangeIV, backgroundImgDeleteIV, backgroundImgSaveIV, backgroundImgRevertIV);
+                            ;
                         }
 
                         break;
@@ -231,7 +232,6 @@ public class SettingsFragment extends Fragment implements OnClickListener {
                         Bitmap circleCroppedBitmap = DisplayPictureUtil.performCircleCrop(imageBitmap);//circle crop
                         //save final to internal
                         DisplayPictureUtil.saveToInternalStorage(cw, circleCroppedBitmap, Global.profilePicImgName);
-
                         // Set The Bitmap Data To ImageView
                         profilePicOriginalIV.setImageBitmap(circleCroppedBitmap);
                         break;
@@ -239,6 +239,26 @@ public class SettingsFragment extends Fragment implements OnClickListener {
                 break;
         }
     }
+
+    private class TestAT extends AsyncTask<Void, Void, WeakReference<String>> {
+        String xx = "xx";
+        WeakReference<String> xxWR = new WeakReference<String>(xx);
+
+        @Override
+        protected WeakReference<String> doInBackground(Void... params) {
+            Log.d(TAG, "before xx: " + xx);
+            Log.d(TAG, "before xxWR.get(): " + xxWR.get());
+            xx = "yy";
+            return xxWR;
+        }
+        @Override
+        protected void onPostExecute(WeakReference<String> result) {
+            Log.d(TAG, "after xx: " + xx);
+            Log.d(TAG, "after result.get(): " + result.get());
+            Log.d(TAG, "after xxWR.get(): " + xxWR.get());
+        }
+    }
+
 
     @Override
     public void onPause() {
@@ -260,6 +280,67 @@ public class SettingsFragment extends Fragment implements OnClickListener {
     }
 
     //listeners
+    private class ImageSaveIVOnClick implements OnClickListener {
+        ImageView changeIV;
+        ImageView deleteIV;
+        ImageView saveIV;
+        ImageView revertIV;
+        WeakReference<Bitmap> bitmapWR;
+
+        public ImageSaveIVOnClick(ImageView changeIV, ImageView deleteIV, ImageView revertIV, WeakReference<Bitmap> bitmapWR) {
+            this.changeIV = changeIV;
+            this.deleteIV = deleteIV;
+            this.revertIV = revertIV;
+            this.bitmapWR = bitmapWR;
+            Log.d(TAG, "initial ImageView, backgroundBitmapWR: " + backgroundBitmapWR);
+            Log.d(TAG, "initial ImageView, this.bitmapWR.get(): " + this.bitmapWR.get());
+            Log.d(TAG, "initial ImageView, bitmapWR.get(): " + bitmapWR.get());
+        }
+
+        @Override
+        public void onClick(View v) {
+            saveIV = (ImageView) v;
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    ContextWrapper cw = new ContextWrapper(mActivity.getApplicationContext());
+                    Log.d(TAG, "initial ImageView, bitmapWR.get(): " + bitmapWR.get());
+                    DisplayPictureUtil.saveToInternalStorage(cw, bitmapWR.get(), Global.profileBgPicImgName);
+                }
+            });
+            imageEditorEnableView(false, changeIV, deleteIV, saveIV, revertIV);
+        }
+    }
+
+    private class ImageRevertIVOnClick implements OnClickListener {
+        ImageView changeIV;
+        ImageView deleteIV;
+        ImageView saveIV;
+        ImageView revertIV;
+        String image;
+
+        public ImageRevertIVOnClick(ImageView changeIV, ImageView deleteIV, ImageView saveIV, String image) {
+            this.changeIV = changeIV;
+            this.deleteIV = deleteIV;
+            this.saveIV = saveIV;
+            this.image = image;
+        }
+
+        @Override
+        public void onClick(View v) {
+            revertIV = (ImageView) v;
+            switch (image) {
+                case "BACKGROUND_IMG":
+                    Global.loadImageIntoImageView(mActivity, backgroundImgOriginalIV, Global.profileBgPicImgName, R.drawable.wallpaper2);
+                    break;
+                case "PROFILE_IMG":
+                    Global.loadImageIntoImageView(mActivity, profilePicOriginalIV, Global.profilePicImgName, R.drawable.name);
+                    break;
+            }
+            imageEditorEnableView(false, changeIV, deleteIV, saveIV, revertIV);
+        }
+    }
+
     private class ChangeImageOnClickListener implements OnClickListener {
         boolean crop;
 
@@ -275,14 +356,14 @@ public class SettingsFragment extends Fragment implements OnClickListener {
         }
     }
 
-    private class SaveIVOnClick implements OnClickListener {
+    private class TextSaveIVOnClick implements OnClickListener {
         EditText textET;
         ImageView editIV;
         ImageView saveIV;
         ImageView revertIV;
         String key;
 
-        public SaveIVOnClick(EditText textET, ImageView editIV, ImageView revertIV, String key) {
+        public TextSaveIVOnClick(EditText textET, ImageView editIV, ImageView revertIV, String key) {
             this.textET = textET;
             this.editIV = editIV;
             this.revertIV = revertIV;
@@ -293,18 +374,18 @@ public class SettingsFragment extends Fragment implements OnClickListener {
         public void onClick(View v) {
             Global.savePreferences(mActivity, key, textET.getText().toString());
             saveIV = (ImageView) v;
-            editorEnableView(false, textET, editIV, saveIV, revertIV);
+            textEditorEnableView(false, textET, editIV, saveIV, revertIV);
         }
     }
 
-    private class RevertIVOnClick implements OnClickListener {
+    private class TextRevertIVOnClick implements OnClickListener {
         EditText textET;
         ImageView editIV;
         ImageView saveIV;
         ImageView revertIV;
         String valueBeforeChange;
 
-        public RevertIVOnClick(EditText textET, ImageView editIV, ImageView saveIV, String valueBeforeChange) {
+        public TextRevertIVOnClick(EditText textET, ImageView editIV, ImageView saveIV, String valueBeforeChange) {
             this.textET = textET;
             this.editIV = editIV;
             this.saveIV = saveIV;
@@ -315,17 +396,17 @@ public class SettingsFragment extends Fragment implements OnClickListener {
         public void onClick(View v) {
             textET.setText(valueBeforeChange, TextView.BufferType.EDITABLE);
             revertIV = (ImageView) v;
-            editorEnableView(false, textET, editIV, saveIV, revertIV);
+            textEditorEnableView(false, textET, editIV, saveIV, revertIV);
         }
     }
 
-    private class EditIVOnClick implements OnClickListener {
+    private class TextEditIVOnClick implements OnClickListener {
         EditText textET;
         ImageView editIV;
         ImageView saveIV;
         ImageView revertIV;
 
-        public EditIVOnClick(EditText textET, ImageView saveIV, ImageView revertIV) {
+        public TextEditIVOnClick(EditText textET, ImageView saveIV, ImageView revertIV) {
             this.textET = textET;
             this.saveIV = saveIV;
             this.revertIV = revertIV;
@@ -334,24 +415,14 @@ public class SettingsFragment extends Fragment implements OnClickListener {
         @Override
         public void onClick(View v) {
             editIV = (ImageView) v;
-            editorEnableView(true, textET, editIV, saveIV, revertIV);
+            textEditorEnableView(true, textET, editIV, saveIV, revertIV);
         }
     }
 
-    private void editorEnableView(Boolean enable, EditText textET, ImageView editIV, ImageView saveIV, ImageView revertIV) {
+    private void textEditorEnableView(Boolean enable, EditText textET, ImageView editIV, ImageView saveIV, ImageView revertIV) {
         textET.setEnabled(enable);
         if (enable) {
             textET.requestFocus();
-
-            if (textET.getInputType() == InputType.TYPE_CLASS_TEXT)
-                Log.d(TAG, "1");
-            if (textET.getInputType() == InputType.TYPE_TEXT_VARIATION_PERSON_NAME)
-                Log.d(TAG, "2");
-            if (textET.getInputType() == InputType.TYPE_NUMBER_VARIATION_PASSWORD)
-                Log.d(TAG, "3");
-            if (textET.getInputType() == InputType.TYPE_TEXT_VARIATION_PASSWORD)
-                Log.d(TAG, "4");
-
             editIV.setVisibility(View.GONE);
             saveIV.setVisibility(View.VISIBLE);
             revertIV.setVisibility(View.VISIBLE);
@@ -362,4 +433,19 @@ public class SettingsFragment extends Fragment implements OnClickListener {
             revertIV.setVisibility(View.GONE);
         }
     }
+
+    private void imageEditorEnableView(Boolean enable, ImageView changeIV, ImageView deleteIV, ImageView saveIV, ImageView revertIV) {
+        if (enable) {
+            changeIV.setVisibility(View.GONE);
+            deleteIV.setVisibility(View.GONE);
+            saveIV.setVisibility(View.VISIBLE);
+            revertIV.setVisibility(View.VISIBLE);
+        } else {
+            changeIV.setVisibility(View.VISIBLE);
+            deleteIV.setVisibility(View.VISIBLE);
+            saveIV.setVisibility(View.GONE);
+            revertIV.setVisibility(View.GONE);
+        }
+    }
+
 }
