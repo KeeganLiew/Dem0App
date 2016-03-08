@@ -64,7 +64,7 @@ public class Global {
     //others
     public static final String KEEGAN_LINKEDIN_URL = "http://www.linkedin.com/in/KeeganLiew";
     public static final String KEEGAN_GOOGLEPLAY_URL = "https://github.com/KeeganLiew";
-    public static final String KEEGAN_GITHUB_URL = "https://github.com/KeeganLiew/Dem0App";
+    public static final String KEEGAN_GITHUB_URL = "https://github.com/KeeganLiew/Sandbox-Demo";
     public static final String EMPTY_STRING = "";
     public static final String ERROR_RETRIEVING = "-- Error retrieving --";
     public static final Boolean SMS_SWITCH_DEFAULT = false;
