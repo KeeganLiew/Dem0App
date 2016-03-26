@@ -183,10 +183,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         buttonC.setOnClickListener(this); //set listener
 
         //home content
-        usernameET = (EditText) findViewById(R.id.Activity_Main_EditText_Username);
+        /*usernameET = (EditText) findViewById(R.id.Activity_Main_EditText_Username);
         passwordET = (EditText) findViewById(R.id.Activity_Main_EditText_Password);
         loginB = (Button) findViewById(R.id.Activity_Main_Button_Login);
-        loginB.setOnClickListener(this); //set listener
+        loginB.setOnClickListener(this); //set listener*/
     }
 
     private void otherInitializations() {

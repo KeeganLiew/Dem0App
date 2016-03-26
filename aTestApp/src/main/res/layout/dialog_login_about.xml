@@ -15,7 +15,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="5dp"
             android:layout_marginLeft="@dimen/pop_up_dialog_padding_left_right"
             android:layout_marginRight="@dimen/pop_up_dialog_padding_left_right"
             android:layout_marginTop="15dp">
@@ -37,6 +37,12 @@
                 android:contentDescription="@string/close_dialog"
                 android:src="@drawable/ic_close_white_48dp" />
         </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/pure_white" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -61,8 +67,8 @@
                 android:layout_height="@dimen/login_contact_imagebutton_size"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:scaleType="centerCrop"
                 android:contentDescription="@string/desc_contact_imagebutton_google_play"
+                android:scaleType="centerCrop"
                 android:src="@drawable/googleplay" />
 
             <ImageView

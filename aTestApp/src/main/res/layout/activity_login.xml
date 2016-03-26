@@ -40,7 +40,7 @@
                             android:layout_width="@dimen/login_screen_display_picture_size"
                             android:layout_height="@dimen/login_screen_display_picture_size"
                             android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="@dimen/top_bottom_margin_for_elements"
+                            android:layout_marginTop="15dp"
                             android:contentDescription="@string/display_picture" />
 
                         <EditText

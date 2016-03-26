@@ -15,7 +15,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="5dp"
             android:layout_marginLeft="@dimen/pop_up_dialog_padding_left_right"
             android:layout_marginRight="@dimen/pop_up_dialog_padding_left_right"
             android:layout_marginTop="15dp">
@@ -36,6 +36,12 @@
                 android:contentDescription="@string/close_dialog"
                 android:src="@drawable/ic_close_white_48dp" />
         </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@color/pure_white" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -128,7 +134,8 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/pop_up_dialog_padding_left_right"
                 android:layout_marginStart="@dimen/pop_up_dialog_padding_left_right"
-                android:text="@string/debug_text" />
+                android:text="@string/debug_text"
+                android:visibility="gone" />
         </RelativeLayout>
 
     </LinearLayout>

@@ -31,11 +31,11 @@
                 android:id="@+id/Dialog_Login_Profiles_ImageView_Add"
                 android:layout_width="@dimen/dialog_title_icon_size"
                 android:layout_height="@dimen/dialog_title_icon_size"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/margin_between_elements"
                 android:layout_marginStart="@dimen/margin_between_elements"
                 android:layout_toEndOf="@+id/Dialog_Login_Profiles_TextView_Profiles"
                 android:layout_toRightOf="@+id/Dialog_Login_Profiles_TextView_Profiles"
-                android:layout_centerVertical="true"
                 android:contentDescription="@string/add_profile"
                 android:src="@drawable/ic_plus_box_white_48dp" />
 
@@ -43,12 +43,18 @@
                 android:id="@+id/Dialog_Login_Profiles_ImageView_Close"
                 android:layout_width="@dimen/dialog_title_icon_size"
                 android:layout_height="@dimen/dialog_title_icon_size"
-                android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:contentDescription="@string/close_dialog"
                 android:src="@drawable/ic_close_white_48dp" />
         </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@color/pure_white" />
 
         <ListView
             android:id="@+id/Dialog_Login_Profiles_ListView_UserList"
