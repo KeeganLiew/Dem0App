@@ -21,14 +21,13 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.DrawerLayout.DrawerListener;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnFocusChangeListener;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.view.WindowManager;
@@ -54,52 +53,127 @@ import com.keegan.experiment.Global;
 import com.keegan.experiment.Intents;
 import com.keegan.experiment.R;
 import com.keegan.experiment.customs.CustomListAdapter;
+import com.keegan.experiment.customs.RoboAppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class LoginActivity extends AppCompatActivity implements OnClickListener {
+import roboguice.inject.InjectView;
+
+public class LoginActivity extends RoboAppCompatActivity implements OnClickListener {
 
     private final String TAG = LoginActivity.class.getSimpleName();
 
     //navigation drawer
-    private NavigationView navigationNV;
+    @InjectView(R.id.Activity_Login_DrawerLayout)
     private DrawerLayout mDrawerLayout;
+    @InjectView(R.id.Activity_Login_NavigationView_Navigation)
+    private NavigationView navigationNV;
     //navigation drawer items
+    @InjectView(R.id.Activity_Login_Profiles)
+    private LinearLayout navDrawerItemNewUserLL;
+    @InjectView(R.id.Activity_Login_AuthenticationOption)
+    private LinearLayout navDrawerItemAuthOptionLL;
+    @InjectView(R.id.Activity_Login_Help)
+    private LinearLayout navDrawerItemHelpLL;
+    @InjectView(R.id.Activity_Login_About)
+    private LinearLayout navDrawerItemAboutLL;
+
+    //display picture and username
+    @InjectView(R.id.Activity_Login_ImageView_DisplayPicture)
+    private ImageView displayPictureIV;
+    @InjectView(R.id.Activity_Login_EditText_Name)
+    private EditText usernameET;
+    //pin authentication
+    @InjectView(R.id.Activity_Login_EditText_Pin)
+    private EditText pinET;
+    //password authentication
+    @InjectView(R.id.Activity_Login_RelativeLayout_Password)
+    private RelativeLayout passwordRL;
+    @InjectView(R.id.Activity_Login_EditText_Password)
+    private EditText passwordET;
+    @InjectView(R.id.Activity_Login_ImageView_PasswordLogin)
+    private ImageView passwordLoginButtonIV;
+    //gesture authentication
+    @InjectView(R.id.Activity_Login_InputOption_Gesture)
+    private GestureOverlayView loginGestureGOV;
+    @InjectView(R.id.Activity_Login_Switch_Gesture)
+    private Switch loginGestureS;
+    //authentication option
+    @InjectView(R.id.InputOption_Button_Pin)
+    private Button authenticationOptionPinB;
+    @InjectView(R.id.InputOption_Button_Password)
+    private Button authenticationOptionPasswordB;
+    @InjectView(R.id.InputOption_Button_Gesture)
+    private Button authenticationOptionGestureB;
+    @InjectView(R.id.InputOption_ImageView_Settings)
+    private ImageView authenticationOptionSettingsIV;
+    //login pop up dialog
+    @InjectView(R.id.Activity_Login_PopUpProgressBarDialog)
+    private RelativeLayout loginProgressDialogRL;
+    @InjectView(R.id.Pop_Up_Progress_Bar_Dialog_TextView_Label)
+    private TextView loginProgressDialogTextTV;
+    //login error pop up dialog
+    @InjectView(R.id.Activity_Login_PopUpButtonDialog)
+    private RelativeLayout loginResultDialogRL;
+    @InjectView(R.id.Dialog_Login_Message_TextView_Label)
+    private TextView loginResultDialogTextTV;
+    @InjectView(R.id.Dialog_Login_Message_Button_Ok)
+    private Button loginResultDialogB;
+    //custom numpad
+    @InjectView(R.id.Activity_Login_NumericKeypad)
+    private TableLayout numericKeypad;
+    @InjectView(R.id.custom_numeric_keyboard_key_0)
+    private TextView num0;
+    @InjectView(R.id.custom_numeric_keyboard_key_1)
+    private TextView num1;
+    @InjectView(R.id.custom_numeric_keyboard_key_2)
+    private TextView num2;
+    @InjectView(R.id.custom_numeric_keyboard_key_3)
+    private TextView num3;
+    @InjectView(R.id.custom_numeric_keyboard_key_4)
+    private TextView num4;
+    @InjectView(R.id.custom_numeric_keyboard_key_5)
+    private TextView num5;
+    @InjectView(R.id.custom_numeric_keyboard_key_6)
+    private TextView num6;
+    @InjectView(R.id.custom_numeric_keyboard_key_7)
+    private TextView num7;
+    @InjectView(R.id.custom_numeric_keyboard_key_8)
+    private TextView num8;
+    @InjectView(R.id.custom_numeric_keyboard_key_9)
+    private TextView num9;
+    @InjectView(R.id.custom_numeric_keyboard_key_menu)
+    private TextView numMenu;
+    @InjectView(R.id.custom_numeric_keyboard_key_backspace)
+    private TextView numBackspace;
+
+    private View currentlyPressedKey;
+
+    //findViewById injects
+    /*private DrawerLayout mDrawerLayout;
+    private NavigationView navigationNV;
     private LinearLayout navDrawerItemNewUserLL;
     private LinearLayout navDrawerItemAuthOptionLL;
     private LinearLayout navDrawerItemHelpLL;
     private LinearLayout navDrawerItemAboutLL;
-
-    //display picture and username
     private ImageView displayPictureIV;
     private EditText usernameET;
-
-    //pin authentication
     private EditText pinET;
-    //password authentication
     private RelativeLayout passwordRL;
     private EditText passwordET;
     private ImageView passwordLoginButtonIV;
-    //gesture authentication
     private GestureOverlayView loginGestureGOV;
     private Switch loginGestureS;
-
-    //authentication option
     private Button authenticationOptionPinB;
     private Button authenticationOptionPasswordB;
     private Button authenticationOptionGestureB;
     private ImageView authenticationOptionSettingsIV;
-
-    //login pop up dialog
     private RelativeLayout loginProgressDialogRL;
     private TextView loginProgressDialogTextTV;
-    //login error pop up dialog
     private RelativeLayout loginResultDialogRL;
     private TextView loginResultDialogTextTV;
     private Button loginResultDialogB;
-
-    //custom numpad
     private TableLayout numericKeypad;
     private TextView num1;
     private TextView num2;
@@ -112,8 +186,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
     private TextView num9;
     private TextView numMenu;
     private TextView num0;
-    private TextView numBackspace;
-    private View currentlyPressedKey;
+    private TextView numBackspace;*/
 
     //non-view object variables
     private String finalUsername;
@@ -136,6 +209,35 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void viewObjectsInitializations() {
+        //navigation drawer
+        mDrawerLayout.setDrawerListener(new loginDrawerListener()); //set listener
+
+        //display picture and username
+        usernameET.setOnFocusChangeListener(new usernameEditTextOnFocusChange()); //set listener
+
+        //pin authentication
+        pinET.setOnFocusChangeListener(new pinEditTextOnFocusChange()); //set listener
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            pinET.setShowSoftInputOnFocus(false); //disable keyboard to use custom keyboard
+        }
+        //password authentication
+        passwordET.setOnEditorActionListener(new passwordEditTextOnEditorActionListener()); //set listener
+        passwordLoginButtonIV.setOnClickListener(this); //set listener
+        //gesture authentication
+        loginGestureGOV.addOnGesturePerformedListener(new loginGestureOnGesturePerformedListener()); //set listener
+        loginGestureS.setOnCheckedChangeListener(new showGestureSwitchListener()); //set listener
+
+        //authentication option
+        authenticationOptionSettingsIV.setOnClickListener(this); //set listener
+
+        //login error pop up dialog
+        loginResultDialogB.setOnClickListener(this); //set listener
+
+        viewObjectLogic();
+    }
+
+    /*@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void viewObjectsInitializationsByfindViewById() {
         //navigation drawer
         mDrawerLayout = (DrawerLayout) findViewById(R.id.Activity_Login_DrawerLayout);
         mDrawerLayout.setDrawerListener(new loginDrawerListener()); //set listener
@@ -201,7 +303,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         numBackspace = (TextView) findViewById(R.id.custom_numeric_keyboard_key_backspace);
 
         viewObjectLogic();
-    }
+    }*/
 
     private void viewObjectLogic() {
         //navigation drawer

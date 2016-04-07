@@ -203,11 +203,8 @@
                 app:fab_colorNormal="@color/fab_blue_semi_transparent_normal"
                 app:fab_colorPressed="@color/fab_blue_semi_transparent_pressed"
                 app:fab_title="Hide/Show Action above" />
-
         </com.getbase.floatingactionbutton.FloatingActionsMenu>
-
     </com.keegan.experiment.customs.CustomCoordinatorLayout>
-
 
     <android.support.design.widget.NavigationView
         android:id="@+id/Activity_Main_NavigationView_Navigation"

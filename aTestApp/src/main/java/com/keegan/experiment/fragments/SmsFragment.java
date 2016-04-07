@@ -105,7 +105,7 @@ public class SmsFragment extends Fragment implements OnClickListener {
         smsReceiverSwitch.setOnCheckedChangeListener(new smsReceiverSwitchListener()); //set listener
         Boolean switchS = Global.loadSavedPreferences(mActivity, Global.sharedPref_SmsReceiverToggle, Global.SMS_SWITCH_DEFAULT);
         smsReceiverSwitch.setChecked(switchS);
-        Global.setComponent(mActivity, SmsReceiver.class, switchS);
+        //Global.setComponent(mActivity, SmsReceiver.class, switchS);
         //not used
         progressBar = (ProgressBar) rootView.findViewById(R.id.Fragment_Sms_Progressbar);
         resultTV = (TextView) rootView.findViewById(R.id.Fragment_Sms_TextView_Result);
