@@ -1,6 +1,5 @@
 package com.keegan.experiment.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,18 +19,33 @@ import com.flaviofaria.kenburnsview.RandomTransitionGenerator;
 import com.keegan.experiment.Global;
 import com.keegan.experiment.R;
 
+import roboguice.activity.RoboActivity;
+import roboguice.inject.InjectView;
+
 /**
  * Created by keegan on 16/02/16.
  */
-public class SplashActivity extends Activity implements OnClickListener {
+public class SplashActivity extends RoboActivity implements OnClickListener {
 
     private final String TAG = SplashActivity.class.getSimpleName();
 
+    @InjectView(R.id.Activity_Splash_RelativeLayout_WholeScreen)
     private RelativeLayout wholeScreenRL;
+    @InjectView(R.id.Activity_Splash_KenBurnsView_Background)
+    private KenBurnsView backgroundKBV;
+    @InjectView(R.id.Activity_Splash_ImageView_Logo)
+    private ImageView logoIV;
+    @InjectView(R.id.Activity_Splash_CenterItem)
+    private RelativeLayout centerItemRL;
+    @InjectView(R.id.Activity_Splash_TextView_Title)
+    private TextView titleTV;
+
+    //findViewById injects
+    /*private RelativeLayout wholeScreenRL;
     private KenBurnsView backgroundKBV;
     private ImageView logoIV;
     private RelativeLayout centerItemRL;
-    private TextView titleTV;
+    private TextView titleTV;*/
 
     private int centerItemPosition;
     private int titleTVHeight;
@@ -45,12 +59,12 @@ public class SplashActivity extends Activity implements OnClickListener {
     }
 
     private void viewObjectsInitializations() {
-        wholeScreenRL = (RelativeLayout) findViewById(R.id.Activity_Splash_RelativeLayout_WholeScreen);
         wholeScreenRL.setOnClickListener(this); //set listener
+        /*wholeScreenRL = (RelativeLayout) findViewById(R.id.Activity_Splash_RelativeLayout_WholeScreen);
         backgroundKBV = (KenBurnsView) findViewById(R.id.Activity_Splash_KenBurnsView_Background);
         centerItemRL = (RelativeLayout) findViewById(R.id.Activity_Splash_CenterItem);
         titleTV = (TextView) findViewById(R.id.Activity_Splash_TextView_Title);
-        logoIV = (ImageView) findViewById(R.id.Activity_Splash_ImageView_Logo);
+        logoIV = (ImageView) findViewById(R.id.Activity_Splash_ImageView_Logo);*/
     }
 
     private void otherInitializations() {

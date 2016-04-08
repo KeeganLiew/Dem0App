@@ -41,8 +41,5 @@ public class CustomListAdapter extends ArrayAdapter<String> {
         //extratxt.setText("Created ago" + itemname[position]);
         extratxt.setText("Created 2 months ago");
         return rowView;
-
     }
-
-    ;
 }

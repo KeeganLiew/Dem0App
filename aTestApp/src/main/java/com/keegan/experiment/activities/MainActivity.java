@@ -2,9 +2,6 @@ package com.keegan.experiment.activities;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.ContextWrapper;
@@ -15,6 +12,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Handler;
 import android.provider.ContactsContract;
 import android.support.design.widget.AppBarLayout;
@@ -24,14 +22,15 @@ import android.support.design.widget.CoordinatorLayout.LayoutParams;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout.DrawerListener;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.DrawerLayout.DrawerListener;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -52,11 +51,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.keegan.experiment.Global;
 import com.keegan.experiment.Intents;
 import com.keegan.experiment.R;
+import com.keegan.experiment.customs.CustomCoordinatorLayout;
+import com.keegan.experiment.customs.RoboAppCompatActivity;
 import com.keegan.experiment.fragments.ContactMe;
 import com.keegan.experiment.fragments.DevelopmentLog;
 import com.keegan.experiment.fragments.DeviceInfoFragment;
@@ -66,44 +67,79 @@ import com.keegan.experiment.fragments.UnderConstructionFragment;
 import com.keegan.experiment.utilities.ContactUtil;
 import com.keegan.experiment.utilities.DisplayPictureUtil;
 import com.keegan.experiment.utilities.GalleryUtil;
-import com.keegan.experiment.customs.CustomCoordinatorLayout;
 import com.mikepenz.aboutlibraries.LibsBuilder;
-import com.mikepenz.aboutlibraries.ui.LibsFragment;
+import com.mikepenz.aboutlibraries.ui.LibsSupportFragment;
 
 import java.io.File;
 import java.util.Calendar;
 
-public class MainActivity extends AppCompatActivity implements OnClickListener {
+import roboguice.inject.InjectView;
+
+public class MainActivity extends RoboAppCompatActivity implements OnClickListener {
 
     private final String TAG = MainActivity.class.getSimpleName();
 
     //Parent layouts
-    private static DrawerLayout mDrawerLayout;
-    private static CustomCoordinatorLayout mCustomCoordinatorLayout;
+    @InjectView(R.id.Activity_Main_DrawerLayout)
+    private DrawerLayout mDrawerLayout;
+    //@InjectView(R.id.Activity_Main_CustomCoordinatorLayout_RootLayout)
+    //private static CustomCoordinatorLayout mCustomCoordinatorLayout;
+    @InjectView(R.id.Activity_Main_AppBarLayout)
+    private AppBarLayout mAppBarLayout;
+    @InjectView(R.id.Activity_Main_CollapsingToolbarLayout)
+    private CollapsingToolbarLayout mCollapsingToolbarLayout;
+    @InjectView(R.id.Activity_Main_Toolbar)
+    private Toolbar mToolbar;
+    @InjectView(R.id.Activity_Main_ImageView_ToolbarImage)
+    private ImageView mToolBarImageIV;
+    //@InjectView(R.id.tabLayout)
+    //private TabLayout mDrawerLayout;
+    private static CustomCoordinatorLayout mCustomCoordinatorLayout; ////TODO: 08/04/16 remove static use
+    private ActionBarDrawerToggle drawerToggle;
+
+    //Navigation Drawer
+    @InjectView(R.id.Activity_Main_NavigationView_Navigation)
+    private NavigationView navigationNV;
+    //findViewById injects
+    private TextView navigationUsernameTV;
+    private ImageView navigationDisplayPictureIV;
+    private TextView navigationLoginTimeTV;
+
+    //Page layout
+    @InjectView(R.id.Activity_Main_NestedScrollView_HomeLayout)
+    private NestedScrollView homeLayoutNSV;
+    @InjectView(R.id.Activity_Main_NestedScrollView_FragmentLayout)
+    private NestedScrollView fragmentLayoutNSV;
+
+    //Float menu and button
+    @InjectView(R.id.Activity_Main_FloatingActionsMenu_FabMainButton)
+    private FloatingActionsMenu fabMainButtonFAM;
+    @InjectView(R.id.Activity_Main_FloatingActionButton_ButtonA)
+    private FloatingActionButton buttonA;
+    @InjectView(R.id.Activity_Main_FloatingActionButton_ButtonB)
+    private FloatingActionButton buttonB;
+    @InjectView(R.id.Activity_Main_FloatingActionButton_ButtonC)
+    private FloatingActionButton buttonC;
+
+    //content ////TODO: 08/04/16 to remove
+    private EditText usernameET;
+    private EditText passwordET;
+    private Button loginB;
+
+    //findViewById injects
+    /*private static DrawerLayout mDrawerLayout;
     private AppBarLayout mAppBarLayout;
     private CollapsingToolbarLayout mCollapsingToolbarLayout;
     private Toolbar mToolbar;
     private ImageView mToolBarImageIV;
-    private ActionBarDrawerToggle drawerToggle;
     //private TabLayout tabLayout;
-
-    //Navigation Drawer
     private NavigationView navigationNV;
-    private TextView navigationUsernameTV;
-    private ImageView navigationDisplayPictureIV;
-    private TextView navigationLoginTimeTV;
-    //Page layout
-    private NestedScrollView fragmentLayoutNSV;
     private NestedScrollView homeLayoutNSV;
-    //Float menu and button
+    private NestedScrollView fragmentLayoutNSV;
     private FloatingActionsMenu fabMainButtonFAM;
     private FloatingActionButton buttonA;
     private FloatingActionButton buttonB;
-    private FloatingActionButton buttonC;
-    //content
-    private EditText usernameET;
-    private EditText passwordET;
-    private Button loginB;
+    private FloatingActionButton buttonC;*/
 
     //non-view object variables
     private boolean cropGalleryImage = false;
@@ -129,6 +165,47 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     private void viewObjectsInitializations() {
         //Parent layout
+        mDrawerLayout.setDrawerListener(new mDrawerListener()); //set listener
+        //CustomCoordinatorLayout
+        mCustomCoordinatorLayout = (CustomCoordinatorLayout) findViewById(R.id.Activity_Main_CustomCoordinatorLayout_RootLayout);
+        mCustomCoordinatorLayout.setAllowForScroll(true); //enable collapsing toolbar
+        //Toolbar
+        mToolBarImageIV.setOnLongClickListener(new toolBarImageLongClickListener()); //set listener
+        //ActionBar
+        drawerToggle = new ActionBarDrawerToggle(MainActivity.this, mDrawerLayout,
+                R.string.hello_world, R.string.hello_world); ////TODO: 16/02/16 replace string titles
+        setSupportActionBar(mToolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setHomeButtonEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        } ////TODO: 16/02/16 fix - hamburger somehow turned black
+
+        //TabLayout
+        /*tabLayout.addTab(tabLayout.newTab().setText("Tab 1"));
+        tabLayout.addTab(tabLayout.newTab().setText("Tab 2"));
+        tabLayout.addTab(tabLayout.newTab().setText("Tab 3"));
+        tabLayout.addTab(tabLayout.newTab().setText("Tab 4"));
+        tabLayout.addTab(tabLayout.newTab().setText("Tab 5"));
+        tabLayout.addTab(tabLayout.newTab().setText("Tab 6"));*/
+
+        //Navigation Drawer
+        navigationNV.setNavigationItemSelectedListener(new navDrawerItemListener());  //set listener
+        //Navigation Drawer Items
+        View headerView = navigationNV.getHeaderView(0);
+        navigationDisplayPictureIV = (ImageView) headerView.findViewById(R.id.Navigation_ImageView_DisplayPicture);
+        navigationDisplayPictureIV.setOnClickListener(this); //set listener
+        navigationUsernameTV = (TextView) headerView.findViewById(R.id.Navigation_TextView_Username);
+        navigationUsernameTV.setOnLongClickListener(new usernameLongClickListener());  //set listener
+        navigationLoginTimeTV = (TextView) headerView.findViewById(R.id.Navigation_TextView_LoginTime);
+        navigationLoginTimeTV.append(Global.dateformat.format(Calendar.getInstance().getTime()));
+
+        //float menu & buttons
+        buttonC.setOnClickListener(this); //set listener
+    }
+
+    //old inject method
+    /*private void viewObjectsInitializationsByfindViewById() {
+        //Parent layout
         mDrawerLayout = (DrawerLayout) findViewById(R.id.Activity_Main_DrawerLayout);
         mDrawerLayout.setDrawerListener(new mDrawerListener()); //set listener
         //CustomCoordinatorLayout
@@ -151,13 +228,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         } ////TODO: 16/02/16 fix - hamburger somehow turned black
         //TabLayout
-        /*tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        *//*tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         tabLayout.addTab(tabLayout.newTab().setText("Tab 1"));
         tabLayout.addTab(tabLayout.newTab().setText("Tab 2"));
         tabLayout.addTab(tabLayout.newTab().setText("Tab 3"));
         tabLayout.addTab(tabLayout.newTab().setText("Tab 4"));
         tabLayout.addTab(tabLayout.newTab().setText("Tab 5"));
-        tabLayout.addTab(tabLayout.newTab().setText("Tab 6"));*/
+        tabLayout.addTab(tabLayout.newTab().setText("Tab 6"));*//*
 
         //Navigation Drawer
         navigationNV = (NavigationView) findViewById(R.id.Activity_Main_NavigationView_Navigation);
@@ -183,11 +260,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         buttonC.setOnClickListener(this); //set listener
 
         //home content
-        /*usernameET = (EditText) findViewById(R.id.Activity_Main_EditText_Username);
+        *//*usernameET = (EditText) findViewById(R.id.Activity_Main_EditText_Username);
         passwordET = (EditText) findViewById(R.id.Activity_Main_EditText_Password);
         loginB = (Button) findViewById(R.id.Activity_Main_Button_Login);
-        loginB.setOnClickListener(this); //set listener*/
-    }
+        loginB.setOnClickListener(this); //set listener*//*
+    }*/
 
     private void otherInitializations() {
         //username = Global.loadSavedPreferences(mActivity, Global.sharedPref_Username, Global.username_default);
@@ -224,11 +301,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                 ////TODO: 16/02/16 create method for about infos
                 String description = getString(R.string.about_description_app);
                 String extra = getString(R.string.about_description_extra_info);
-                LibsFragment aboutPageFragment = new LibsBuilder()
+                LibsSupportFragment aboutPageFragment = new LibsBuilder()
                         .withAboutIconShown(true)
                         .withAboutVersionShown(true)
                         .withAboutDescription(description)
-                        .fragment();
+                        .supportFragment();
                 startFragment(aboutPageFragment, getString(R.string.about));
                 break;
             case R.id.main_menu_item_settings:
@@ -278,12 +355,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     @Override
     public void onBackPressed() {
-        Log.d(TAG, "Fragment count: " + getFragmentManager().getBackStackEntryCount());
+        Log.d(TAG, "Fragment count: " + getSupportFragmentManager().getBackStackEntryCount());
         if (mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
             closeDrawer();
-        } else if (getFragmentManager().getBackStackEntryCount() > 1) {
+        } else if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
             closeCurrentFragment();
-        } else if (getFragmentManager().getBackStackEntryCount() == 1) {
+        } else if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
             closeFragmentLayout();
         } else {
             if (exitToast.getView().isShown()) {
@@ -512,7 +589,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
             closeDrawer();
             hideKeyboard(mActivity);
-            FragmentManager fragmentManager = mActivity.getFragmentManager();
+            FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
             switch (id) {
@@ -544,11 +621,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                     ////TODO: 16/02/16- about page
                     String description = getString(R.string.about_description_app);
                     String extra = getString(R.string.about_description_extra_info);
-                    LibsFragment aboutPageFragment = new LibsBuilder()
+                    LibsSupportFragment aboutPageFragment = new LibsBuilder()
                             .withAboutIconShown(true)
                             .withAboutVersionShown(true)
                             .withAboutDescription(description)
-                            .fragment();
+                            .supportFragment();
                     startFragment(aboutPageFragment, getString(R.string.about));
                     break;
                 case R.id.nav_drawer_settings:
@@ -588,14 +665,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         return sb;
     }
 
-    public static void openDrawer() {
-        mDrawerLayout.openDrawer(GravityCompat.START);
-    }
-
-    public static void closeDrawer() {
-        mDrawerLayout.closeDrawer(Gravity.LEFT);
-    }
-
     public static void hideKeyboard(Activity activity) {
         if (activity != null && activity.getCurrentFocus() != null) {
             InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(INPUT_METHOD_SERVICE);
@@ -611,6 +680,14 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     }
 
     //private ui methods
+    private void openDrawer() {
+        mDrawerLayout.openDrawer(GravityCompat.START);
+    }
+
+    private void closeDrawer() {
+        mDrawerLayout.closeDrawer(Gravity.LEFT);
+    }
+
     private void loadProfile() {
         loadProfileImages();
         loadProfileText();
@@ -637,10 +714,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     private void startFragment(Fragment mFragment, String title) {
         if (mFragment != null) {
-            FragmentManager fm = getFragmentManager();
+            FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
             ft.replace(R.id.Activity_Main_FragmentLayout_FragmentContainer, mFragment);
-            ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
+            //ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
             ft.addToBackStack(null);
             ft.commit();
             setFunctionLayout(View.VISIBLE);
@@ -649,11 +726,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     }
 
     private void closeCurrentFragment() {
-        getFragmentManager().popBackStack();
+        getSupportFragmentManager().popBackStack();
     }
 
     private void closeFragmentLayout() {
-        getFragmentManager().popBackStack();
+        getSupportFragmentManager().popBackStack();
         setFunctionLayout(View.GONE);
         updateUsernameViews();
     }
