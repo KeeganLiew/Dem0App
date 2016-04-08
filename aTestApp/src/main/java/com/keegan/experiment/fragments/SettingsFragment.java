@@ -1,7 +1,6 @@
 package com.keegan.experiment.fragments;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -22,9 +21,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.inject.Inject;
 import com.keegan.experiment.Global;
 import com.keegan.experiment.Intents;
 import com.keegan.experiment.R;
@@ -33,51 +34,78 @@ import com.keegan.experiment.utilities.GalleryUtil;
 
 import java.lang.ref.WeakReference;
 
+import roboguice.fragment.RoboFragment;
+import roboguice.inject.InjectView;
+
 import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by Keegan on 26/02/16.
  */
-public class SettingsFragment extends Fragment implements OnClickListener {
+public class SettingsFragment extends RoboFragment implements OnClickListener {
 
     private final String TAG = SettingsFragment.class.getSimpleName();
-    private Activity mActivity;
 
+    @Inject
+    Activity mActivity;
+
+    //findViewsById injects
+    /*wholeScreenRL = (RelativeLayout) rootView.findViewById(R.id.Fragment_Settings_RelativeLayout_WholeScreen);
+    usernameEditorLL = (LinearLayout) rootView.findViewById(R.id.Fragment_Settings_LinearLayout_Username);
+    pinEditorLL = (LinearLayout) rootView.findViewById(R.id.Fragment_Settings_LinearLayout_Pin);
+    passwordEditorLL = (LinearLayout) rootView.findViewById(R.id.Fragment_Settings_LinearLayout_Password);
+    profilePicEditorLL = (LinearLayout) rootView.findViewById(R.id.Fragment_Settings_LinearLayout_ProfileImage);
+    backgroundImgEditorLL = (LinearLayout) rootView.findViewById(R.id.Fragment_Settings_LinearLayout_BackgroundImage);*/
+
+    @InjectView(R.id.Fragment_Settings_RelativeLayout_WholeScreen)
     private RelativeLayout wholeScreenRL;
-
+    @InjectView(R.id.Fragment_Settings_LinearLayout_Username)
+    private LinearLayout usernameEditorLL;
+    @InjectView(R.id.Fragment_Settings_LinearLayout_Pin)
+    private LinearLayout pinEditorLL;
+    @InjectView(R.id.Fragment_Settings_LinearLayout_Password)
+    private LinearLayout passwordEditorLL;
+    @InjectView(R.id.Fragment_Settings_LinearLayout_ProfileImage)
+    private LinearLayout profilePicEditorLL;
+    @InjectView(R.id.Fragment_Settings_LinearLayout_BackgroundImage)
     private LinearLayout backgroundImgEditorLL;
+    @InjectView(R.id.Fragment_Sms_Switch_receiverToggle)
+    private Switch smsReceiverSwitch;
+
+    //findViewById injects
+    /*private RelativeLayout wholeScreenRL;
+    private LinearLayout usernameEditorLL;
+    private LinearLayout profilePicEditorLL;
+    private LinearLayout pinEditorLL;
+    private LinearLayout passwordEditorLL;
+    private LinearLayout backgroundImgEditorLL;*/
+
     private ImageView backgroundImgOriginalIV;
-    private ImageView backgroundImgNewIV;
     private TextView backgroundImgTV;
     private ImageView backgroundImgChangeIV;
     private ImageView backgroundImgDeleteIV;
     private ImageView backgroundImgSaveIV;
     private ImageView backgroundImgRevertIV;
 
-    private LinearLayout profilePicEditorLL;
     private ImageView profilePicOriginalIV;
-    private ImageView profilePicNewIV;
     private TextView profilePicTV;
     private ImageView profilePicChangeIV;
     private ImageView profilePicDeleteIV;
     private ImageView profilePicSaveIV;
     private ImageView profilePicRevertIV;
 
-    private LinearLayout usernameEditorLL;
     private EditText usernameET;
     private TextInputLayout usernameTIL;
     private ImageView usernameEditIV;
     private ImageView usernameSaveIV;
     private ImageView usernameRevertIV;
 
-    private LinearLayout pinEditorLL;
     private EditText pinET;
     private TextInputLayout pinTIL;
     private ImageView pinEditIV;
     private ImageView pinSaveIV;
     private ImageView pinRevertIV;
 
-    private LinearLayout passwordEditorLL;
     private EditText passwordET;
     private TextInputLayout passwordTIL;
     private ImageView passwordEditIV;
@@ -90,17 +118,24 @@ public class SettingsFragment extends Fragment implements OnClickListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_settings, container, false);
-        mActivity = getActivity();
-        initializeViewObjects(rootView);
-        return rootView;
+        return inflater.inflate(R.layout.fragment_settings, container, false);
     }
 
-    private void initializeViewObjects(View rootView) {
-        wholeScreenRL = (RelativeLayout) rootView.findViewById(R.id.Fragment_Settings_RelativeLayout_WholeScreen);
+    @Override
+    public void onViewCreated(View rootView, Bundle savedInstanceState) {
+        super.onViewCreated(rootView, savedInstanceState);
+        initializeViewObjects();
+    }
+
+    private void initializeViewObjects() {
+        /*wholeScreenRL = (RelativeLayout) rootView.findViewById(R.id.Fragment_Settings_RelativeLayout_WholeScreen);
+        usernameEditorLL = (LinearLayout) rootView.findViewById(R.id.Fragment_Settings_LinearLayout_Username);
+        pinEditorLL = (LinearLayout) rootView.findViewById(R.id.Fragment_Settings_LinearLayout_Pin);
+        passwordEditorLL = (LinearLayout) rootView.findViewById(R.id.Fragment_Settings_LinearLayout_Password);
+        profilePicEditorLL = (LinearLayout) rootView.findViewById(R.id.Fragment_Settings_LinearLayout_ProfileImage);
+        backgroundImgEditorLL = (LinearLayout) rootView.findViewById(R.id.Fragment_Settings_LinearLayout_BackgroundImage);*/
 
         //username editor
-        usernameEditorLL = (LinearLayout) rootView.findViewById(R.id.Fragment_Settings_LinearLayout_Username);
         usernameET = (EditText) usernameEditorLL.findViewById(R.id.Editor_EditText_MainText);
         usernameTIL = (TextInputLayout) usernameEditorLL.findViewById(R.id.Editor_TextInputLayout_MainText);
         usernameEditIV = (ImageView) usernameEditorLL.findViewById(R.id.Editor_ImageView_Edit);
@@ -114,7 +149,6 @@ public class SettingsFragment extends Fragment implements OnClickListener {
         usernameRevertIV.setOnClickListener(new TextRevertIVOnClick(usernameET, usernameEditIV, usernameSaveIV, usernameET.getText().toString()));
 
         //pin editor
-        pinEditorLL = (LinearLayout) rootView.findViewById(R.id.Fragment_Settings_LinearLayout_Pin);
         pinET = (EditText) pinEditorLL.findViewById(R.id.Editor_EditText_MainText);
         pinTIL = (TextInputLayout) pinEditorLL.findViewById(R.id.Editor_TextInputLayout_MainText);
         pinEditIV = (ImageView) pinEditorLL.findViewById(R.id.Editor_ImageView_Edit);
@@ -130,7 +164,6 @@ public class SettingsFragment extends Fragment implements OnClickListener {
         pinRevertIV.setOnClickListener(new TextRevertIVOnClick(pinET, pinEditIV, pinSaveIV, pinET.getText().toString()));
 
         //password editor
-        passwordEditorLL = (LinearLayout) rootView.findViewById(R.id.Fragment_Settings_LinearLayout_Password);
         passwordET = (EditText) passwordEditorLL.findViewById(R.id.Editor_EditText_MainText);
         passwordTIL = (TextInputLayout) passwordEditorLL.findViewById(R.id.Editor_TextInputLayout_MainText);
         passwordEditIV = (ImageView) passwordEditorLL.findViewById(R.id.Editor_ImageView_Edit);
@@ -145,7 +178,6 @@ public class SettingsFragment extends Fragment implements OnClickListener {
         passwordRevertIV.setOnClickListener(new TextRevertIVOnClick(passwordET, passwordEditIV, passwordSaveIV, passwordET.getText().toString()));
 
         //profile images
-        profilePicEditorLL = (LinearLayout) rootView.findViewById(R.id.Fragment_Settings_LinearLayout_ProfileImage);
         profilePicOriginalIV = (ImageView) profilePicEditorLL.findViewById(R.id.Editor_ImageView_Original);
         profilePicTV = (TextView) profilePicEditorLL.findViewById(R.id.Editor_TextView_Label);
         profilePicChangeIV = (ImageView) profilePicEditorLL.findViewById(R.id.Editor_ImageView_Change);
@@ -155,9 +187,9 @@ public class SettingsFragment extends Fragment implements OnClickListener {
 
         profilePicTV.setText(R.string.display_picture);
         profilePicChangeIV.setOnClickListener(new ChangeImageOnClickListener(true));
+        ////TODO: 08/04/16 - implement save and cancel for display pic
 
         //background images
-        backgroundImgEditorLL = (LinearLayout) rootView.findViewById(R.id.Fragment_Settings_LinearLayout_BackgroundImage);
         backgroundImgOriginalIV = (ImageView) backgroundImgEditorLL.findViewById(R.id.Editor_ImageView_Original);
         backgroundImgTV = (TextView) backgroundImgEditorLL.findViewById(R.id.Editor_TextView_Label);
         backgroundImgChangeIV = (ImageView) backgroundImgEditorLL.findViewById(R.id.Editor_ImageView_Change);
@@ -171,21 +203,19 @@ public class SettingsFragment extends Fragment implements OnClickListener {
         backgroundImgSaveIV.setOnClickListener(new ImageSaveIVOnClick(backgroundImgChangeIV, backgroundImgDeleteIV, backgroundImgRevertIV, backgroundBitmapWR));
         backgroundImgRevertIV.setOnClickListener(new ImageRevertIVOnClick(backgroundImgChangeIV, backgroundImgDeleteIV, backgroundImgSaveIV, "BACKGROUND_IMG"));
 
+        ////TODO: 08/04/16 - implement sms toast switch
+
         //reset
         Global.loadImageIntoImageView(mActivity, profilePicOriginalIV, Global.profilePicImgName, R.drawable.name);
         Global.loadImageIntoImageView(mActivity, backgroundImgOriginalIV, Global.profileBgPicImgName, R.drawable.wallpaper2);
-        pinET.setText(Global.loadSavedPreferences(mActivity, Global.sharedPref_Pin, Global.pin_default),
-                TextView.BufferType.EDITABLE);
-        usernameET.setText(Global.loadSavedPreferences(mActivity, Global.sharedPref_Username, Global.username_default),
-                TextView.BufferType.EDITABLE);
-        passwordET.setText(Global.loadSavedPreferences(mActivity, Global.sharedPref_Password, Global.password_default),
-                TextView.BufferType.EDITABLE);
+        pinET.setText(Global.loadSavedPreferences(mActivity, Global.sharedPref_Pin, Global.pin_default), TextView.BufferType.EDITABLE);
+        usernameET.setText(Global.loadSavedPreferences(mActivity, Global.sharedPref_Username, Global.username_default), TextView.BufferType.EDITABLE);
+        passwordET.setText(Global.loadSavedPreferences(mActivity, Global.sharedPref_Password, Global.password_default), TextView.BufferType.EDITABLE);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mActivity = getActivity();
     }
 
     @Override
@@ -211,15 +241,9 @@ public class SettingsFragment extends Fragment implements OnClickListener {
                             options.inSampleSize = 2;
                             backgroundBitmap = BitmapFactory.decodeFile(picturePath, options);
 
-
-                            new TestAT().execute();
-
-
-
                             backgroundImgOriginalIV.setImageBitmap(backgroundBitmap);
                             //show confirm
                             imageEditorEnableView(true, backgroundImgChangeIV, backgroundImgDeleteIV, backgroundImgSaveIV, backgroundImgRevertIV);
-                            ;
                         }
 
                         break;
@@ -239,26 +263,6 @@ public class SettingsFragment extends Fragment implements OnClickListener {
                 break;
         }
     }
-
-    private class TestAT extends AsyncTask<Void, Void, WeakReference<String>> {
-        String xx = "xx";
-        WeakReference<String> xxWR = new WeakReference<String>(xx);
-
-        @Override
-        protected WeakReference<String> doInBackground(Void... params) {
-            Log.d(TAG, "before xx: " + xx);
-            Log.d(TAG, "before xxWR.get(): " + xxWR.get());
-            xx = "yy";
-            return xxWR;
-        }
-        @Override
-        protected void onPostExecute(WeakReference<String> result) {
-            Log.d(TAG, "after xx: " + xx);
-            Log.d(TAG, "after result.get(): " + result.get());
-            Log.d(TAG, "after xxWR.get(): " + xxWR.get());
-        }
-    }
-
 
     @Override
     public void onPause() {

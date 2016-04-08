@@ -1,11 +1,7 @@
 package com.keegan.experiment.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -43,7 +39,7 @@ public class SplashActivity extends RoboActivity implements OnClickListener {
     private RelativeLayout centerItemRL;
     @InjectView(R.id.Activity_Splash_TextView_Title)
     private TextView titleTV;
-    
+
     //findViewById injects
     /*private RelativeLayout wholeScreenRL;
     private KenBurnsView backgroundKBV;

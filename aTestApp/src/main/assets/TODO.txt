@@ -13,7 +13,6 @@ API Limitation List (Scrolling, FloatingButton < 21)
 Transfer Profile via QR/NFC
 Toast Catcher
 [ToImprove]
-Dev/RoboGuice
 Login/Add auth hint (first time)
 Login/Username logic (if guest, then cant edit auth)
 Login/Skip login button checkbox
@@ -103,4 +102,7 @@ Home/Added basic Settings page
 <Week 7>
 Home/Added basic Settings page
 <Week 9>
-Home/Add something?
+Home/Added basic placeholders
+<Week 11>
+Dev/Refactored to integrate RoboGuice
+<Week 12>

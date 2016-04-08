@@ -1,21 +1,20 @@
 package com.keegan.experiment.fragments;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.content.ContextCompat;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.View.OnClickListener;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -30,6 +29,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.inject.Inject;
 import com.keegan.experiment.Global;
 import com.keegan.experiment.Intents;
 import com.keegan.experiment.R;
@@ -39,45 +39,87 @@ import com.keegan.experiment.utilities.SmsSender;
 import java.util.ArrayList;
 import java.util.List;
 
+import roboguice.fragment.RoboFragment;
+import roboguice.inject.InjectView;
+
 /**
  * Created by keegan on 22/01/16.
  */
-public class SmsFragment extends Fragment implements OnClickListener {
+public class SmsFragment extends RoboFragment implements OnClickListener {
 
     private final String TAG = SmsFragment.class.getSimpleName();
 
+    @Inject
+    Activity mActivity;
+
     //message type
+    @InjectView(R.id.Fragment_Sms_Spinner_MessageType)
     private Spinner messageTypeSpinner;
+    @InjectView(R.id.Fragment_Sms_TextView_MessageType)
     private TextView messageTypeTV;
     //phone number/contact
+    @InjectView(R.id.Fragment_Sms_EditText_PhoneNumber)
     private EditText phoneNumberET;
+    @InjectView(R.id.Fragment_Sms_ImageView_Contacts)
     private ImageView contactsIV;
     //message
+    @InjectView(R.id.Fragment_Sms_TextInputLayout_Message)
     private TextInputLayout messageTIL;
+    @InjectView(R.id.Fragment_Sms_EditText_Message)
     private EditText messageET;
     //send/cancel buttons
+    @InjectView(R.id.Fragment_Sms_Button_Send)
     private Button sendButton;
+    @InjectView(R.id.Fragment_Sms_Button_Cancel)
     private Button cancelButton;
     //switch
+    @InjectView(R.id.Fragment_Sms_Switch_receiverToggle)
     private Switch smsReceiverSwitch;
+    //not used
+    @InjectView(R.id.Fragment_Sms_Progressbar)
+    private ProgressBar progressBar;
+    @InjectView(R.id.Fragment_Sms_TextView_Result)
+    private TextView resultTV;
 
+    //findViewbyId injects
+    /*private Spinner messageTypeSpinner;
+    private TextView messageTypeTV;
+    private EditText phoneNumberET;
+    private ImageView contactsIV;
+    private TextInputLayout messageTIL;
+    private EditText messageET;
+    private Button sendButton;
+    private Button cancelButton;
+    private Switch smsReceiverSwitch;
     private TextView resultTV; //not used
-    private ProgressBar progressBar; //not used
+    private ProgressBar progressBar; //not used*/
 
-    private Activity mActivity;
     private BroadcastReceiver broadcastReceiver;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_sms, container, false);
-        mActivity = getActivity();
-        initializeViewObjects(rootView);
-        return rootView;
+        return inflater.inflate(R.layout.fragment_sms, container, false);
     }
 
-    private void initializeViewObjects(View rootView) {
+    @Override
+    public void onViewCreated(View rootView, Bundle savedInstanceState) {
+        super.onViewCreated(rootView, savedInstanceState);
+        initializeViewObjects();
+    }
+
+    private void initializeViewObjects() {
+        /*messageTypeSpinner = (Spinner) rootView.findViewById(R.id.Fragment_Sms_Spinner_MessageType);
+        messageTypeTV = (TextView) rootView.findViewById(R.id.Fragment_Sms_TextView_MessageType);
+        phoneNumberET = (EditText) rootView.findViewById(R.id.Fragment_Sms_EditText_PhoneNumber);
+        contactsIV = (ImageView) rootView.findViewById(R.id.Fragment_Sms_ImageView_Contacts);
+        messageTIL = (TextInputLayout) rootView.findViewById(R.id.Fragment_Sms_TextInputLayout_Message);
+        messageET = (EditText) rootView.findViewById(R.id.Fragment_Sms_EditText_Message);
+        sendButton = (Button) rootView.findViewById(R.id.Fragment_Sms_Button_Send);
+        cancelButton = (Button) rootView.findViewById(R.id.Fragment_Sms_Button_Cancel);
+        smsReceiverSwitch = (Switch) rootView.findViewById(R.id.Fragment_Sms_Switch_receiverToggle);
+        progressBar = (ProgressBar) rootView.findViewById(R.id.Fragment_Sms_Progressbar);
+        resultTV = (TextView) rootView.findViewById(R.id.Fragment_Sms_TextView_Result);*/
         //message type
-        messageTypeSpinner = (Spinner) rootView.findViewById(R.id.Fragment_Sms_Spinner_MessageType);
         List<String> spinnerList = new ArrayList<>();
         spinnerList.add(getString(R.string.message_type_sms));
         spinnerList.add(getString(R.string.message_type_mms));
@@ -85,30 +127,18 @@ public class SmsFragment extends Fragment implements OnClickListener {
         messageTypeSpinner.setAdapter(spinnerAdapter);
         messageTypeSpinner.setSelection(0);
         messageTypeSpinner.setOnItemSelectedListener(new messageTypeOnItemSelectedListener()); //set listener
-        messageTypeTV = (TextView) rootView.findViewById(R.id.Fragment_Sms_TextView_MessageType);
         messageTypeTV.setOnClickListener(this); //set listener
         //phone number/contact
-        phoneNumberET = (EditText) rootView.findViewById(R.id.Fragment_Sms_EditText_PhoneNumber);
-        contactsIV = (ImageView) rootView.findViewById(R.id.Fragment_Sms_ImageView_Contacts);
         contactsIV.setOnClickListener(this); //set listener
         //message
-        messageTIL = (TextInputLayout) rootView.findViewById(R.id.Fragment_Sms_TextInputLayout_Message);
-        messageET = (EditText) rootView.findViewById(R.id.Fragment_Sms_EditText_Message);
         messageET.addTextChangedListener(new messageEditTextTextChangedListener()); //set listener
         //send/cancel buttons
-        sendButton = (Button) rootView.findViewById(R.id.Fragment_Sms_Button_Send);
-        cancelButton = (Button) rootView.findViewById(R.id.Fragment_Sms_Button_Cancel);
         sendButton.setOnClickListener(this); //set listener
         cancelButton.setOnClickListener(this); //set listener
         // Switch
-        smsReceiverSwitch = (Switch) rootView.findViewById(R.id.Fragment_Sms_Switch_receiverToggle);
         smsReceiverSwitch.setOnCheckedChangeListener(new smsReceiverSwitchListener()); //set listener
         Boolean switchS = Global.loadSavedPreferences(mActivity, Global.sharedPref_SmsReceiverToggle, Global.SMS_SWITCH_DEFAULT);
         smsReceiverSwitch.setChecked(switchS);
-        //Global.setComponent(mActivity, SmsReceiver.class, switchS);
-        //not used
-        progressBar = (ProgressBar) rootView.findViewById(R.id.Fragment_Sms_Progressbar);
-        resultTV = (TextView) rootView.findViewById(R.id.Fragment_Sms_TextView_Result);
     }
 
     @Override

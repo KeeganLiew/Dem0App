@@ -1,7 +1,6 @@
 package com.keegan.experiment.fragments;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout.LayoutParams;
@@ -12,11 +11,12 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.ExpandableListView.OnGroupExpandListener;
-import android.widget.ExpandableListView.OnGroupCollapseListener;
 import android.widget.ExpandableListView.OnChildClickListener;
+import android.widget.ExpandableListView.OnGroupCollapseListener;
+import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.Toast;
 
+import com.google.inject.Inject;
 import com.keegan.experiment.R;
 import com.keegan.experiment.activities.MainActivity;
 import com.keegan.experiment.customs.CustomExpandableListAdapter;
@@ -27,29 +27,42 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import roboguice.fragment.RoboFragment;
+import roboguice.inject.InjectView;
+
 /**
  * Created by Keegan on 28/01/16.
  */
-public class DevelopmentLog extends Fragment implements OnClickListener {
+public class DevelopmentLog extends RoboFragment implements OnClickListener {
 
     private final String TAG = DevelopmentLog.class.getSimpleName();
+
+    @Inject
+    Activity mActivity;
+
+    @InjectView(R.id.expandableListView)
     private ExpandableListView expandableListView;
+    //findViewById injects
+    //private ExpandableListView expandableListView;
+
     private ExpandableListAdapter expandableListAdapter;
     private List<String> expandableListTitle;
     private HashMap<String, List<String>> expandableListDetail;
     private Snackbar preLollipopErrorSnackBar;
-    private Activity mActivity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_development, container, false);
-        mActivity = getActivity();
-        viewObjectsInitializations(rootView);
-        return rootView;
+        return inflater.inflate(R.layout.fragment_development, container, false);
     }
 
-    private void viewObjectsInitializations(View rootView) {
-        expandableListView = (ExpandableListView) rootView.findViewById(R.id.expandableListView);
+    @Override
+    public void onViewCreated(View rootView, Bundle savedInstanceState) {
+        super.onViewCreated(rootView, savedInstanceState);
+        initializeViewObjects();
+    }
+
+    private void initializeViewObjects() {
+        //expandableListView = (ExpandableListView) rootView.findViewById(R.id.expandableListView);
         expandableListDetail = ExpandableListDataPump.getData();
         DevelopmentLogParser.getDevelopmentLog();
         expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());

@@ -2,9 +2,6 @@ package com.keegan.experiment.activities;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.ContextWrapper;
@@ -25,6 +22,9 @@ import android.support.design.widget.CoordinatorLayout.LayoutParams;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -68,7 +68,7 @@ import com.keegan.experiment.utilities.ContactUtil;
 import com.keegan.experiment.utilities.DisplayPictureUtil;
 import com.keegan.experiment.utilities.GalleryUtil;
 import com.mikepenz.aboutlibraries.LibsBuilder;
-import com.mikepenz.aboutlibraries.ui.LibsFragment;
+import com.mikepenz.aboutlibraries.ui.LibsSupportFragment;
 
 import java.io.File;
 import java.util.Calendar;
@@ -301,11 +301,11 @@ public class MainActivity extends RoboAppCompatActivity implements OnClickListen
                 ////TODO: 16/02/16 create method for about infos
                 String description = getString(R.string.about_description_app);
                 String extra = getString(R.string.about_description_extra_info);
-                LibsFragment aboutPageFragment = new LibsBuilder()
+                LibsSupportFragment aboutPageFragment = new LibsBuilder()
                         .withAboutIconShown(true)
                         .withAboutVersionShown(true)
                         .withAboutDescription(description)
-                        .fragment();
+                        .supportFragment();
                 startFragment(aboutPageFragment, getString(R.string.about));
                 break;
             case R.id.main_menu_item_settings:
@@ -355,12 +355,12 @@ public class MainActivity extends RoboAppCompatActivity implements OnClickListen
 
     @Override
     public void onBackPressed() {
-        Log.d(TAG, "Fragment count: " + getFragmentManager().getBackStackEntryCount());
+        Log.d(TAG, "Fragment count: " + getSupportFragmentManager().getBackStackEntryCount());
         if (mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
             closeDrawer();
-        } else if (getFragmentManager().getBackStackEntryCount() > 1) {
+        } else if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
             closeCurrentFragment();
-        } else if (getFragmentManager().getBackStackEntryCount() == 1) {
+        } else if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
             closeFragmentLayout();
         } else {
             if (exitToast.getView().isShown()) {
@@ -589,7 +589,7 @@ public class MainActivity extends RoboAppCompatActivity implements OnClickListen
 
             closeDrawer();
             hideKeyboard(mActivity);
-            FragmentManager fragmentManager = mActivity.getFragmentManager();
+            FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
             switch (id) {
@@ -621,11 +621,11 @@ public class MainActivity extends RoboAppCompatActivity implements OnClickListen
                     ////TODO: 16/02/16- about page
                     String description = getString(R.string.about_description_app);
                     String extra = getString(R.string.about_description_extra_info);
-                    LibsFragment aboutPageFragment = new LibsBuilder()
+                    LibsSupportFragment aboutPageFragment = new LibsBuilder()
                             .withAboutIconShown(true)
                             .withAboutVersionShown(true)
                             .withAboutDescription(description)
-                            .fragment();
+                            .supportFragment();
                     startFragment(aboutPageFragment, getString(R.string.about));
                     break;
                 case R.id.nav_drawer_settings:
@@ -714,10 +714,10 @@ public class MainActivity extends RoboAppCompatActivity implements OnClickListen
 
     private void startFragment(Fragment mFragment, String title) {
         if (mFragment != null) {
-            FragmentManager fm = getFragmentManager();
+            FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
             ft.replace(R.id.Activity_Main_FragmentLayout_FragmentContainer, mFragment);
-            ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
+            //ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
             ft.addToBackStack(null);
             ft.commit();
             setFunctionLayout(View.VISIBLE);
@@ -726,11 +726,11 @@ public class MainActivity extends RoboAppCompatActivity implements OnClickListen
     }
 
     private void closeCurrentFragment() {
-        getFragmentManager().popBackStack();
+        getSupportFragmentManager().popBackStack();
     }
 
     private void closeFragmentLayout() {
-        getFragmentManager().popBackStack();
+        getSupportFragmentManager().popBackStack();
         setFunctionLayout(View.GONE);
         updateUsernameViews();
     }
