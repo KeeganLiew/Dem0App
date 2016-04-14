@@ -36,7 +36,7 @@
 
     <color name="spinner_background_color">#888888</color>
     <color name="login_navigation_background_color">@color/pure_black</color>
-    <color name="main_navigation_background_color">@color/colorPrimaryLight</color>
+    <color name="main_navigation_background_color">@color/colorPrimary</color>
     <color name="expandablelistview_group_title_text_color">@color/pure_black</color>
     <color name="custom_numpad_color">@color/pure_black</color>
     <color name="custom_numpad_color_pressed">@color/app_main_theme_color</color>
@@ -51,6 +51,8 @@
     <color name="gesture_color">@color/colorAccent</color>
     <color name="uncertain_gesture_color">@color/pure_white</color>
 
+    <color name="NAVIGATION_DRAWER_ICON_COLOR">@color/pure_white</color>
+    <color name="NAVIGATION_DRAWER_TEXT_COLOR">@color/pure_white</color>
 
     <!--Unused-->
     <color name="nav_item_icon_tint_color">#333</color>

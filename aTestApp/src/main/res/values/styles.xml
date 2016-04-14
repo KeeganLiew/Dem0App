@@ -9,6 +9,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">#870ca0</item>
         <item name="colorPrimaryDark">#470259</item>
+        <item name="android:listDivider">@color/NAVIGATION_DRAWER_ICON_COLOR</item>
         <item name="colorAccent">#E91E63</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

@@ -213,8 +213,8 @@
         android:layout_gravity="start"
         android:background="@color/main_navigation_background_color"
         app:headerLayout="@layout/nav_header"
-        app:itemIconTint="#333"
-        app:itemTextColor="#333"
+        app:itemIconTint="@color/NAVIGATION_DRAWER_ICON_COLOR"
+        app:itemTextColor="@color/NAVIGATION_DRAWER_TEXT_COLOR"
         app:menu="@menu/navigation_drawer_items" />
 
 </android.support.v4.widget.DrawerLayout>
